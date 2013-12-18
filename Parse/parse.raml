@@ -1,0 +1,200 @@
+#%RAML 0.8
+---
+title: Parse
+baseUri: https://api.parse.com/{version}
+version: 1
+mediaType: application/json
+resourceTypes:
+  - collection:
+      usage: This resourceType should be used for any collection of items
+      description: The collection of <<resourcePathName>>
+      get:
+        description: Get all <<resourcePathName>>, optionally filtered
+      
+      post:
+        description: Create a new <<resourcePathName | !singularize>>
+        
+  - member:
+      usage: This resourceType should be used as collection member
+      uriParameters:
+        <<keyProperty>>:
+          type: string
+        
+  - parseCollection:
+      type: collection
+      get:
+        is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+      
+      post:
+        is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+      
+  - parseMember:
+      type: { member: { keyProperty: <<keyProperty>> } }
+      get:
+        is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+    
+      put:
+        is: [ hasAppIdHeader ]
+    
+      delete:
+        is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+
+traits:
+  - hasAppIdHeader:
+      headers:
+        X-Parse-Application-Id:
+          displayName: Application ID
+          description: Id of the application
+          type: string
+          required: true
+          example: 'GzBxtflDl76RdiZFLujo4uNVxS7MIZXbEy6D3Tle'
+  
+  - hasRestApiKeyHeader:
+      headers:
+        X-Parse-REST-API-Key:
+          displayName: REST API Key
+          description: REST API key of the application.
+          type: string
+          required: true
+          example: 'UugJz3YVpU0gKgK7OfIYQQAntOxFGKPK615Qmjc9'
+            
+  - hasMasterKeyHeader:
+      headers:
+        X-Parse-Master-Key:
+          displayName: Master Key
+          description: Master key of the application.
+          type: string
+          required: true
+          example: 'ooE8rNiYKd5FTnT6gGJNXyq5mlXCSk2xLRPMBwZs'
+            
+  - hasSessionTokenHeader:
+      headers:
+        X-Parse-Session-Token:
+          displayName: Session Token
+          description: Session token
+          type: string
+          required: true
+          example: 'X-Parse-Session-Token: pnktnjyb996sj4p156gjtp4im'
+        
+/classes:
+  displayName: All Objects
+  
+  /{className}:
+    type: parseCollection
+    displayName: Class Instances
+    
+    uriParameters:
+      className:
+        displayName: Class Name
+        type: string
+      
+    /{objectId}:
+      type: { parseMember: { keyProperty: objectId } }
+      displayName: Object
+      
+      put:
+        is: [ hasRestApiKeyHeader ]
+
+/users:
+  type: parseCollection
+  displayName: Users
+  
+  /me:
+    displayName: Current User
+    get:
+      is: [ hasAppIdHeader, hasRestApiKeyHeader, hasSessionTokenHeader ]
+  
+  /{objectId}:
+    type: { parseMember: { keyProperty: objectId } }
+    displayName: User
+    
+    put:
+      is: [ hasRestApiKeyHeader, hasSessionTokenHeader ]
+
+    delete:
+      is: [ hasSessionTokenHeader ]
+
+/login:
+  displayName: Logging In
+  get:
+    is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+    
+    body:
+      application/x-www-form-urlencoded:
+        formParameters:
+          username:
+          password:
+
+/requestPasswordReset:
+  displayName: Requesting A Password Reset
+  post:
+    is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+
+/roles:
+  type: parseCollection
+  displayName: Roles
+  
+  /{objectId}:
+    type: { parseMember: { keyProperty: objectId } }
+    displayName: Role
+  
+    put:
+      is: [ hasMasterKeyHeader ]
+
+    delete:
+      description: |
+        Headers are allowed in following combinations:
+        
+        X-Parse-Application-Id and X-Parse-Master-Key
+        
+        X-Parse-Application-Id, X-Parse-REST-API-Key, X-Parse-Session-Token
+      is: [ hasSessionTokenHeader, hasMasterKeyHeader ]
+      headers:
+        X-Parse-REST-API-Key:
+          required: false
+        X-Parse-Session-Token:
+          required: false
+        X-Parse-Master-Key:
+          required: false
+    
+/files:
+  displayName: Files
+  post:
+    is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+  
+/events:
+  displayName: Analytics
+  
+  /AppOpened:
+    displayName: App-Open Analytics
+    post:
+      is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+      
+  /{eventName}:
+    displayName: Custom Analytics
+    uriParameters:
+      eventName:
+        type: string
+    post:
+      is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+  
+/push:
+  displayName: Push Notifications
+  post:
+    is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+
+/installations:
+  type: parseCollection
+  displayName: Installations
+  
+  /{objectId}:
+    type: { parseMember: { keyProperty: objectId } }
+    displayName: Installation
+    
+    put:
+      is: [ hasRestApiKeyHeader ]
+
+/functions:
+  displayName: Cloud Functions
+  post:
+    is: [ hasAppIdHeader, hasRestApiKeyHeader ]
