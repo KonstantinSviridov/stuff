@@ -4,151 +4,230 @@ title: Parse
 baseUri: https://api.parse.com/{version}
 version: 1
 mediaType: application/json
-resourceTypes:
-  - collection:
-      usage: This resourceType should be used for any collection of items
-      description: The collection of <<resourcePathName>>
-      get:
-        description: Get all <<resourcePathName>>, optionally filtered
-      
-      post:
-        description: Create a new <<resourcePathName | !singularize>>
-        
-  - member:
-      usage: This resourceType should be used as collection member
-      uriParameters:
-        <<keyProperty>>:
-          type: string
-        
-  - parseCollection:
-      type: collection
-      get:
-        is: [ hasAppIdHeader, hasRestApiKeyHeader ]
-      
-      post:
-        is: [ hasAppIdHeader, hasRestApiKeyHeader ]
-      
-  - parseMember:
-      type: { member: { keyProperty: <<keyProperty>> } }
-      get:
-        is: [ hasAppIdHeader, hasRestApiKeyHeader ]
-    
-      put:
-        is: [ hasAppIdHeader ]
-    
-      delete:
-        is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+securitySchemes:
+  - basic:
+      type: Basic Authentication
 
-traits:
-  - hasAppIdHeader:
-      headers:
-        X-Parse-Application-Id:
-          displayName: Application ID
-          description: Id of the application
-          type: string
-          required: true
-          example: 'GzBxtflDl76RdiZFLujo4uNVxS7MIZXbEy6D3Tle'
+  - commonSchema: !include securitySchemes/commonSchema.raml
+  - sessionTokenSchema: !include securitySchemes/sessionTokenSchema.raml
+  - masterSchema: !include securitySchemes/masterSchema.raml
+
+schemas:
+  - classesQuery: !include schemas/classesQuery.json
+  - classPost: !include schemas/classPost.json
+  - classGet: !include schemas/classGet.json
+  - classPut: !include schemas/classPut.json
+  - usersQuery: !include schemas/usersQuery.json
+  - userPost: !include schemas/userPost.json
+  - userGet: !include schemas/userGet.json
+  - userPut: !include schemas/userPut.json
+  - usersPostResponse: !include schemas/usersPostResponse.json
+  - rolePost: !include schemas/rolePost.json
+  - roleGet: !include schemas/roleGet.json
+  - rolePut: !include schemas/rolePut.json
+  - installationsQuery: !include schemas/installatinsQuery.json
+  - installationPost: !include schemas/installatinsPost.json
+  - installationGet: !include schemas/installatinsGet.json
+  - installationPut: !include schemas/installatinsPut.json
+  - collectionPostResponse: !include schemas/collectionPostResponse.json
+  - collectionPutResponse: !include schemas/collectionPutResponse.json
+  - batchPost: !include schemas/batchPost.json
+  - batchResponse: !include schemas/batchResponse.json
+  - fileResponse: !include schemas/fileResponse.json
+  - analyticsAppOpened: !include schemas/analyticsAppOpened.json
+  - analytics: !include schemas/analytics.json
+  - functions: !include schemas/functions.json
   
-  - hasRestApiKeyHeader:
-      headers:
-        X-Parse-REST-API-Key:
-          displayName: REST API Key
-          description: REST API key of the application.
-          type: string
-          required: true
-          example: 'UugJz3YVpU0gKgK7OfIYQQAntOxFGKPK615Qmjc9'
-            
-  - hasMasterKeyHeader:
-      headers:
-        X-Parse-Master-Key:
-          displayName: Master Key
-          description: Master key of the application.
-          type: string
-          required: true
-          example: 'ooE8rNiYKd5FTnT6gGJNXyq5mlXCSk2xLRPMBwZs'
-            
-  - hasSessionTokenHeader:
-      headers:
-        X-Parse-Session-Token:
-          displayName: Session Token
-          description: Session token
-          type: string
-          required: true
-          example: 'X-Parse-Session-Token: pnktnjyb996sj4p156gjtp4im'
-        
+traits:
+  - allowsBasicAuthentication: !include traits/allowsBasicAuthentication.json
+  - allowsQuery: !include traits/allowsQuery.json
+
+resourceTypes:
+  - collection: !include resourceTypes/collection.json
+  - parseCollection: !include resourceTypes/parseCollection.json
+  - parseMember: !include resourceTypes/parseMember.json
+
 /classes:
   displayName: All Objects
-  
+    
   /{className}:
     type: parseCollection
     displayName: Class Instances
     
-    uriParameters:
-      className:
-        displayName: Class Name
-        type: string
+    get:
+      description: |
+        Retreives objects. The response body is a JSON object containing all the user-provided fields,
+        plus the createdAt, updatedAt, and objectId fields.
+        
+      body:
+        application/x-www-form-urlencoded:
+          formParameters:
+            include:
+              description: Fetch child objects pointed to by the key
+              example: include=game
+      
+      responses:
+        200:
+          body:
+            schema: classesQuery
+            example: !include examples/classesQuery.json
+
+    post:
+      description: |
+        Creates an object. When the creation is successful, the HTTP response is a 201 Created
+        and the Location header contains the object URL for the new object.
+      
+      body:
+        schema: classPost
+        example: !include examples/classPost.json
+    
+      responses:
+        201:
+          body:
+            schema: collectionPostResponse
+            example: !include examples/collectionPostResponse.json
       
     /{objectId}:
-      type: { parseMember: { keyProperty: objectId } }
-      displayName: Object
-      
+      type: {
+        parseMember: {
+          objectType: instance,
+          schemaAndExampleGet: classGet,
+          schemaAndExamplePut: classPut
+        }
+      }
       put:
-        is: [ hasRestApiKeyHeader ]
+        securedBy: [ commonSchema ]
+        description: |
+          Updates an object. Any keys you don't specify will remain unchanged, so you can update just a subset of the object's data.
+          
+/batch:
+  post:
+    securedBy: [ basic, commonSchema ]
+    body:
+      schema: batchPost
+      example: !include examples/batchPost.json
+      
+    responses:
+      200:
+        schema: batchResponse
+        example: !include examples/batchResponse.json
 
 /users:
   type: parseCollection
-  displayName: Users
+  
+  get:
+    responses:
+      200:
+        body:
+          schema: usersQuery
+          example: !include examples/usersQuery.json
+
+  post:
+    description: |
+      Signs up a new user.
+    
+    body:
+      schema: userPost
+      example: !include examples/userPost.json
+      
+    
+    responses:
+      201:
+        body:
+          schema: usersPostResponse
+          example: !include examples/usersPostResponse.json
   
   /me:
     displayName: Current User
     get:
-      is: [ hasAppIdHeader, hasRestApiKeyHeader, hasSessionTokenHeader ]
+      securedBy: [ basic, sessionTokenSchema ]
+      description: |
+        Retrieve the user associated with the session token placed into the 'X-Parse-Session-Token' header.
+        If the session token is not valid, an error object is returned.
+      responses:
+        200:
+          body:
+            schema: userGet
+            example: !include examples/userGet.json
   
   /{objectId}:
-    type: { parseMember: { keyProperty: objectId } }
-    displayName: User
+    type: {
+      parseMember: {
+        objectType: user,
+        schemaAndExampleGet: userGet,
+        schemaAndExamplePut: userPut
+      }
+    }
     
-    put:
-      is: [ hasRestApiKeyHeader, hasSessionTokenHeader ]
+    get:
+      description: |
+        Retreive a user by objectId. Response body is a JSON object containing all the user-provided fields except password.
+        It also contains the createdAt, updatedAt, and objectId fields
+        
+    put:      
+      securedBy: [ sessionTokenSchema ]
+      description: |
+        Updates a user. Any keys you don't specify will remain unchanged, so you can update just a subset of the object's data.
 
     delete:
-      is: [ hasSessionTokenHeader ]
+      securedBy: [ sessionTokenSchema ]
 
-/login:
-  displayName: Logging In
-  get:
-    is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+/login:  
+  get:    
+    securedBy: [ basic, commonSchema ]
+    description: Logs in a user to his or her account. Response provides a 'sessionToken' which is used to invoke methods with authorized access.
     
     body:
       application/x-www-form-urlencoded:
         formParameters:
           username:
+            required: true
           password:
+            required: true
+            
+    responses:
+      200:
+        body:
+          schema: userGet
+          example: !include examples/userGet.json
 
 /requestPasswordReset:
-  displayName: Requesting A Password Reset
   post:
-    is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+    securedBy: [ basic, commonSchema ]
+    description: Initiates password reset for a users who has email associated with his or her account.
+    body:
+      schema: requestPasswordReset
+      example: !include examples/requestPasswordReset.json
 
 /roles:
   type: parseCollection
-  displayName: Roles
+  
+  post:
+    body:
+      schema: rolePost
+      example: !include examples/rolePost.json
+    
+    responses:
+      201:
+        body:
+          schema: collectionPostResponse
+          example: !include examples/collectionPostResponse.json
   
   /{objectId}:
-    type: { parseMember: { keyProperty: objectId } }
-    displayName: Role
-  
+    type: {
+      parseMember: {
+        objectType: role,
+        schemaAndExampleGet: roleGet,
+        schemaAndExamplePut: rolePut
+      }
+    }
     put:
-      is: [ hasMasterKeyHeader ]
+      securedBy: [ masterSchema ]
 
     delete:
-      description: |
-        Headers are allowed in following combinations:
+      securedBy: [ sessionTokenSchema, masterSchema ]
+      description: Delete role. Allows both authorized and master access.
         
-        X-Parse-Application-Id and X-Parse-Master-Key
-        
-        X-Parse-Application-Id, X-Parse-REST-API-Key, X-Parse-Session-Token
-      is: [ hasSessionTokenHeader, hasMasterKeyHeader ]
       headers:
         X-Parse-REST-API-Key:
           required: false
@@ -158,43 +237,113 @@ traits:
           required: false
     
 /files:
-  displayName: Files
-  post:
-    is: [ hasAppIdHeader, hasRestApiKeyHeader ]
-  
+  /{fileName}:
+    post:
+      securedBy: [ basic, commonSchema ]
+      description: |
+        To upload a file to Parse, send a POST request to the files URL, postfixed with the name of the file.
+        The request must contain the Content-Type header associated with the file.
+        Keep in mind that files are limited to 10 megabytes
+        
+      body:
+        "*/*":
+
+      responses:
+        201:
+          body:
+            schema: fileResponse
+            example: !include examples/fileResponse.json|
+
 /events:
   displayName: Analytics
   
   /AppOpened:
     displayName: App-Open Analytics
     post:
-      is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+      securedBy: [ basic, commonSchema ]
+      description: Starts to collect data on when and how often the application is opened.
+      body:
+        schema: analyticsAppOpened
+        example: !include examples/analyticsAppOpened.json
       
   /{eventName}:
     displayName: Custom Analytics
-    uriParameters:
-      eventName:
-        type: string
     post:
-      is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+      securedBy: [ basic, commonSchema ]
+      body:
+        schema: analytics
+        example: !include examples/analytics.json
   
 /push:
   displayName: Push Notifications
   post:
-    is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+    securedBy: [ basic, commonSchema ]
+    body:
+      schema: push
+      example: !include examples/push.json
 
 /installations:
   type: parseCollection
-  displayName: Installations
-  
-  /{objectId}:
-    type: { parseMember: { keyProperty: objectId } }
-    displayName: Installation
+  description: |
+    An installation object represents an instance of your app being installed on a device.
+    These objects are used to store subscription data for installations which have subscribed to one or more push notification channels.
+    Installations have a flexible schema, except that the special fields below have special type and validation requirements:
     
+    'deviceType' is a required string field that must be set to either "ios" or "android". It may not be changed once the object is created.
+    
+    'installationId' is a Parse-generated string identifier that is required for devices with a deviceType of "android"
+    and optional for devices with a deviceType of "ios". It may not be changed once the object is created and must be unique across all
+    of an app's installations.
+    
+    'deviceToken' is an Apple-generated string identifier that is required for devices with a deviceType of "ios".
+    It may not be changed once the object is created and must be unique across all of an app's installations.
+    
+    'badge' is a number field representing the last known application badge for iOS installations.
+    
+    'timeZone' is a string field representing the system time zone of the device running this installation.
+    
+    'channels' is an optional array of strings representing the subscriptions of this installation object.
+  
+  get:
+    responses:
+      200:
+        body:
+          schema: installationsQuery
+          example: !include examples/installationsQuery.json
+          
+  post:
+    body:
+      schema: installationPost
+      example: !include examples/installationPost.json
+    
+    responses:
+      201:
+        body:
+          schema: collectionPostResponse
+          example: !include examples/collectionPostResponse.json
+          
+  /{objectId}:
+    type: {
+      parseMember: {
+        objectType: installation,
+        schemaAndExampleGet: installationGet,
+        schemaAndExamplePut: installationPut
+      }
+    }
+
     put:
-      is: [ hasRestApiKeyHeader ]
+      securedBy: [ commonSchema ]
 
 /functions:
   displayName: Cloud Functions
+  description: |
+    Cloud functions can be called from any of the client SDKs, as well as through the REST API
+    (use the drop-down in the example below to switch SDKs).
+      
+  /{functionName}:  
   post:
-    is: [ hasAppIdHeader, hasRestApiKeyHeader ]
+    securedBy: [ basic, commonSchema ]
+    description: Call a function.
+    body:
+      schema: functions
+      example: !include examples/functions.json

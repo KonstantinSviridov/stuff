@@ -1,0 +1,26 @@
+is: [ allowsBasicAuthentication ]
+get:
+  securedBy: [ commonSchema ]
+  description: Retreive <<objectType>> by objectId
+  responses:
+    200:
+      body:
+        schema: <<schemaAndExampleGet>>
+        example: !include examples/<<schemaAndExampleGet>>.json
+
+put:
+  description: Update <<objectType>>
+  
+  body:
+    schema: <<schemaAndExamplePut>>
+    example: !include examples/<<schemaAndExamplePut>>.json
+    
+  responses:
+    200:
+      schema: collectionPutResponse
+      example: !include examples/collectionPutResponse.json
+
+delete:
+  securedBy: [ commonSchema ]
+  description: |
+    Delete <<objectType>> by objectId

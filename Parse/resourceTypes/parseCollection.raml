@@ -1,0 +1,8 @@
+type: collection
+is: [ allowsBasicAuthentication ]
+get:
+  securedBy: [ commonSchema ]
+    is: [ allowsQuery ]
+
+post:
+  securedBy: [ commonSchema ]
