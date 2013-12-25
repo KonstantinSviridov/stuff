@@ -8,9 +8,9 @@ securitySchemes:
   - basic:
       type: Basic Authentication
 
-  - commonSchema: !include securitySchemes/commonSchema.raml
-  - sessionTokenSchema: !include securitySchemes/sessionTokenSchema.raml
-  - masterSchema: !include securitySchemes/masterSchema.raml
+  - commonSchema: !include securitySchemas/commonSchema.raml
+  - sessionTokenSchema: !include securitySchemas/sessionTokenSchema.raml
+  - masterSchema: !include securitySchemas/masterSchema.raml
 
 schemas:
   - classesQuery: !include schemas/classesQuery.json
