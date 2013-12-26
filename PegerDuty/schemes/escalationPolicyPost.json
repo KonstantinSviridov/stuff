@@ -1,0 +1,49 @@
+{
+	"type" : "object" ,
+	"$schema" : "http://json-schema.org/draft-03/schema" ,
+	"required" : true ,
+	"properties" : {
+		"escalation_rules" : {
+			"type" : "array" ,
+			"required" : true ,
+			"items" : {
+				"type" : "object" ,
+				"required" : false ,
+				"properties" : {
+					"escalation_delay_in_minutes" : {
+						"type" : "number" ,
+						"required" : false
+					} ,
+					"rule_object" : {
+						"type" : "object" ,
+						"required" : false ,
+						"properties" : {
+							"id" : {
+								"type" : "string" ,
+								"required" : false
+							} ,
+							"type" : {
+								"type" : "string" ,
+								"required" : false
+							}
+						}
+					}
+				}
+			}
+		} ,
+		"name" : {
+			"type" : "string" ,
+			"required" : true
+		} ,
+		"num_loops" : {
+			"type" : "integer" ,
+			"required" : false
+		} ,
+		"repeat_enabled" : {
+			"type" : "boolean" ,
+			"required" : false
+		} ,
+		"additionalProperties" : false
+	} ,
+	"additionalProperties" : false
+}
