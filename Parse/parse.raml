@@ -5,9 +5,7 @@ baseUri: https://api.parse.com/{version}
 version: 1
 mediaType: application/json
 securitySchemes:
-  - basic:
-      type: Basic Authentication
-
+  - basic: !include securitySchemas/basic.raml
   - commonSchema: !include securitySchemas/commonSchema.raml
   - sessionTokenSchema: !include securitySchemas/sessionTokenSchema.raml
   - masterSchema: !include securitySchemas/masterSchema.raml
