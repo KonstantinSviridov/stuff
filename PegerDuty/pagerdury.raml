@@ -61,6 +61,24 @@ schemas:
   - emailFilterPostResponse: !include schemas/emailFilterPostResponse.json
   - emailFilterPutBody: !include schemas/emailFilterPutBody.json
   - emailFilterPutResponse: !include schemas/emailFilterPutResponse.json
+  - userGet: !include schemas/userGet.json
+  - userPutBody: !include schemas/userPutBody.json
+  - userPutResponse: !include schemas/userPutResponse.json
+  - usersPostBody: !include schemas/usersPostBody.json
+  - usersPostResponse: !include schemas/usersPostResponse.json
+  - usersQuery: !include schemas/usersQuery.json
+  - concatMethodGet: !include schemas/concatMethodGet.json
+  - concatMethodPutBody: !include schemas/concatMethodPutBody.json
+  - concatMethodPutResponse: !include schemas/concatMethodPutResponse.json
+  - concatMethodsGet: !include schemas/concatMethodsGet.json
+  - concatMethodsPostBody: !include schemas/concatMethodsPostBody.json
+  - concatMethodsPostResponse: !include schemas/concatMethodsPostResponse.json
+  - notificationRuleGet: !include schemas/notificationRuleGet.json
+  - notificationRulePutBody: !include schemas/notificationRulePutBody.json
+  - notificationRulePutResponse: !include schemas/notificationRulePutResponse.json
+  - notificationRulesGet: !include schemas/notificationRulesGet.json
+  - notificationRulesPostBody: !include schemas/notificationRulesPostBody.json
+  - notificationRulesPostResponse: !include schemas/notificationRulesPostResponse.json
 
 traits:
   - requiresDateLimits: !include traits/requiresDateLimits.raml
@@ -1010,12 +1028,185 @@ resourceTypes:
 
           responses:
             204:
-          
+            
 /users:
-  type: pagerDutyResource
+  type: pagerDuryResource
+  description: |
+    Access and manipulate user data for your PagerDuty account.
+    When a user is shown inlined in other resources, a deleted user will its html_url attribute set to null.
   
+  get:
+    is: [ paginated ]
+    description: List existing users.
+    body:
+      application/x-www-form-urlencoded:
+        formParameters:
+          query:
+            description: Filters the result, showing only the users whose names or email addresses match the query
+          include:
+            type: array
+            description: Array of additional details to include. This API accepts 'contact_methods', and 'notification_rules'.
+
+    responses:
+      200:
+        body:
+          schema: usersQuery
+          example: !include examples/usersQuery.json
+            
+  post:
+    description: Create a new user.
+    body:
+      schema: usersPostBody
+      example: usersPostBody!include examples/usersPostBody.json
+      
+    responses:
+      201:
+        body:
+          schema: usersPostResponse
+          example: !include examples/usersPostResponse.json
+            
   /{user_id}:
-    type: pagerDutyResource
+    type: pagerDuryResource
+    get:
+      description: Get information about an existing user.
+      body:
+        application/x-www-form-urlencoded:
+          formParameters:
+            include:
+              type: array
+              description: Array of additional details to include. This API accepts 'contact_methods', and 'notification_rules'.
+
+      responses:
+        200:
+          body:
+            schema: userGet
+            example: !include examples/userGet.json
+              
+    put:
+      description: Update an existing user.
+      body:
+        schema: userPutBody
+        example: !include examples/userPutBody.json
+
+      responses:
+        200:
+          body:
+            schema: userPutResponse
+            example: !include examples/userPutResponse.json
+             
+    delete:
+      description: Remove an existing user.
+
+      responses:
+        204:
+        
+    /contact_methods:
+      type: pagerDuryResource
+      descriptiob: Access and manipulate the contact methods for a user.
+      
+      get:
+        description: List existing contact methods for the specified user.
+
+        responses:
+          200:
+            body:
+              schema: concatMethodsGet
+              example: !include examples/concatMethodsGet.json
+                
+      post:
+        description: Create a new contact method for the specified user.
+        body:
+          schema: concatMethodsPostBody
+          example: !include examples/concatMethodsPostBody.json
+
+        responses:
+          201:
+            body:
+              schema: concatMethodsPostResponse
+              example: !include examples/concatMethodsPostResponse.json
+                
+      /{id}:
+        type: pagerDuryResource
+        get:
+          description: Get details for a contact method.
+          
+          responses:
+            200:
+              body:
+                schema: concatMethodGet
+                example: !include examples/concatMethodGet.json
+                  
+        put:
+          description: Update an existing contact method.
+          body:
+            schema: concatMethodPutBody
+            example: !include examples/concatMethodPutBody.json
+
+          responses:
+            200:
+              body:
+                schema: concatMethodPutResponse
+                example: !include examples/concatMethodPutResponse.json
+                 
+        delete:
+          description: Remove a contact method and any corresponding notification rules.
+
+          responses:
+            204:
+            
+    /notification_rules:
+      type: pagerDuryResource
+      description: Access and manipulate the notification rules for a user.
+      get:
+        description: List existing notification rules for the specified user.
+        body:
+
+        responses:
+          200:
+            body:
+              schema: notificationRulesGet
+              example: !include examples/notificationRulesGet.json
+
+      post:
+        description: Create a new notification rule for the specified user.
+        body:
+          schema: notificationRulesPostBody
+          example: !include examples/notificationRulesPostBody.json
+
+        responses:
+          201:
+            body:
+              schema: notificationRulesPostResponse
+              example: !include examples/notificationRulesPostResponse.json
+                
+      /{id}:
+        type: pagerDuryResource
+        get:
+          description: Get details for a notification rule.
+
+          responses:
+            200:
+              body:
+                schema: notificationRuleGet
+                example: !include examples/notificationRuleGet.json
+                  
+        put:
+          description: Update an existing notification rule.
+          body:
+            schema: notificationRulePutBody
+            example: !include examples/notificationRulePutBody.json
+
+          responses:
+            200:
+              body:
+                schema: notificationRulePutResponse
+                example: !include examples/notificationRulePutResponse.json
+                  
+        delete:
+          description: Remove a notification rule.
+          
+          responses:
+            204:
     
     /log_entries:
       type: pagerDutyResource
