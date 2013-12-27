@@ -112,10 +112,8 @@ resourceTypes:
           filter[type]:
             description: Returns only the alerts of the said types.
             enum: [ SMS, Email, Phone, Push ]
-            required: false
           time_zone:
             description: Time zone in which dates in the result will be rendered. Defaults to account time zone.
-            required: false
             
     response:
       200:
@@ -135,7 +133,6 @@ resourceTypes:
         formParameters:
           query:
             description: Filters the result, showing only the escalation policies whose names match the query.
-            required: false
             
     response:
       200:
@@ -1219,16 +1216,13 @@ resourceTypes:
       type: pagerDutyResource
       
       get:
+        is: [ paginated ]
         description: List all incident log entries that describe interactions with a specific user.
         body:
           application/x-www-form-urlencoded:
             formParameters:
               time_zone:
                 description: Time zone in which dates in the result will be rendered. Defaults to UTC
-              since:
-                description: The start of the date range over which you want to search.
-              until:
-                description: The end of the date range over which you want to search.
               is_overview:
                 type: boolean
                 description: If true, will only return log entries of type trigger, acknowledge, or resolve. Defaults to false.
