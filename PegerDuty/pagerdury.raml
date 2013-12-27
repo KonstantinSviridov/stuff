@@ -186,8 +186,8 @@ resourceTypes:
     
     /escalation_rules:
       type: pagerDutyResource
-
       description:  This API lets you access and manipulate escalation rules of an existing escalation policy.
+      
       get:
         description: List escalation rules for an escalation policy.
         body:
@@ -464,6 +464,7 @@ resourceTypes:
 /maintenance_windows:
   type: pagerDutyResource
   description: Maintenance windows allow you to schedule service maintenance periods, during which no incidents will be created.
+  
   get:
     is: [ paginated ]
     description: |
@@ -535,36 +536,38 @@ resourceTypes:
       responses:
         204:
 
-/reports/incidents_per_time:
-  type: pagerDutyResource  
+/reports:
   description: Access high level reports about alerts and incidents. Useful for creating graphs.
+
+  /incidents_per_time:
+    type: pagerDutyResource  
+    description: Access high level reports about alerts and incidents. Useful for creating graphs.
   
-  get:
-    is: [ reports ]
+    get:
+      is: [ reports ]
     
-    description: |
-      Get high level statistics about the number of alerts (SMSes, phone calls and emails)
-      sent for the desired time period, summed daily, weekly or monthly.
+      description: |
+        Get high level statistics about the number of alerts (SMSes, phone calls and emails)
+        sent for the desired time period, summed daily, weekly or monthly.
 
-    responses:
-      200:
-        body:
-          schema: reportsIncidentsPerTime
-          example: !include examples/reportsIncidentsPerTime.json
+      responses:
+        200:
+          body:
+            schema: reportsIncidentsPerTime
+            example: !include examples/reportsIncidentsPerTime.json
             
-            
-/reports/alerts_per_time:
-  type: pagerDutyResource
+  /alerts_per_time:
+    type: pagerDutyResource
 
-  get:
-    is: [ reports ]
-    description: Get high level statistics about the number of incidents created for the desired time period, summed daily, weekly or monthly.
+    get:
+      is: [ reports ]
+      description: Get high level statistics about the number of incidents created for the desired time period, summed daily, weekly or monthly.
 
-    responses:
-      200:
-        body:
-          schema: reportsAlertsPerTime
-          example: !include examples/reportsAlertsPerTime.json
+      responses:
+        200:
+          body:
+            schema: reportsAlertsPerTime
+            example: !include examples/reportsAlertsPerTime.json
             
 /schedules:
   type: pagerDutyResource
