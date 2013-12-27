@@ -88,8 +88,9 @@ schemas:
   - usersQuery: !include schemas/usersQuery.json
 
 traits:
-  - requiresDateLimits: !include traits/requiresDateLimits.raml
   - paginated: !include traits/paginated.raml
+  - allowsRange: !include traits/allowsRange.raml
+  - incidentsQuery: !include traits/incidentsQuery.raml
 
 resourceTypes:
   - pagerDutyResource: !include resourceTypes/pagerDutyResource.raml
@@ -105,13 +106,20 @@ resourceTypes:
   get:
     description: List existing alerts for a given time range, optionally filtered by type (SMS, Email, Phone, or Push).
     
-    is: [ requiresDatelimits paginated ]
+    is: [ paginated, allowsRange ]
     body:
       application/x-www-form-urlencoded:
         formParameters:
+          since:
+            required: true
+          until:
+            description: |
+              The end of the date range over which you want to search.
+              This should be in the same format as since. The size of the date range must be less than 3 months.
+            required: true
           filter[type]:
             description: Returns only the alerts of the said types.
-            enum: [ SMS, Email, Phone, Push ]
+            enum: [ sms, email, phone, push ]
           time_zone:
             description: Time zone in which dates in the result will be rendered. Defaults to account time zone.
             
@@ -244,39 +252,15 @@ resourceTypes:
   description: This API lets you access and manipulate incidents.
 
   get:
-    is: [ paginated ]
+    is: [ paginated, allowsRange, incidentsQuery ]
     description: List existing incidents.
     body:
       application/x-www-form-urlencoded:
         formParameters:
-          date_range:
-            description: |
-              When set to all, the since and until parameters and defaults are ignored.
-              Use this to get all incidents since the account was created.
           fields:
             description: |
               Used to restrict the properties of each incident returned to a set of pre-defined fields.
               If omitted, returned incidents have all fields present. See below for a list of possible fields.
-          status:
-            description: |
-              Returns only the incidents currently in the passed status(es).
-              Valid status options are triggered, acknowledged, and resolved.
-              More status codes may be introduced in the future.
-              Separate multiple statuses with a comma.
-          incident_key:
-            description: |
-              Only counts the incidents with the passed de-duplication key.
-              See the PagerDuty Integration API docs for further details.
-          service:
-            description: |
-              Returns only the incidents associated with the passed service(s).
-              This expects one or more service IDs. Separate multiple ids with a comma.
-          assigned_to_user:
-            description: |
-              Returns only the incidents currently assigned to the passed user(s).
-              This expects one or more user IDs. Please see below for more info on how to find your users' IDs.
-              When using the assigned_to_user filter, you will only receive incidents with statuses of triggered or acknowledged.
-              This is because resolved incidents are not assigned to any user. Separate multiple ids with a comma.
           time_zone:
             description: Time zone in which dates in the result will be rendered. Defaults to UTC.
           sort_by:
@@ -294,11 +278,11 @@ resourceTypes:
               |asc |This sorts ascending (default if omitted).|
               |desc|This sorts descending.                    |
               The sort_by field and direction should be separated by a colon.
-              enum: [ incident_number:asc, incident_number:desc, created_on:asc, created_on:desc, resolved_on:asc, resolved_on:desc ]
-              example: | 
-                {
-                   "sort_by": "created_on:desc"
-                }
+            enum: [ "incident_number:asc", "incident_number:desc", "created_on:asc", "created_on:desc", "resolved_on:asc", "resolved_on:desc" ]
+            example: | 
+              {
+                 "sort_by": "created_on:desc"
+              }
 
     responses:
       200:
@@ -321,35 +305,8 @@ resourceTypes:
   /count:
     type: pagerDutyResource
     get:
-      is: [ paginated ]
+      is: [ allowsRange, incidentsQuery ]
       description: Count the number of incidents matching certain criteria.
-      body:
-        application/x-www-form-urlencoded:
-          formParameters:
-            date_range:
-              description: |
-                When set to all, the since and until parameters and defaults are ignored.
-                Use this to get all counts since the account was created.
-            status:
-              description: |
-                Only counts the incidents currently in the passed status(es).
-                Valid status options are triggered, acknowledged, and resolved.
-                More status codes may be introduced in the future.
-                Separate multiple statuses with a comma.
-            incident_key:
-              description: |
-                Only counts the incidents with the passed de-duplication key.
-                See the PagerDuty Integration API docs for further details.
-            service:
-              description: |
-                Only counts the incidents associated with the passed service(s).
-                This is expecting one or more service IDs. Separate multiple ids with a comma.
-            assigned_to_user:
-              description: |
-                Only counts the incidents currently assigned to the passed user(s).
-                This is expecting one or more user IDs.
-                When using the assigned_to_user filter, you will only count incidents with statuses of triggered or acknowledged.
-                This is because resolved incidents are not assigned to any user. Separate multiple ids with a comma.
 
       responses:
         200:
@@ -357,7 +314,7 @@ resourceTypes:
             schema: incidentsCount
             example: !include examples/incidentsCount.json
 
-  /{id}:
+  /{incident_id}:
     type: pagerDutyResource
     uriParameters:
       id:
@@ -451,26 +408,9 @@ resourceTypes:
     /log_entries:
       type: pagerDutyResource
       get:
+        is: [ paginated, allowsRange, logging ]
         description: |
           List all incident log entries for a specific incident.
-        body:
-          application/x-www-form-urlencoded:
-            formParameters:
-              time_zone:
-                type: time zone
-                description: Time zone in which dates in the result will be rendered. Defaults to UTC
-              since:
-                description: The start of the date range over which you want to search.
-              until:
-                description: The end of the date range over which you want to search.
-              is_overview:
-                type: boolean
-                description: If true, will only return log entries of type trigger, acknowledge, or resolve. Defaults to false.
-              include:
-                description: |
-                  Array of additional details to include. This API accepts channel, incident, and service.
-                  If channel is not included, a summary will be returned (See channel format information for more information.)
-                example: "include[]=contact_methods&include[]=notification_rules"
 
         responses:
           200:
@@ -487,26 +427,9 @@ resourceTypes:
     Log entry data includes details about the event(s) that triggered the incident, who was notified and when,
     how they were notified, and who acknowledged or resolved it, amongst a few other things.
   get:
-    is: [ paginated ]
+    is: [ paginated, allowsRange, logging ]
     description: List all incident log entries across the entire account.
-    body:
-      application/x-www-form-urlencoded:
-        formParameters:
-          time_zone:
-            description: Time zone in which dates in the result will be rendered. Defaults to UTC
-          since:
-            description: The start of the date range over which you want to search.
-          until:
-            description: The end of the date range over which you want to search.
-          is_overview:
-            type: boolean
-            description: If true, will only return log entries of type trigger, acknowledge, or resolve. Defaults to false.
-          include:
-            description: |
-              Array of additional details to include. This API accepts channel, incident, and service.
-              If channel is not included, a summary will be returned (See channel format information for more information.)
-            example: "include[]=contact_methods&include[]=notification_rules"              
-
+    
     responses:
       200:
         body:
@@ -523,24 +446,27 @@ resourceTypes:
           formParameters:
             time_zone:
               description: Time zone in which dates in the result will be rendered. Defaults to UTC
-            include:
-              type: array
+            include[]:
               description: |
-                Array of additional details to include. This API accepts channel, incident, and service.
-                If channel is not included, a summary will be returned (See channel format information for more information.)
+                Array of additional details to include. This API accepts 'channel', 'incident', and 'service'.
+                If 'channel' is not included, a summary will be returned (See channel format information for more information.)
               example: "include[]=contact_methods&include[]=notification_rules"
+              enum: [ channel, incident, service ]
 
       responses:
         200:
           body:
             schema: logEntry
-            example: !include examples/logEntry.json              
+            example: !include examples/logEntry.json
 
 /maintenance_windows:
   type: pagerDutyResource
   description: Maintenance windows allow you to schedule service maintenance periods, during which no incidents will be created.
   get:
-    description: List existing maintenance windows, optionally filtered by service, or whether they are from the past, present or future.
+    is: [ paginated ]
+    description: |
+      List existing maintenance windows, optionally filtered by service,
+      or whether they are from the past, present or future.
     body:
       application/x-www-form-urlencoded:
         formParameters:
@@ -553,7 +479,9 @@ resourceTypes:
           filter:
             description: |
               Only return maintenance windows that are of this type.
-              Possible values are past, future, ongoing. If this parameter is omitted, all maintenance windows will be returned.
+              Possible values are 'past', 'future', 'ongoing'.
+              If this parameter is omitted, all maintenance windows will be returned.
+            enum: [ past, future, ongoing ]
 
     responses:
       200:
@@ -610,21 +538,11 @@ resourceTypes:
   description: Access high level reports about alerts and incidents. Useful for creating graphs.
   
   get:
-    is: [ paginated ]
+    is: [ reports ]
     
     description: |
       Get high level statistics about the number of alerts (SMSes, phone calls and emails)
       sent for the desired time period, summed daily, weekly or monthly.
-    body:
-      application/x-www-form-urlencoded:
-        formParameters:
-          rollup:
-            description: |
-              Possible values are daily, weekly or monthly.
-              Specifies the bucket duration for each summation.
-              Defaults to monthly.
-              For example, A time window of two years (based on since and until) with a rollup of monthly
-              will result in 24 sets of data points being returned (one for each month in the span).
 
     responses:
       200:
@@ -637,25 +555,8 @@ resourceTypes:
   type: pagerDutyResource
 
   get:
-    is: [ paginated ]
+    is: [ reports ]
     description: Get high level statistics about the number of incidents created for the desired time period, summed daily, weekly or monthly.
-    
-    body:
-      application/x-www-form-urlencoded:
-        formParameters:
-          since:
-            description: The start of the date range over which you want to search. The time element is optional.
-            required: true
-          until:
-            description: The end of the date range over which you want to search. This should be in the same format as since.
-            required: true
-          rollup:
-            description: |
-              Possible values are daily, weekly or monthly.
-              Specifies the bucket duration for each summation.
-              Defaults to monthly.
-              For example, A time window of two years (based on since and until) with a rollup of monthly
-              will result in 24 sets of data points being returned (one for each month in the span).
 
     responses:
       200:
@@ -701,7 +602,7 @@ resourceTypes:
   /{schedule_id}:
     type: pagerDutyResource
     get:
-      id: [ paginated ]
+      is: [ allowsRange ]
       description: Show detailed information about a schedule, including entries for each layer and sub-schedule.
       body:
         application/x-www-form-urlencoded:
@@ -737,7 +638,7 @@ resourceTypes:
     /users:
       type: pagerDuryResource
       get:
-        is: [ paginated ]
+        is: [ allowsRange ]
         description: List all the users on-call in a given schedule for a given time range.
 
         responses:
@@ -749,11 +650,15 @@ resourceTypes:
     /entries:
       type: pagerDuryResource
       get:
-        is: [ paginated ]
+        is: [ allowsRange ]
         description: List schedule entries that are active for a given time range for a specified on-call schedule.
         body:
           application/x-www-form-urlencoded:
             formParameters:
+              sience:
+                required: true
+              until:
+                required: true
               overflow:
                 type: boolean
                 description: |
@@ -874,7 +779,7 @@ resourceTypes:
               
   /preview:
     type: pagerDuryResource
-    post:
+    post:      
       description: Preview the configuration of an on-call schedule.
       body:
         schema: schedulePreviewBody
@@ -896,9 +801,14 @@ resourceTypes:
     body:
       application/x-www-form-urlencoded:
         formParameters:
-          include:
-            type: array
-            description: <a href=/documentation/rest/services/email_filters>Email Filters</a>
+          include[]:
+            description: |
+              Include extra information in the response.
+              Possible values are 'escalation_policy' (for inline Escalation Policy) and
+              'email_filters' (for inline Email Filters).
+            enum: [ escalation_policy, email_filters ]
+            example: include[]=escalation_policy&include[]=email_filters
+
           time_zone:
             type: time zone
             description: Time zone in which dates in the result will be rendered. Defaults to account default time zone.
@@ -928,13 +838,13 @@ resourceTypes:
       body:
         application/x-www-form-urlencoded:
           formParameters:
-            include:
-              type: array
+            include[]:
               description: |
                 Include extra information in the response.
-                Possible values are 'escalation_policy' (for inline Escalation Policy) and 'email_filters' (for inline Email Filters).
-              example: include[]=escalation_policy
+                Possible values are 'escalation_policy' (for inline Escalation Policy) and
+                'email_filters' (for inline Email Filters).
               enum: [ escalation_policy, email_filters ]
+              example: include[]=escalation_policy&include[]=email_filters
 
       responses:
         200:
@@ -1047,9 +957,12 @@ resourceTypes:
         formParameters:
           query:
             description: Filters the result, showing only the users whose names or email addresses match the query
-          include:
-            type: array
-            description: Array of additional details to include. This API accepts 'contact_methods', and 'notification_rules'.
+          include[]:
+            description: |
+              Array of additional details to include.
+              This API accepts 'contact_methods', and 'notification_rules'.
+            enum: [ contact_methods, notification_rules ]
+            example: "include[]=contact_methods&include[]=notification_rules"
 
     responses:
       200:
@@ -1076,9 +989,12 @@ resourceTypes:
       body:
         application/x-www-form-urlencoded:
           formParameters:
-            include:
-              type: array
-              description: Array of additional details to include. This API accepts 'contact_methods', and 'notification_rules'.
+            include[]:
+              description: |
+                Array of additional details to include.
+                This API accepts 'contact_methods', and 'notification_rules'.
+              enum: [ contact_methods, notification_rules ]
+              example: "include[]=contact_methods&include[]=notification_rules"
 
       responses:
         200:
@@ -1216,25 +1132,11 @@ resourceTypes:
       type: pagerDutyResource
       
       get:
-        is: [ paginated ]
+        is: [ paginated, allowsRange, logging ]
         description: List all incident log entries that describe interactions with a specific user.
-        body:
-          application/x-www-form-urlencoded:
-            formParameters:
-              time_zone:
-                description: Time zone in which dates in the result will be rendered. Defaults to UTC
-              is_overview:
-                type: boolean
-                description: If true, will only return log entries of type trigger, acknowledge, or resolve. Defaults to false.
-              include:
-                description: |
-                  Array of additional details to include. This API accepts channel, incident, and service.
-                  If channel is not included, a summary will be returned (See channel format information for more information.)
-                example: "include[]=contact_methods&include[]=notification_rules"
 
         responses:
           200:
             body:
               schema: logEntriesForUser
               example: !include examples/logEntriesForUser.json
-
