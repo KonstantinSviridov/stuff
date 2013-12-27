@@ -10,32 +10,58 @@ securitySchemes:
 
 schemas:
   - alerts: !include schemas/alerts.json
+  - concatMethodGet: !include schemas/concatMethodGet.json
+  - concatMethodPutBody: !include schemas/concatMethodPutBody.json
+  - concatMethodPutResponse: !include schemas/concatMethodPutResponse.json
+  - concatMethodsGet: !include schemas/concatMethodsGet.json
+  - concatMethodsPostBody: !include schemas/concatMethodsPostBody.json
+  - concatMethodsPostResponse: !include schemas/concatMethodsPostResponse.json
+  - emailFilterPostBody: !include schemas/emailFilterPostBody.json
+  - emailFilterPostResponse: !include schemas/emailFilterPostResponse.json
+  - emailFilterPutBody: !include schemas/emailFilterPutBody.json
+  - emailFilterPutResponse: !include schemas/emailFilterPutResponse.json
   - escalationPoliciesQuery: !include schemas/escalationPoliciesQuery.json
-  - escalationPolicyPost: !include schemas/escalationPolicyPost.json
   - escalationPolicyCreated: !include schemas/escalationPolicyCreated.json
   - escalationPolicyGet: !include schemas/escalationPolicyGet.json
-  - escalationPolicyGet: !include schemas/escalationPolicyPut.json
-  - escalationRulesQuery: !include schemas/escalationRulesQuery.json
+  - escalationPolicyPost: !include schemas/escalationPolicyPost.json
+  - escalationPolicyPut: !include schemas/escalationPolicyPut.json
+  - escalationRuleGet: !include schemas/escalationRuleGet.json
+  - escalationRulePutBody: !include schemas/escalationRulePutBody.json
+  - escalationRulePutResponse: !include schemas/escalationRulePutResponse.json
   - escalationRulesPostBody: !include schemas/escalationRulesPostBody.json
   - escalationRulesPostResponse: !include schemas/escalationRulesPostResponse.json
   - escalationRulesPutBody: !include schemas/escalationRulesPutBody.json
   - escalationRulesPutResponse: !include schemas/escalationRulesPutResponse.json
-  - escalationRulesPostBody: !include schemas/escalationRulesPostBody.json
-  - escalationRuleGet: !include schemas/escalationRuleGet.json
-  - incidentsQuery: !include schemas/incidentsQuery.json
-  - incidentsPutBody: !include schemas/incidentsPutBody.json
-  - incidentsPutResponse: !include schemas/incidentsPutResponse.json
+  - escalationRulesQuery: !include schemas/escalationRulesQuery.json
   - incidentGet: !include schemas/incidentGet.json
   - incidentsCount: !include schemas/incidentsCount.json
+  - incidentsPutBody: !include schemas/incidentsPutBody.json
+  - incidentsPutResponse: !include schemas/incidentsPutResponse.json
+  - incidentsQuery: !include schemas/incidentsQuery.json
+  - logEntriesForIncident: !include schemas/logEntriesForIncident.json
+  - logEntriesForUser: !include schemas/logEntriesForUser.json
+  - logEntriesQuery: !include schemas/logEntriesQuery.json
+  - logEntry: !include schemas/logEntry.json
+  - maintenanceWindowGet: !include schemas/maintenanceWindowGet.json
+  - maintenanceWindowPostBody: !include schemas/maintenanceWindowPostBody.json
+  - maintenanceWindowPostResponse: !include schemas/maintenanceWindowPostResponse.json
+  - maintenanceWindowPutBody: !include schemas/maintenanceWindowPutBody.json
+  - maintenanceWindowPutResponse: !include schemas/maintenanceWindowPutResponse.json
+  - maintenanceWindowsQuery: !include schemas/maintenanceWindowsQuery.json
   - notesGet: !include schemas/notesGet.json
   - notesPostBody: !include schemas/notesPostBody.json
   - notesPostResponse: !include schemas/notesPostResponse.json
-  - logEntriesQuery: !include schemas/logEntriesQuery.json
-  - logEntry: !include schemas/logEntry.json
-  - logEntriesForIncident: !include schemas/logEntriesForIncident.json
-  - logEntriesForUser: !include schemas/logEntriesForUser.json
-  - reportsIncidentsPerTime: !include schemas/jsonreportsIncidentsPerTime.json
-  - reportsAlertsPerTime: !include schemas/jsonreportsAlertsPerTime.json
+  - notificationRuleGet: !include schemas/notificationRuleGet.json
+  - notificationRulePutBody: !include schemas/notificationRulePutBody.json
+  - notificationRulePutResponse: !include schemas/notificationRulePutResponse.json
+  - notificationRulesGet: !include schemas/notificationRulesGet.json
+  - notificationRulesPostBody: !include schemas/notificationRulesPostBody.json
+  - notificationRulesPostResponse: !include schemas/notificationRulesPostResponse.json
+  - overridesGet: !include schemas/overridesGet.json
+  - overridesPostBody: !include schemas/overridesPostBody.json
+  - overridesPostResponse: !include schemas/overridesPostResponse.json
+  - reportsAlertsPerTime: !include schemas/reportsAlertsPerTime.json
+  - reportsIncidentsPerTime: !include schemas/reportsIncidentsPerTime.json
   - scheduleEntries: !include schemas/scheduleEntries.json
   - scheduleGet: !include schemas/scheduleGet.json
   - schedulePreviewBody: !include schemas/schedulePreviewBody.json
@@ -46,9 +72,6 @@ schemas:
   - schedulesPostBody: !include schemas/schedulesPostBody.json
   - schedulesPostResponse: !include schemas/schedulesPostResponse.json
   - scheduleUsers: !include schemas/scheduleUsers.json
-  - overridesGet: !include schemas/overridesGet.json
-  - overridesPostBody: !include schemas/overridesPostBody.json
-  - overridesPostResponse: !include schemas/overridesPostResponse.json
   - serviceDisable: !include schemas/serviceDisable.json
   - serviceGet: !include schemas/serviceGet.json
   - servicePutBody: !include schemas/servicePutBody.json
@@ -57,28 +80,12 @@ schemas:
   - servicesPostBody: !include schemas/servicesPostBody.json
   - servicesPostResponse: !include schemas/servicesPostResponse.json
   - servicesQuery: !include schemas/servicesQuery.json
-  - emailFilterPostBody: !include schemas/emailFilterPostBody.json
-  - emailFilterPostResponse: !include schemas/emailFilterPostResponse.json
-  - emailFilterPutBody: !include schemas/emailFilterPutBody.json
-  - emailFilterPutResponse: !include schemas/emailFilterPutResponse.json
   - userGet: !include schemas/userGet.json
   - userPutBody: !include schemas/userPutBody.json
   - userPutResponse: !include schemas/userPutResponse.json
   - usersPostBody: !include schemas/usersPostBody.json
   - usersPostResponse: !include schemas/usersPostResponse.json
   - usersQuery: !include schemas/usersQuery.json
-  - concatMethodGet: !include schemas/concatMethodGet.json
-  - concatMethodPutBody: !include schemas/concatMethodPutBody.json
-  - concatMethodPutResponse: !include schemas/concatMethodPutResponse.json
-  - concatMethodsGet: !include schemas/concatMethodsGet.json
-  - concatMethodsPostBody: !include schemas/concatMethodsPostBody.json
-  - concatMethodsPostResponse: !include schemas/concatMethodsPostResponse.json
-  - notificationRuleGet: !include schemas/notificationRuleGet.json
-  - notificationRulePutBody: !include schemas/notificationRulePutBody.json
-  - notificationRulePutResponse: !include schemas/notificationRulePutResponse.json
-  - notificationRulesGet: !include schemas/notificationRulesGet.json
-  - notificationRulesPostBody: !include schemas/notificationRulesPostBody.json
-  - notificationRulesPostResponse: !include schemas/notificationRulesPostResponse.json
 
 traits:
   - requiresDateLimits: !include traits/requiresDateLimits.raml
