@@ -1,0 +1,8 @@
+{
+	"service" : {
+		"name" : "default-email" ,
+		"description" : "default email service" ,
+		"escalation_policy_id" : "PIJ90N7" ,
+		"type" : "generic_email"
+	}
+}

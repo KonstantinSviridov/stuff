@@ -36,6 +36,31 @@ schemas:
   - logEntriesForUser: !include schemas/logEntriesForUser.json
   - reportsIncidentsPerTime: !include schemas/jsonreportsIncidentsPerTime.json
   - reportsAlertsPerTime: !include schemas/jsonreportsAlertsPerTime.json
+  - scheduleEntries: !include schemas/scheduleEntries.json
+  - scheduleGet: !include schemas/scheduleGet.json
+  - schedulePreviewBody: !include schemas/schedulePreviewBody.json
+  - schedulePreviewResponse: !include schemas/schedulePreviewResponse.json
+  - schedulePutBody: !include schemas/schedulePutBody.json
+  - schedulePutResponse: !include schemas/schedulePutResponse.json
+  - schedulesGet: !include schemas/schedulesGet.json
+  - schedulesPostBody: !include schemas/schedulesPostBody.json
+  - schedulesPostResponse: !include schemas/schedulesPostResponse.json
+  - scheduleUsers: !include schemas/scheduleUsers.json
+  - overridesGet: !include schemas/overridesGet.json
+  - overridesPostBody: !include schemas/overridesPostBody.json
+  - overridesPostResponse: !include schemas/overridesPostResponse.json
+  - serviceDisable: !include schemas/serviceDisable.json
+  - serviceGet: !include schemas/serviceGet.json
+  - servicePutBody: !include schemas/servicePutBody.json
+  - servicePutResponse: !include schemas/servicePutResponse.json
+  - serviceRegenerateKey: !include schemas/serviceRegenerateKey.json
+  - servicesPostBody: !include schemas/servicesPostBody.json
+  - servicesPostResponse: !include schemas/servicesPostResponse.json
+  - servicesQuery: !include schemas/servicesQuery.json
+  - emailFilterPostBody: !include schemas/emailFilterPostBody.json
+  - emailFilterPostResponse: !include schemas/emailFilterPostResponse.json
+  - emailFilterPutBody: !include schemas/emailFilterPutBody.json
+  - emailFilterPutResponse: !include schemas/emailFilterPutResponse.json
 
 traits:
   - requiresDateLimits: !include traits/requiresDateLimits.raml
@@ -587,6 +612,7 @@ resourceTypes:
             
             
 /reports/alerts_per_time:
+  type: pagerDutyResource
 
   get:
     is: [ paginated ]
@@ -615,8 +641,375 @@ resourceTypes:
           schema: reportsAlertsPerTime
           example: !include examples/reportsAlertsPerTime.json
             
-          
+/schedules:
+  type: pagerDutyResource
+  description: This API allows users to manipulate on-call schedules.
+  
+  get:
+    is: [ paginated ]
+    description: List existing on-call schedules.
+    body:
+      application/x-www-form-urlencoded:
+        formParameters:
+          query:
+            description: Filters the result, showing only the schedules whose name matches the query.
+          requester_id:
+            description: |
+              The user id of the user making the request. This will be used to generate the calendar private urls.
+              This is only needed if you are using token based authentication.
 
+    responses:
+      200:
+        body:
+          schema: schedulesGet
+          example: !include examples/schedulesGet.json
+            
+  post:
+    description: Create a new on-call schedule.
+    body:
+      schema: schedulesPostBody
+      example: !include examples/schedulesPostBody.json
+
+    responses:
+      200:
+        body:
+          schema: schedulesPostResponse
+          example: !include examples/schedulesPostResponse.json/
+            
+  /{schedule_id}:
+    type: pagerDutyResource
+    get:
+      id: [ paginated ]
+      description: Show detailed information about a schedule, including entries for each layer and sub-schedule.
+      body:
+        application/x-www-form-urlencoded:
+          formParameters:
+            time_zone:
+              description: Time zone in which dates in the result will be rendered. Defaults to account time zone.
+
+      responses:
+        200:
+          body:
+            schema: scheduleGet
+            example: !include examples/scheduleGet.json
+
+    put:
+      description: Update an existing on-call schedule.
+      body:
+        schema: schedulePutBody
+        example: !include examples/schedulePutBody.json
+
+      responses:
+        200:
+          body:
+            schema: schedulePutResponse
+            example: !include examples/schedulePutResponse.json
+              
+    delete:
+      description: Delete an on-call schedule.
+
+      responses:
+        204:
+        
+        
+    /users:
+      type: pagerDuryResource
+      get:
+        is: [ paginated ]
+        description: List all the users on-call in a given schedule for a given time range.
+
+        responses:
+          200:
+            body:
+              schema: scheduleUsers
+              example: !include examples/scheduleUsers.json
+
+    /entries:
+      type: pagerDuryResource
+      get:
+        is: [ paginated ]
+        description: List schedule entries that are active for a given time range for a specified on-call schedule.
+        body:
+          application/x-www-form-urlencoded:
+            formParameters:
+              overflow:
+                type: boolean
+                description: |
+                  Any on-call schedule entries that pass the date range bounds will be truncated at the bounds,
+                  unless the parameter overflow=true is passed. This parameter defaults to false. For instance,
+                  if your schedule is a rotation that changes daily at midnight UTC, and your date range is
+                  from 2011-06-01T10:00:00Z to 2011-06-01T14:00:00Z:
+                  
+                  If you don't pass the overflow=true parameter,
+                  you will get one schedule entry returned with a start of 2011-06-01T10:00:00Z and end of 2011-06-01T14:00:00Z.
+                  
+                  If you do pass the overflow=true parameter, you will get one schedule entry returned with a
+                  start of 2011-06-01T00:00:00Z and end of 2011-06-02T00:00:00Z.
+              time_zone:
+                description: Time zone in which dates in the result will be rendered. Defaults to account time zone.
+              user_id:
+                description: |
+                  To filter the returned on-call schedule entries by a specific user,
+                  you can optionally add the user_id parameter to the query.
+
+        responses:
+          200:
+            body:
+              schema: scheduleEntries
+              example: !include examples/scheduleEntries.json/
+ 
+    /overrides:
+      type: pagerDuryResource
+      description: |
+        Schedule overrides are custom, non-recurring exceptions to your regular on-call schedules.
+        Use them when your team members go on vacation, swap shifts, or when you simply cannot
+        achieve your normal scheduling with recurring layers.
+      get:
+        is: [ paginated ]
+        description: List overrides for a given time range.
+        body:
+          application/x-www-form-urlencoded:
+            formParameters:
+              editable:
+                type: boolean
+                description: |
+                  When this parameter is present, only editable overrides will be returned.
+                  The result will only include the id the override if this parameter is present.
+                  Only future overrides are editable.
+                  
+              overflow:
+                type: boolean
+                description: |
+                  Any on-call schedule entries that pass the date range bounds will be truncated at the bounds,
+                  unless the parameter overflow=true is passed. This parameter defaults to false.
+                  For instance, if your schedule is a rotation that changes daily at midnight UTC,
+                  and your date range is from 2011-06-01T10:00:00Z to 2011-06-01T14:00:00Z:
+                  
+                  If you don't pass the overflow=true parameter,
+                  you will get one schedule entry returned with a start of 2011-06-01T10:00:00Z and end of 2011-06-01T14:00:00Z.
+                  
+                  If you do pass the overflow=true parameter, you will get one schedule entry returned with a
+                  start of 2011-06-01T00:00:00Z and end of 2011-06-02T00:00:00Z.
+
+        responses:
+          200:
+            body:
+              schema: overridesGet
+              example: !include examples/overridesGet.json
+          
+          4001:
+            description: Missing or invalid 'time' parameter
+          4002:
+            description: Missing 'override' parameter
+          4003:
+            description: User Not Found
+          4004:
+            description: Invalid Override
+          4005:
+            description: Cannot Destroy Override
+              
+      post:
+        description: Create an override for a specific user covering the specified time range.
+        body:
+          schema: overridesPostBody
+          example: !include examples/overridesPostBody.json
+        
+        responses:
+          201:
+            body:
+              schema: overridesPostResponse
+              example: !include examples/overridesPostResponse.json
+              
+          4001:
+            description: Missing or invalid 'time' parameter
+          4002:
+            description: Missing 'override' parameter
+          4003:
+            description: User Not Found
+          4004:
+            description: Invalid Override
+          4005:
+            description: Cannot Destroy Override
+                
+      /{id}:
+        type: pagerDuryResource
+        delete:
+          description: Remove an override.
+          body:
+          
+          responses:
+            204:
+            4001:
+              description: Missing or invalid 'time' parameter
+            4002:
+              description: Missing 'override' parameter
+            4003:
+              description: User Not Found
+            4004:
+              description: Invalid Override
+            4005:
+              description: Cannot Destroy Override
+              
+  /preview:
+    type: pagerDuryResource
+    post:
+      description: Preview the configuration of an on-call schedule.
+      body:
+        schema: schedulePreviewBody
+        example: !include examples/schedulePreviewBody.json
+
+      responses:
+        200:
+          body:
+            schema: schedulePreviewResponse
+            example: !include examples/schedulePreviewResponse.json          
+
+/services:
+  type: pagerDuryResource
+  description: This API lets you access and manipulate the services across your account.
+  
+  get:
+    is: [ paginated ]
+    description: List existing services.
+    body:
+      application/x-www-form-urlencoded:
+        formParameters:
+          include:
+            type: array
+            description: <a href=/documentation/rest/services/email_filters>Email Filters</a>
+          time_zone:
+            type: time zone
+            description: Time zone in which dates in the result will be rendered. Defaults to account default time zone.
+
+    responses:
+      200:
+        body:
+          schema: servicesQuery
+          example: !include examples/servicesQuery.json
+
+  post:
+    description: Create a new service.
+    body:
+      schema: servicesPostBody
+      example: !include examples/servicesPostBody.json
+      
+    responses:
+      201:
+        body:
+          schema: servicesPostResponse
+          example: !include examples/servicesPostResponse.json
+
+  /{service_id}:
+    type: pagerDuryResource
+    get:
+      description: Get details about an existing service.
+      body:
+        application/x-www-form-urlencoded:
+          formParameters:
+            include:
+              type: array
+              description: |
+                Include extra information in the response.
+                Possible values are 'escalation_policy' (for inline Escalation Policy) and 'email_filters' (for inline Email Filters).
+              example: include[]=escalation_policy
+              enum: [ escalation_policy, email_filters ]
+
+      responses:
+        200:
+          body:
+            schema: serviceGet
+            example: !include examples/serviceGet.json
+              
+    put:
+      description: Update an existing service.
+      body:
+        schema: servicePutBody
+        example: !include examples/servicePutBody.json
+
+      responses:
+        200:
+          body:
+            schema: servicePutResponse
+            example: !include examples/servicePutResponse.json
+
+    delete:
+      description: |
+        Delete an existing service. Once the service is deleted, it will not be accessible
+        from the web UI and new incidents won't be able to be created for this service.
+
+      responses:
+        204:
+
+    /disable:
+      type: pagerDuryResource
+      put:
+        description: |
+          Disable a service. Once a service is disabled, it will not be
+          able to create incidents until it is enabled again.
+        body:
+          schema: serviceDisable
+          example: !include examples/serviceDisable.json
+
+        responses:
+          200:
+    
+    /enable:
+      type: pagerDuryResource
+      put:
+        description: Enable a previously disabled service.
+
+        responses:
+          200:
+
+    /regenerate_key:
+      type: pagerDuryResource
+      post:
+        description: Regenerate a new service key for an existing service.
+
+        responses:
+          201:
+            body:
+              schema: serviceRegenerateKey
+              example: !include examples/serviceRegenerateKey.json
+
+    /email_filters:
+      type: pagerDuryResource
+      description: |
+        Email Filters are a set of rules that are applied to triggering email's body, subject and from address.
+        It only applies to generic_email kind of Services. The way multiple filters are combined depends on the
+        email_filter_mode attribute of the service.
+        
+      post:
+        description: Create a new Email Filter for the specified service.
+        body:
+          schema: emailFilterPostBody
+          example: !include examples/emailFilterPostBody.json
+
+        responses:
+          201:
+            body:
+              schema: emailFilterPostResponse
+              example: !include examples/emailFilterPostResponse.json
+                
+      /{id}:
+        type: pagerDuryResource
+        put:
+          description: Update an existing Email Filter.
+          body:
+            schema: emailFilterPutBody
+            example: !include examples/emailFilterPutBody.json
+
+          responses:
+            200:
+              body:
+                schema: emailFilterPutResponse
+                example: !include examples/emailFilterPutResponse.json
+                  
+        delete:
+          description: Delete an existing Email Filter.
+
+          responses:
+            204:
           
 /users:
   type: pagerDutyResource
