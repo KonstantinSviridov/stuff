@@ -1,6 +1,8 @@
 #Batch Notebooks Conversion and Launching
 
 ##About
+Batch convert and launch utility is the main tool for testing RamlScript and API specifications.
+
 The `automation/automation.ts` script allows to perform batch conversion of JavaScript notebooks from the Portal to RamlScript notebooks and lunching the converted notebooks.
 
 The automation steps are:
