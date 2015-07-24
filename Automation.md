@@ -5,6 +5,8 @@ Batch convert and launch utility is the main tool for testing RamlScript and API
 
 The `automation/automation.ts` script allows to perform batch conversion of JavaScript notebooks from the Portal to RamlScript notebooks and lunching the converted notebooks.
 
+You may launch the utility by the `node automation/automation.js` from the project root or create the corresponding launch configuration in your IDE.
+
 The automation steps are:
 ####Cloning the notebook configs [repository](https://github.com/KonstantinSviridov/notebook-configs)
 The repository is cloned into `automation/input` subfolder. It provides following files for each API:
