@@ -66,6 +66,7 @@ The set of APIs involved is controlled by the `automation/apisToTest.json` file.
 ```
 
 ##Sample APIs
+This section lists APIs which are known to pass fine the batch process and provides example of config files for them.
 
 ####FuelEconomy
 No config files required.
