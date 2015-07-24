@@ -1,10 +1,11 @@
-#Batch Notebooks Conversion
+#Batch Notebooks Conversion and Launching
 
 ##About
-The `automation.ts` script allows to perform batch conversion of JavaScript notebooks from the Portal to RamlScript notebooks and lunching the converted notebooks.
+The `automation/automation.ts` script allows to perform batch conversion of JavaScript notebooks from the Portal to RamlScript notebooks and lunching the converted notebooks.
+
 The automation steps are:
-####Cloning the notebook configs [repository](https://github.com/KonstantinSviridov/notebook-configs).
-The repository provides following files for each API:
+####Cloning the notebook configs [repository](https://github.com/KonstantinSviridov/notebook-configs)
+The repository is cloned into `automation/input` subfolder. It provides following files for each API:
 
 ######`path.txt` 
 The file contains path of the API GitHub repository
@@ -24,8 +25,27 @@ The file contains authorization parameters. The format is
   ...
 }
 ```
+######`generation.cfg`
+The file contains options passed to generation config and is isomorphous with [`IConfig` instance](https://github.com/mulesoft-labs/api-workbench/blob/master/src/ramlscript/config.ts).
 
+####Cloning the API repositories
+The repositories are cloned into 'automation/input' subfolder. Each of `production` and `staging` branches is cloned to separate subfolder so that the subfolders structure reflects the `branch/API` hierarchy. After that all config files are copied from config repository to root API folders.
 
+####Converting the notebooks
+The converted notebooks are placed into `automation/output` subfolder. The subfolders structure reflects `branch/api/notebook_file` hierarchy. Notebook subfolder obtains a `deps` subfolder containing all notebook dependencies from the `api-workbench` project. The API subfolder, in turn, obtains a `node_modules` containing all the external dependencies.
+
+####Transpiling the notebooks
+After the ramlscript notebooks are generated, they are subjected to TypeScript compiler.
+
+####Launching notebooks
+Launching is implemented as an external child process. The notebooks are executed one by one with the
+```
+node {RamlScript notebook path} -logDir {target logs directory}
+```
+command. After the execution you may find the complete log of requests and responses in the directory passed under the `logDir` parameter.
+
+## Automation Options
+Creating the `automation/acfg.json`files allows to set up the automation process.
 
 ##Sample APIs
 
