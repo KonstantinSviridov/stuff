@@ -24,13 +24,13 @@ For the yet unknow `RamlWrapper.Api` the `AuthenticationManager` determines corr
   * **method name**
   * (optional) **payload object**
   * (optional) **options objects** (containing query and header parameters)
-  * **complete method URI**
+  * **canonicalMethodUri** (complete method URI)
 
-3. The `APIExecutor` utilizes the call info in order to build `harExecutor.ExtendedHarRequest` which is passed to `AuthenticationDecorator`. In fact `harExecutor.ExtendedHarRequest` is exactly `Har.Request` + complete method URI.
+3. The `APIExecutor` utilizes the call info in order to build `harExecutor.ExtendedHarRequest` which is passed to `AuthenticationDecorator`. In fact `harExecutor.ExtendedHarRequest` is exactly `Har.Request` + `canonicalMethodUri`.
 
-4. `AuthenticationDecorator` asks the `AuthenticationManager` to insert authorization parameters into `HAR.Request`. For this purpose it uses canonical method path to find `RamlWrapper.Method` inside its member `RamlWrapper.Api` and passes this `RamlWrapper.Method` to the `AuthenticationManager` along with `HAR.Raquest`.
+4. `AuthenticationDecorator` asks the `AuthenticationManager` to insert authorization parameters into `HAR.Request`. For this purpose it uses `canonicalMethodUri` to find `RamlWrapper.Method` inside context `RamlWrapper.Api` and passes this `RamlWrapper.Method` to the `AuthenticationManager` along with `HAR.Raquest`.
 
-5. The `HAR.Request` is passed to `ValidatingExecutor`. It obtains `RamlWrapper.Method` justg the same way as `AuthenticationDecorator`, takes RAML types of its bodies (if any) and validates request agains them.
+5. After being authorized, the `HAR.Request` is passed to `ValidatingExecutor`. It obtains `RamlWrapper.Method` just the same way as `AuthenticationDecorator`, takes RAML types of its bodies (if any) and validates request agains them.
 
 6. The `HAR.Request` is passed to `SimpleExecutor` which delegates it to `XmlHttpRequest` module.
 
@@ -43,6 +43,7 @@ For the yet unknow `RamlWrapper.Api` the `AuthenticationManager` determines corr
 
 
 Thus, implementing a client generator can be separated to
+
 1. Designing protocol of comunication between model and core.
 2. Implementing execution core
 3. Implementing a model generator
