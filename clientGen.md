@@ -20,15 +20,15 @@ Let's take a look how a variation of this process works in the Typescript client
 For the yet unknow `RamlWrapper.Api` the `AuthenticationManager` determines correspondence between `RamlWrapper.Method`s and `RamlWrapper.SecurityScheme`s.
 
 2. `APIExecutor.execute()` recieives call information which consists of:
-* **complete call URL**
-* **method name**
-* (optional) **payload object**
-* (optional) **options objects** (containing query and header parameters)
-* **complete method URI**
+  * **complete call URL**
+  * **method name**
+  * (optional) **payload object**
+  * (optional) **options objects** (containing query and header parameters)
+  * **complete method URI**
 
 3. The `APIExecutor` utilizes the call info in order to build `harExecutor.ExtendedHarRequest` which is passed to `AuthenticationDecorator`. In fact `harExecutor.ExtendedHarRequest` is exactly `Har.Request` + complete method URI.
 
-4. `AuthenticationDecorator` asks the `AuthenticationManager` to inser authorization parameters into `HAR.Request`. For this purpose it uses canonical method path to find `RamlWrapper.Method` inside its member `RamlWrapper.Api` and passes this `RamlWrapper.Method` to the `AuthenticationManager` along with `HAR.Raquest`.
+4. `AuthenticationDecorator` asks the `AuthenticationManager` to insert authorization parameters into `HAR.Request`. For this purpose it uses canonical method path to find `RamlWrapper.Method` inside its member `RamlWrapper.Api` and passes this `RamlWrapper.Method` to the `AuthenticationManager` along with `HAR.Raquest`.
 
 5. The `HAR.Request` is passed to `ValidatingExecutor`. It obtains `RamlWrapper.Method` justg the same way as `AuthenticationDecorator`, takes RAML types of its bodies (if any) and validates request agains them.
 
