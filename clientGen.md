@@ -70,29 +70,27 @@ import RamlWrapper = require('{some path to src/raml1/artifacts/raml003Parser}')
 import norebookModelBuilder = require('{some path to src/ramlscript/notebookModelBuilder}')
 ```
 
-1. parse API and create a `TS.TSModule`:
+#####Parse API and create a `TS.TSModule`:
   ```javascript
   var api = norebookModelBuilder.loadApi1('{path to your RAML spec root .raml file}')
   var module = new TS.TSModule();
   ```
 
-2. `TS.TSInterface` is a `TSModelDecl` class which is used to define interfaces or classes (also enums and function interfaces).
-In our example for each `RamlWrapper.Resource` we will create a `TS.TSInterface` successor: `raml2ts1.ResourceMappedInterface`.
-The difference between these two is that with `raml2ts1.ResourceMappedInterface` you are able to retrieve original `RamlWrapper.Resource` which may appear useful on serialization step:
+#####Create a model tree isomorphic to API structure:
+
+* `TS.TSInterface` is a `TSModelDecl` class which is used to define interfaces or classes (also enums and function interfaces). In our example for each `RamlWrapper.Resource` we will create a `TS.TSInterface` successor: `raml2ts1.ResourceMappedInterface`. The difference between these two is that with `raml2ts1.ResourceMappedInterface` you are able to retrieve original `RamlWrapper.Resource` which may appear useful on serialization step:
+ 
   ```javascript
   var resource:RamlWrapper.Resource = resourceMappedInterfaceInstance.original().originalResource;
   ```
 
-3. `TS.TSAPIElementDeclaration` is a `TSModelDecl` class which is used to define interface or class members -- both fields and methods.
-In our example for each child `RamlWrapper.Resource` (which belong to RamlWrapper.Api or another RamlWrapper.Resource) we will create a member (inside class corresponding to its parent)
-represented by `TS.TSAPIElementDeclaration` successeor: `raml2ts1.TSResourceMappedApiElement`. The reason to use `raml2ts1.TSResourceMappedApiElement` rather then `TS.TSAPIElementDeclaration` is just the same:
-with `raml2ts1.TSResourceMappedApiElement` you are able to retrieve original `RamlWrapper.Resource`:
+* `TS.TSAPIElementDeclaration` is a `TSModelDecl` class which is used to define interface or class members -- both fields and methods. In our example for each child `RamlWrapper.Resource` (which belong to RamlWrapper.Api or another RamlWrapper.Resource) we will create a member (inside class corresponding to its parent) represented by `TS.TSAPIElementDeclaration` successeor: `raml2ts1.TSResourceMappedApiElement`. The reason to use `raml2ts1.TSResourceMappedApiElement` rather then `TS.TSAPIElementDeclaration` is just the same: with `raml2ts1.TSResourceMappedApiElement` you are able to retrieve original `RamlWrapper.Resource`:
   ```javascript
   var resource:RamlWrapper.Resource = tsResourceMappedApiElementInstance.originalResource;
   ```
-3. Let's create a model tree isomorphic to API structure:
 
-  ```javascript
+
+```javascript
 processResource(resource:RamlWrapper.Resource,parent:TS.TSInterface){
 
     var relUri = resource.relativeUri().value();	
@@ -115,10 +113,11 @@ processResource(resource:RamlWrapper.Resource,parent:TS.TSInterface){
 
 var apiClass = new TS.TSInterface(module,'Api');
 api.resources.forEach(x=>processResource(x,apiClass));
-  ```
-  
-5. Now the module is capable of returning classes corresponding to API and resources, which, in turn, can return a list of their members. Here is a dummy example of model serialization:
-  ```javascript
+```
+
+#####Serialize model  
+Now the module is capable of returning classes corresponding to API and resources, which, in turn, can return a list of their members. Here is a dummy example of model serialization:
+```javascript
 function serializeClass(clazz:TS.TSInterface){
   
   var name = clazz.name();
@@ -142,6 +141,6 @@ function serializeMember(member:TS.TSApiElementDeclaration){
 }
 
 module.children().forEach(x=>serializeClass(x));
-  ```
+```
 
 
