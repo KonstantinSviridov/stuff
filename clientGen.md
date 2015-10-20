@@ -60,7 +60,7 @@ It may appear not handy to generate client model code directly from the parsed R
 1. Iterate throw the RAML AST and build some abstract model.
 2. Serialize the gathered model into code on particular language.
 
-API Workbench project provides a simplified Typescript code model: [TSDeclModel](see here)
+API Workbench project provides a simplified Typescript code model: [TSDeclModel](https://github.com/mulesoft-labs/api-workbench/blob/master/src/ramlscript/TSDeclModel.ts)
 
 Let's consider an example of gathering client model. Assume that we have following require statements in our exampl module:
 ```javascript
@@ -131,7 +131,7 @@ function serializeClass(clazz:TS.TSInterface){
   write(content,class);
 }
 
-function serializeMember(member:TS.TSApiElementDeclaration){
+function serializeMember(member:TS.TSAPIElementDeclaration){
   var name = member.name();
   
   //retrieve members class
