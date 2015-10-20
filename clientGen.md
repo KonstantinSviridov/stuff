@@ -78,6 +78,8 @@ import norebookModelBuilder = require('{some path to src/ramlscript/notebookMode
 
 #####Create a model tree isomorphic to API structure:
 
+We need `TSModelDecl` classes for representing classis and their members.
+
 * `TS.TSInterface` is a `TSModelDecl` class which is used to define interfaces or classes (also enums and function interfaces). In our example for each `RamlWrapper.Resource` we will create a `TS.TSInterface` successor: `raml2ts1.ResourceMappedInterface`. The difference between these two is that with `raml2ts1.ResourceMappedInterface` you are able to retrieve original `RamlWrapper.Resource` which may appear useful on serialization step:
  
   ```javascript
