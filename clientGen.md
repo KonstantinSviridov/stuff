@@ -1,3 +1,5 @@
+#Client design
+
 It is convenient to design an API client as consisting of four parts:
 
 1. API independent execution core.
@@ -14,6 +16,7 @@ With client designed like this a call decomposes to following steps:
 5. The response is validated. (This step is intended to check RAML source correctness)
 6. The Core constructs response object and passes it to the Model.
 
+###Typescript client
 Let's take a look how a variation of this process works in the Typescript client:
 
 1. The model registers the `RamlWrapper.Api` instance in the `AuthenticationManager` (via `ExecutionEnvironment`).
@@ -41,7 +44,7 @@ For the yet unknow `RamlWrapper.Api` the `AuthenticationManager` determines corr
 9. The `APIExecutor` uses `HAR.Raquest` to construct response object and returns this object to the Model.
 
 
-
+#Client generator design
 Thus, implementing a client generator can be separated to
 
 1. Designing protocol of comunication between model and core.
@@ -49,3 +52,61 @@ Thus, implementing a client generator can be separated to
 3. Implementing a model generator
 4. Implementing services core
 3. Implementing services database generator
+
+
+###Model generator
+It may appear not handy to generate client model code directly from the parsed RAML. We suggest deviding this process on two steps:
+
+1. Iterate throw the RAML AST and build some abstract model.
+2. Serialize the gathered model into code on particular language.
+
+API Workbench project provides a simplified Typescript code model: [TSDeclModel](see here)
+
+Let's consider an example of gathering client model. Assume that we have following require statements in our exampl module:
+```
+import TS = require('{some path to src/ramlscript/TSDeclModel}')
+import raml2ts1 = require('{some path to src/ramlscript/raml2ts1}')
+```
+
+1. create a `TS.TSModule`:
+```
+var module = new TS.TSModule();
+```
+
+2. `TS.TSInterface` is a `TSModelDecl` class which is used to define interfaces or classes (also enums and function interfaces).
+In our example for each `RamlWrapper.Resource` we will create a `TS.TSInterface` successor: `raml2ts1.ResourceMappedInterface`.
+The difference between these two is that with `raml2ts1.ResourceMappedInterface` you are able to retrieve original `RamlWrapper.Resource` which may appear useful on serialization step:
+```
+var resource:RamlWrapper.Resource = resourceMappedInterfaceInstance.original().originalResource();
+```
+
+3. `TS.TSAPIElementDeclaration` is a `TSModelDecl` class which is used to define interface or class members -- both fields and methods.
+In our example for each child `RamlWrapper.Resource` (which belong to RamlWrapper.Api or another RamlWrapper.Resource) we will create a member (inside class corresponding to its parent)
+represented by `TS.TSAPIElementDeclaration` successeor: `raml2ts1.TSResourceMappedApiElement`. The reason to use `raml2ts1.TSResourceMappedApiElement` rather then `TS.TSAPIElementDeclaration` is just the same:
+with `raml2ts1.TSResourceMappedApiElement` you are able to retrieve original `RamlWrapper.Resource`:
+```
+var resource:RamlWrapper.Resource = tsResourceMappedApiElementInstance.originalResource();
+```
+2. for example, let's create a model tree isomorphic to API structure:
+
+
+var apiClass = new TS.TSInterface(module,'Api');
+api.resources.forEach(x=>processResource(x,apiClass));
+
+processResource(resource:RamlWrapper.Resource,parent:TS.TSInterface){
+
+	var relUri = resource.relativeUri().value();	
+	
+	//generate name for member corresponding the resource in some way
+	var memberName = constructFieldName(relUri);
+	
+	//here we add member to the parent class. On level 1 of recursion it is `apiClass`
+	var member = new raml2ts1.TSResourceMappedApiElement(parent,memberName,resource);
+
+	//generate name for class corresponding the resource in some way
+	var className = constructClassName(relUri);
+	//here we create class corresponding to the resource. It is passed to next level of recursion.
+	var resourceClass =	new raml2ts1.ResourceMappedInterface(module,className,member);
+	
+	resource.resources.forEach(x=>processResource(x,resourceClass));
+}
