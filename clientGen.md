@@ -1,13 +1,13 @@
 #Client design
 
-It is convenient to design an API client as consisting of four parts:
+Typescript and Java clients generatad by API Workbench can be roughly viewed as consisting of four parts:
 
 1. API independent execution core.
 2. Model, reflecting API structure, deligating calls to the core.
 3. API independent authorization and validation services prompted by the core.
 4. API dependent authorization and validation databases prompted by the services.
 
-With client designed like this a call decomposes to following steps:
+With client designed this way a call decomposes on following steps:
 
 1. The Model passes call information to the Core. This info must contain a method key of some kind which will be used to access services.
 2. The Core passes the key to the Services in order to obtain ways to validate and authorize the particular method.
@@ -144,5 +144,4 @@ function serializeMember(member:TS.TSAPIElementDeclaration){
 
 module.children().forEach(x=>serializeClass(x));
 ```
-
 
