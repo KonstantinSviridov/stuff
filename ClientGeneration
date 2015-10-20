@@ -1,0 +1,95 @@
+#About
+API Workbench project provides means of generaring TypeScript and Java clients for APIs described in RAML.
+
+#Typescript Clients
+The generating script is [`/automation/clientGenTypescript.ts`](https://github.com/mulesoft-labs/api-workbench/tree/master/automation/clientGenTypescript.ts)
+
+##Command line parameters:
+
+* **-api** path to input RAML specification
+
+* **-dst** output folder
+
+* (optional)**-cfg** path to config file.
+
+Paramter values of config file provided replace those of the [default config](https://github.com/mulesoft-labs/api-workbench/blob/master/src/ramlscript/raml2ts1.ts#L40).
+
+##[Examples](https://github.com/mulesoft-labs/api-workbench/tree/master/examples/tsClients)
+
+Place example client projects near the `node_modules` folder containing all required modules of the API Workbench project, compile them and run `script.js`.
+
+#Java clients
+The generating script is [`/automation/clientGenJava.ts`](https://github.com/mulesoft-labs/api-workbench/tree/master/automation/clientGenJava.ts). The resulting client makes use of Webpack bundled Javascript client via the Nashorn scripting engine. 
+
+####Command line parameters
+
+* **`-api`** path to input RAML specification
+
+* **`-ws`** path to output workspace
+
+* **`-project`** name of the resulting Java client project
+
+* **`-pkg`** root package of the generated client Java project
+
+* (optional)**`-mvnGrId`** id of Maven group owning the resulting artifact. Default is `java-ramlscript`
+
+* (optional)**`-mvnId`** id of the resulting Maven artifact. Default is `java-ramlscript-{ProjectName}`
+
+* (optional)**`-mvnVer`** version of the resulting Maven artifact. Default is `0.0.1-SNAPSHOT`
+
+* (optional)**`-tmp`** temporary folder for generated JavaScript client. Default value is `{script containing directory}/__tmp_tsClients`
+
+* **`-cfg`** config file path
+
+####Command line flags
+
+* **-pretty** generate pretty JS bundle
+
+* **`-forceDelete`** renew static of Java projects
+
+##Config file
+Instead of passing a variety of command line parameters you may just pass a path to config file. Config file is a JSON object with following fields:
+
+* **`apiPath:string`** path to input RAML specification
+
+* **`dstWorkspacePath:string`** path to output workspace
+
+* **`projectName:string`** name of the resulting Java client project
+
+* **`rootPackage:string`** root package of the generated client Java project
+
+* (optional)**`pretty:boolean`** generate pretty JS bundle
+
+* (optional)**`sourceFolderAbsolutePath:string`** destionation source folder. Default value is `{dstWorkspacePath}/{projectName}/src/main/java`
+
+* (optional)**`resourcesFolderAbsolutePath:string`** destionation resources folder. Default value is `{dstWorkspacePath}/{projectName}/src/main/resources`
+
+* (optional)**`mavenGroupId:string`** id of Maven group owning the resulting artifact. Default is `java-ramlscript`
+
+* (optional)**`mavenArtifactId:string`** id of the resulting Maven artifact. Default is `java-ramlscript-{ProjectName}`
+
+* (optional)**`mavenArtifactVersion:string`** version of the resulting Maven artifact. Default is `0.0.1-SNAPSHOT`
+
+* (optional)**`forceDelete`** if `true` static content of JavaProjects is overwritten. Otherwise it is preserved. Default value is `false`
+
+* (optional)**`javascriptTemporaryFolder`** temporary folder for generated Javascript client. Default value is `{script containing directory}/__tmp_jsClients`
+
+If you specify command line parameters along with the config file, their values override those of the config file.
+
+##[Examples](https://github.com/mulesoft-labs/api-workbench/tree/master/examples/java/Clients)
+
+Import client projects and `javascript-module-holders` project to eclipse workspace, run `clean install` Maven command and execute `Launcher.java` inside `src/test/java` directory.
+
+##Generation process details
+
+The generation process includes following steps:
+
+* Copy static java code form the [client stub project](https://github.com/mulesoft-labs/api-workbench/tree/master/java/java-client) to destination workspace. Here we substitute correct package names to file paths and code.
+
+* Copy [javascript-module-holders](https://github.com/mulesoft-labs/api-workbench/tree/master/java/javascript-module-holders) to the target workspace.
+
+* Generate model and security Java classes into the client project.
+
+* Generate a Typescript client and bundle it by means of Webpack into a single JS file in the client project.
+
+```
