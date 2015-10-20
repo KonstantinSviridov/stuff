@@ -66,10 +66,13 @@ Let's consider an example of gathering client model. Assume that we have followi
 ```javascript
 import TS = require('{some path to src/ramlscript/TSDeclModel}')
 import raml2ts1 = require('{some path to src/ramlscript/raml2ts1}')
+import RamlWrapper = require('{some path to src/raml1/artifacts/raml003Parser}')
+import norebookModelBuilder = require('{some path to src/ramlscript/notebookModelBuilder}')
 ```
 
-1. create a `TS.TSModule`:
+1. parse API and create a `TS.TSModule`:
   ```javascript
+  var api = norebookModelBuilder.loadApi1('{path to your RAML spec root .raml file}')
   var module = new TS.TSModule();
   ```
 
@@ -77,7 +80,7 @@ import raml2ts1 = require('{some path to src/ramlscript/raml2ts1}')
 In our example for each `RamlWrapper.Resource` we will create a `TS.TSInterface` successor: `raml2ts1.ResourceMappedInterface`.
 The difference between these two is that with `raml2ts1.ResourceMappedInterface` you are able to retrieve original `RamlWrapper.Resource` which may appear useful on serialization step:
   ```javascript
-  var resource:RamlWrapper.Resource = resourceMappedInterfaceInstance.original().originalResource();
+  var resource:RamlWrapper.Resource = resourceMappedInterfaceInstance.original().originalResource;
   ```
 
 3. `TS.TSAPIElementDeclaration` is a `TSModelDecl` class which is used to define interface or class members -- both fields and methods.
@@ -85,29 +88,60 @@ In our example for each child `RamlWrapper.Resource` (which belong to RamlWrappe
 represented by `TS.TSAPIElementDeclaration` successeor: `raml2ts1.TSResourceMappedApiElement`. The reason to use `raml2ts1.TSResourceMappedApiElement` rather then `TS.TSAPIElementDeclaration` is just the same:
 with `raml2ts1.TSResourceMappedApiElement` you are able to retrieve original `RamlWrapper.Resource`:
   ```javascript
-  var resource:RamlWrapper.Resource = tsResourceMappedApiElementInstance.originalResource();
+  var resource:RamlWrapper.Resource = tsResourceMappedApiElementInstance.originalResource;
   ```
 3. Let's create a model tree isomorphic to API structure:
 
   ```javascript
-var apiClass = new TS.TSInterface(module,'Api');
-api.resources.forEach(x=>processResource(x,apiClass));
-
 processResource(resource:RamlWrapper.Resource,parent:TS.TSInterface){
 
-	var relUri = resource.relativeUri().value();	
+    var relUri = resource.relativeUri().value();	
 	
-	//generate name for member corresponding the resource in some way
-	var memberName = constructFieldName(relUri);
+    //generate name for member corresponding the resource in some way
+    var memberName = constructFieldName(relUri);
 	
-	//here we add member to the parent class. On level 1 of recursion it is `apiClass`
-	var member = new raml2ts1.TSResourceMappedApiElement(parent,memberName,resource);
+    //here we add member to the parent class. On level 1 of recursion it is `apiClass`
+    var member = new raml2ts1.TSResourceMappedApiElement(parent,memberName,resource);
 
-	//generate name for class corresponding the resource in some way
-	var className = constructClassName(relUri);
-	//here we create class corresponding to the resource. It is passed to next level of recursion.
-	var resourceClass =	new raml2ts1.ResourceMappedInterface(module,className,member);
+    //generate name for class corresponding the resource in some way
+    var className = constructClassName(relUri);
+    //here we create class corresponding to the resource. It is passed to next level of recursion.
+    var resourceClass =	new raml2ts1.ResourceMappedInterface(module,className,member);
+    
+    member.rangeType = resourceClass.toReference();
 	
-	resource.resources.forEach(x=>processResource(x,resourceClass));
+    resource.resources.forEach(x=>processResource(x,resourceClass));
 }
+
+var apiClass = new TS.TSInterface(module,'Api');
+api.resources.forEach(x=>processResource(x,apiClass));
   ```
+  
+5. Now the module is capable of returning classes corresponding to API and resources, which, in turn, can return a list of their members. Here is a dummy example of model serialization:
+  ```javascript
+function serializeClass(clazz:TS.TSInterface){
+  
+  var name = clazz.name();
+  var content = 'export class ' + name + '{\n\n';
+  clazz.children().forEach(x => content += serializeMember(x));
+  content += '}';
+  
+  //some way to store obtained class code
+  write(content,class);
+}
+
+function serializeMember(member:TS.TSApiElementDeclaration){
+  var name = member.name();
+  
+  //retrieve members class
+  var memberClass:raml2ts1.ResourceMappedInterface
+            = (<raml2ts.ResourceMappedReference>mamber.rangeType).resourceInterface();
+  
+  var className = memberClass.name();
+  return '    ' + name + ':' + 'className' + ';\n\n';
+}
+
+module.children().forEach(x=>serializeClass(x));
+  ```
+
+
