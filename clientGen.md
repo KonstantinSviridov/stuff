@@ -145,3 +145,27 @@ function serializeMember(member:TS.TSAPIElementDeclaration){
 module.children().forEach(x=>serializeClass(x));
 ```
 
+#####Further code model enriching
+The example above is too simple and can not be considered a sufficient client model. For sufficient example you may refer to the codebase. The entry point is [`raml2ts1.createApiModule()`](https://github.com/mulesoft-labs/api-workbench/blob/master/src/ramlscript/raml2ts1.ts#L159). It calls the [`raml2ts1.ShortStyleModelBuilder.raml2TSModel()`](https://github.com/mulesoft-labs/api-workbench/blob/master/src/ramlscript/raml2ts1.ts#L683) method where we start processing `RamlWrapper.Api`.
+
+Another key methods of `ShortStyleModelBuilder` are:
+
+* `processChildResources()` Here we handle those brother resources which differ by `mediaTypeExtention` or `mediaTypeSuffix` URI parameters. Sometimes it happens that we have the following situation in our RAML sspec:
+```
+/parentResource
+  /childResource{mediaTypeExtension}
+    #some methods here
+  /childResource
+    #no methods here
+    /grandChildResource1
+    /grandChildResource2
+```
+Formally, here we have two different child resources and for parent class we can create two different fields corresponding them. But rather then create two fields, we create one for `/childResource{mediaTypeExtension}` and attach to it children of `/childResource`.
+
+* `processResource()` Here we process URI parameters of resources: those members which correspond resources with query parameters become methods. Also we initiate methods processing.
+ 
+
+* `customizeMethod()` Here we create `TS.APIElementDeclaration` successor (`raml2ts1.TSFullyMappedApiElement`) corresponding the method (The goal of using this successor is again the same: it provides access to original `RamlWrapper.Method`). Then we create types for method bodies (form, JSON or XML), response bodies (JSON or XML) and options (query and header parameters together).
+
+#####Example of serializing sufficient model
+Serializing Java client is a good example: see ['src/ramlscript/JavaClientSerializer'](https://github.com/mulesoft-labs/api-workbench/blob/master/src/ramlscript/JavaClientSerializer.ts)
