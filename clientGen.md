@@ -69,27 +69,27 @@ import raml2ts1 = require('{some path to src/ramlscript/raml2ts1}')
 ```
 
 1. create a `TS.TSModule`:
-```
-var module = new TS.TSModule();
-```
+  ```
+  var module = new TS.TSModule();
+  ```
 
 2. `TS.TSInterface` is a `TSModelDecl` class which is used to define interfaces or classes (also enums and function interfaces).
 In our example for each `RamlWrapper.Resource` we will create a `TS.TSInterface` successor: `raml2ts1.ResourceMappedInterface`.
 The difference between these two is that with `raml2ts1.ResourceMappedInterface` you are able to retrieve original `RamlWrapper.Resource` which may appear useful on serialization step:
-```
-var resource:RamlWrapper.Resource = resourceMappedInterfaceInstance.original().originalResource();
-```
+  ```
+  var resource:RamlWrapper.Resource = resourceMappedInterfaceInstance.original().originalResource();
+  ```
 
 3. `TS.TSAPIElementDeclaration` is a `TSModelDecl` class which is used to define interface or class members -- both fields and methods.
 In our example for each child `RamlWrapper.Resource` (which belong to RamlWrapper.Api or another RamlWrapper.Resource) we will create a member (inside class corresponding to its parent)
 represented by `TS.TSAPIElementDeclaration` successeor: `raml2ts1.TSResourceMappedApiElement`. The reason to use `raml2ts1.TSResourceMappedApiElement` rather then `TS.TSAPIElementDeclaration` is just the same:
 with `raml2ts1.TSResourceMappedApiElement` you are able to retrieve original `RamlWrapper.Resource`:
-```
-var resource:RamlWrapper.Resource = tsResourceMappedApiElementInstance.originalResource();
-```
-2. for example, let's create a model tree isomorphic to API structure:
+  ```
+  var resource:RamlWrapper.Resource = tsResourceMappedApiElementInstance.originalResource();
+  ```
+3. Let's create a model tree isomorphic to API structure:
 
-
+  ```
 var apiClass = new TS.TSInterface(module,'Api');
 api.resources.forEach(x=>processResource(x,apiClass));
 
@@ -110,3 +110,4 @@ processResource(resource:RamlWrapper.Resource,parent:TS.TSInterface){
 	
 	resource.resources.forEach(x=>processResource(x,resourceClass));
 }
+  ``
