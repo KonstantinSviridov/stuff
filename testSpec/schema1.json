@@ -1,0 +1,7 @@
+{
+  "definitions" : {
+    "Foo" : {
+      "type" : "number"
+    }
+  }
+}
