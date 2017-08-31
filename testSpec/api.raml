@@ -3,11 +3,13 @@ title: New API
 version: v1
 baseUri: http://api.samplehost.com
 
-uses:
-  lib: libs/lib.raml
+types:
+  MYType:
+    properties:
+      p1: string
 
-/resource:
-  post:
+/resourtce:
+  get:
     body:
       application/json:
-        type: lib.MyType
+        type: MYType
