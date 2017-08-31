@@ -116,15 +116,25 @@ var fName = path.resolve(__dirname, "test.raml");
 // Parse our RAML file with all the dependencies
 var api = raml.loadApiSync(fName);
 console.log(JSON.stringify(api.toJSON(), null, 2));
+var apiNode = api.highLevel();
 
 ```
 
 Run ```node getting_started.js``` again. If you see the JSON reflecting RAML file AST in the output, then RAML was parsed correctly.
 `toJSON` method is a useful tool for debugging, but should not be relied upon by JS RAML Parser users to actually analyze and modify RAML AST.
 
+## High Level AST Overview
+
+The [`IHighLevelNode`]() and [`IAttribute`]() instances are the bricks which high level AST is constructed of.
+`IHighLevelNode` instances represent complex RAML structures such as `Api`, `Resource`, `TypeDeclaration` etc, and 
+`IAttribute` instances represent values of those properties which may have scalars (or scalar arrays) as values, for example, `title`, `relativeUri`, `type` or `is`. If property value is an array, each array element is represented by a separate `IAttribute` instance.
+
+Note that the same property may have scalar and complex value. For instance, `TypeDeclaration.type` may contain a string or an inline type declaration. `IAttribute` instance behavior would be slightly different in the former case. All cases of `IAttribute` representing non scalar value are considered separately in [Non Scalar Attributes](#non-scalar-attributes).
+
+
 ## Basics of parsing
 
-`api` variable stores the root of AST. Its children and properties can be traversed and analyzed to find out the structure of RAML file.
+`apiNode` variable stores the root of high level AST. Its children and properties can be traversed and analyzed to find out the structure of RAML file.
 
 Open `documentation` folder in the root of the cloned repository and open index.html file in web browser.
 
@@ -300,6 +310,10 @@ And then found `value()` method in `StatusCodeString` description:
 ![GettingStarted_Code](images/GettingStarted_StatusCode.png)
 
 All in all, the AST tree reflects RAML structure, so starting from `loadApiSync` global method, then checking documentation for its return value, proceeding to its methods and doing that recursively allows reaching everything.
+
+## Non Scalar Attributes
+
+asdasd
 
 ## Resource Types and Traits
 
