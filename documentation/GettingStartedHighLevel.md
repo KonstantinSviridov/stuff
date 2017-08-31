@@ -51,6 +51,17 @@ and properly initialized.
 
 Run ```node node_modules/raml-1-parser/test/test01.js```. If there are no any exceptions, RAML JS Parser is installed successfully
 
+
+## High Level AST Overview
+
+The [`IHighLevelNode`]() and [`IAttribute`]() instances are the bricks which high level AST is constructed of.
+`IHighLevelNode` instances represent complex RAML structures such as `Api`, `Resource`, `TypeDeclaration` etc, and 
+`IAttribute` instances represent values of those properties which may have scalars (or scalar arrays) as values, for example, `title`, `relativeUri`, `type` or `is`. If property value is an array, each array element is represented by a separate `IAttribute` instance.
+
+Note that the same property may have scalar and complex value. For instance, `TypeDeclaration.type` may contain a string or an inline type declaration. `IAttribute` instance behavior would be slightly different in the former case. All cases of `IAttribute` representing non scalar value are considered separately in [Non Scalar Attributes](#non-scalar-attributes).
+
+
+
 ## Creating test files
 
 These instructions assume that JS Parser was installed via NPM.
@@ -123,18 +134,14 @@ var apiNode = api.highLevel();
 Run ```node getting_started.js``` again. If you see the JSON reflecting RAML file AST in the output, then RAML was parsed correctly.
 `toJSON` method is a useful tool for debugging, but should not be relied upon by JS RAML Parser users to actually analyze and modify RAML AST.
 
-## High Level AST Overview
-
-The [`IHighLevelNode`]() and [`IAttribute`]() instances are the bricks which high level AST is constructed of.
-`IHighLevelNode` instances represent complex RAML structures such as `Api`, `Resource`, `TypeDeclaration` etc, and 
-`IAttribute` instances represent values of those properties which may have scalars (or scalar arrays) as values, for example, `title`, `relativeUri`, `type` or `is`. If property value is an array, each array element is represented by a separate `IAttribute` instance.
-
-Note that the same property may have scalar and complex value. For instance, `TypeDeclaration.type` may contain a string or an inline type declaration. `IAttribute` instance behavior would be slightly different in the former case. All cases of `IAttribute` representing non scalar value are considered separately in [Non Scalar Attributes](#non-scalar-attributes).
 
 
 ## Basics of parsing
 
-`apiNode` variable stores the root of high level AST. Its children and properties can be traversed and analyzed to find out the structure of RAML file.
+`api` variable stores the root of top level level AST. Operating with top level AST is described in the [Getting Started Guide](./GettingStarted.md). In order to obtain high level AST root the `BasicNode.highLevel` method is used.
+
+Let's check that the resulting `IHighLevelNode` instance does in fact represent Api. Each `IHighLevelNode` instance provides RAML type
+representation
 
 Open `documentation` folder in the root of the cloned repository and open index.html file in web browser.
 
