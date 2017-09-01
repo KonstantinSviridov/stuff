@@ -52,16 +52,6 @@ and properly initialized.
 Run ```node node_modules/raml-1-parser/test/test01.js```. If there are no any exceptions, RAML JS Parser is installed successfully
 
 
-## High Level AST Overview
-
-The [`IHighLevelNode`]() and [`IAttribute`]() instances are the bricks which high level AST is constructed of.
-`IHighLevelNode` instances represent complex RAML structures such as `Api`, `Resource`, `TypeDeclaration` etc, and 
-`IAttribute` instances represent values of those properties which may have scalars (or scalar arrays) as values, for example, `title`, `relativeUri`, `type` or `is`. If property value is an array, each array element is represented by a separate `IAttribute` instance.
-
-Note that the same property may have scalar and complex value. For instance, `TypeDeclaration.type` may contain a string or an inline type declaration. `IAttribute` instance behavior would be slightly different in the former case. All cases of `IAttribute` representing non scalar value are considered separately in [Non Scalar Attributes](#non-scalar-attributes).
-
-
-
 ## Creating test files
 
 These instructions assume that JS Parser was installed via NPM.
@@ -125,14 +115,35 @@ var path = require("path");
 var fName = path.resolve(__dirname, "test.raml");
 
 // Parse our RAML file with all the dependencies
-var api = raml.loadApiSync(fName);
-console.log(JSON.stringify(api.toJSON(), null, 2));
-var apiNode = api.highLevel();
+var apiNode = raml.parseSync(fName);
+console.log(JSON.stringify(apiNode.toJSON(), null, 2));
 
 ```
 
 Run ```node getting_started.js``` again. If you see the JSON reflecting RAML file AST in the output, then RAML was parsed correctly.
-`toJSON` method is a useful tool for debugging, but should not be relied upon by JS RAML Parser users to actually analyze and modify RAML AST.
+
+## High Level AST Overview
+
+The [`IHighLevelNode`]() and [`IAttribute`]() instances are the bricks which high level AST is constructed of.
+`IHighLevelNode` instances represent elements i.e. complex RAML structures such as `Api`, `Resource`, `TypeDeclaration` etc, and 
+`IAttribute` instances represent attributes, i.e. those properties which may have scalars (or scalar arrays) as values, for example, `title`, `relativeUri`, `type` or `is`. If property value is an array, each array element is represented by a separate `IAttribute` instance.
+
+Actual attribute value should be retrieved by means of the `IAtrtibute.plainValue` method.
+Note that the same property may have scalar and complex value. For instance, `TypeDeclaration.type` may contain a string or an inline type declaration. `IAttribute` instance behavior would be slightly different in the former case. All cases of `IAttribute` representing non scalar value are considered individually in [Non Scalar Attributes](#non-scalar-attributes).
+
+The `IHighLevelNode.definition` method provides RAML type associated with the node. The type is represented by an `ITypeDefinition` instance. The `ITypeDefinition.nameId` method returns name of the type and, thus, it can be used to identify a type. For more information about how to work with types see [Types](#types).
+
+`ITypeDefinition` has several methods for retrieveing its children:
+
+* `children` returns all children
+* `elements` returns all child elements
+* `attrs` returns all child attributes
+* `attr(name:string)` returns an attribute with particular name. Should be used for single value properties.
+* `attributes(name:string)` returns all attributes with particular name. May be used for both single value and multivalue properties.
+* `element(name:string)` returns an element with particular name. Should be used for single value properties.
+* `elementsOfKind(name:string)` returns all elements with particular name. May be used for both single value and multivalue properties.
+
+The former four methods require property name as input. All RAML types properties are lested in the followiing tables: [RAML 1.0]() and [RAML 0.8]().
 
 
 
