@@ -219,43 +219,38 @@ var path = require("path");
 var fName = path.resolve(__dirname, "test.raml");
 
 // Parse our RAML file with all the dependencies
-var api = raml.loadApiSync(fName);
+var apiNode = raml.loadApiSync(fName);
 
 /**
  * Process resource (here we just trace different paramters of URL)
  **/
-function processResource(res) {
+function processResource(res,parentUri) {
+    parentUri = parentUri || "";	
     // User-friendly name (if provided)
-    if (res.displayName()) {
-        console.log(res.displayName());
+    var displayNameAttr = res.attr("displayName");
+    if (displayNameAttr) {
+        console.log(displayNameAttr.plainValue());
     }
 
     // Trace resource's relative URI
-    var relativeUri = res.relativeUri().value();
-    // Next method returns full relative URI (which is equal with previous one
-    // for top-level resources, but for subresources it returns full path from the
-    // resources base URL)
-    var completeRelativeUri = res.completeRelativeUri();
+    var relativeUri = res.attr("relativeUri").plainValue();
+    // Next we form full relative URI (which is the one relative to the API root)
+    var completeRelativeUri = parentUri + relativeUri;
     // trace both of them
     console.log(completeRelativeUri, "(", relativeUri, ")");
 
-    // Let's enumerate all URI parameters
-    for (var uriParamNum = 0; uriParamNum < res.allUriParameters().length; ++uriParamNum) {
-        var uriParam = res.allUriParameters()[uriParamNum];
-        // Here we trace URI parameter's name and types
-        console.log("\tURI Parameter:", uriParam.name(), uriParam.type().join(","));
-    }
-
     // Recursive call this function for all subresources
+    var subsesources = res.elementsOfKind("resources");
     for (var subResNum = 0; subResNum < res.resources().length; ++subResNum) {
         var subRes = res.resources()[subResNum];
         processResource(subRes);
     }
 }
 
-// Enumerate all the resources
-for (var resNum = 0; resNum < api.resources().length; ++resNum) {
-    processResource(api.resources()[resNum]);
+// Process all the root resources
+var apiResources = apiNode.elementsOfKind("resources");
+for (var resNum = 0; resNum < apiResources.length; ++resNum) {
+    processResource(apiResources[resNum]);
 }
 ```
 
@@ -263,86 +258,9 @@ The output is following:
 ```
 /pets ( /pets )
 /pets/{id} ( /{id} )
-	URI Parameter: id string
 ```
 
-Here, we use recursion to traverse resources, and for each resource print its `completeRelativeUri`, `relativeUri`, and `allUriParameters`. The description of each method can be found in documentation of `Resource` type.
-
-Of course if we do not want to traverse the tree manually, we can find all kinds of useful helpers in documentation, like `allResources` method of `API`, which traverses the tree for you and finds all resources.
-
-Lets print all the methods in that way, but first lets check `methods` documentation:
-![GettingStarted_Methods](images/GettingStarted_Methods.png)
-
-Replace everything under
-```js
-var api = raml.loadApiSync(fName);
-```
-line with the following:
-
-```js
-api.allResources().forEach(function (resource) {
-
-    console.log(resource.absoluteUri())
-
-    resource.methods().forEach(function(method){
-        console.log("\t"+method.method())
-    })
-})
-```
-
-The output:
-```
-/shop/pets
-	get
-	post
-/shop/pets/{id}
-	put
-	delete
-```
-
-`method` method of `Method` class prints HTTP type of the method.
-
-We can also see the `responses` method in `Method` documentation:
-
-![GettingStarted_Responses](images/GettingStarted_Responses.png)
-
-Lets print the responses too:
-```js
-api.allResources().forEach(function (resource) {
-
-    console.log(resource.absoluteUri())
-
-    resource.methods().forEach(function(method){
-        console.log("\t"+method.method())
-
-        method.responses().forEach(function (response) {
-            console.log("\t\t" + response.code().value())
-        })
-    })
-})
-```
-
-The output is:
-```
-/shop/pets
-	get
-		200
-	post
-/shop/pets/{id}
-	put
-	delete
-		204
-```
-
-To be able to print that, we first used `code()` method of `Response`:
-
-![GettingStarted_Code](images/GettingStarted_Code.png)
-
-And then found `value()` method in `StatusCodeString` description:
-
-![GettingStarted_Code](images/GettingStarted_StatusCode.png)
-
-All in all, the AST tree reflects RAML structure, so starting from `loadApiSync` global method, then checking documentation for its return value, proceeding to its methods and doing that recursively allows reaching everything.
+Here, we use recursion to traverse resources, and for each resource print its complete relative URI and relative URI.
 
 ## Non Scalar Attributes
 
