@@ -70,6 +70,10 @@ title: Pet shop
 version: 1
 baseUri: /shop
 
+protocols:
+  - application/json
+  - application/xml
+
 types:
   Pet:
     properties:
@@ -143,55 +147,66 @@ The `IHighLevelNode.definition` method provides RAML type associated with the no
 * `element(name:string)` returns an element with particular name. Should be used for single value properties.
 * `elementsOfKind(name:string)` returns all elements with particular name. May be used for both single value and multivalue properties.
 
-The former four methods require property name as input. All RAML types properties are lested in the followiing tables: [RAML 1.0]() and [RAML 0.8]().
+The last four methods require property name as input. All RAML types properties are lested in the followiing tables: [RAML 1.0]() and [RAML 0.8]().
 
 
 
 ## Basics of parsing
 
-`api` variable stores the root of top level level AST. Operating with top level AST is described in the [Getting Started Guide](./GettingStarted.md). In order to obtain high level AST root the `BasicNode.highLevel` method is used.
-
-Let's check that the resulting `IHighLevelNode` instance does in fact represent Api. Each `IHighLevelNode` instance provides RAML type
-representation
-
-Open `documentation` folder in the root of the cloned repository and open index.html file in web browser.
-
-`loadApiSync` function we just used to parse RAML is described there:
-
-![GettingStarted_loadAPI](images/GettingStarted_loadAPISync.png)
-
-As it is a global function of parser module, we are calling it like that:
-`raml.loadApiSync(fName)`, and is it returns `Api`.
-
-Documentation displays, that `loadApiSync` returns `Api` object, so click it and see the details:
-
-![GettingStarted_ApiMethods](images/GettingStarted_ApiMethods.png)
-
-Lets check `resources()` method first:
-
-![GettingStarted_ResourcesMethod](images/GettingStarted_ResourcesMethod.png)
-
-We see that it returns an array of resources, and each resource contains some methods in turn:
-
-![GettingStarted_Resource](images/GettingStarted_Resource.png)
-
-Lets try checking resources and printing them in a simple way. Remove `console.log(JSON.stringify(api.toJSON(), null, 2));` line from `getting_started.js` code and add the following:
+The `apiNode` variable is an `IHighLevelNode` instance which represents root of high level level AST. Let's check that it is in fact an `Api`. Calling
 
 ```js
-var apiResources = api.resources();
-apiResources.forEach(function (resource) {
-    console.log(resource.kind() + " : " + resource.absoluteUri());
+console.log("Node type: " + apiNode.definition().nameId());
+```
+produces the following output:
+```
+Node type: Api
+```
+
+All available `Api` properties are listed [here](). Lets first retrieve api title.
+
+```js
+var titleAttr = apiNode.attr("title");
+var titleValue = titleValue.plainValue();
+console.log("Title: " + titleValue);
+```
+
+output:
+
+```
+Title: Pet shop
+```
+
+Lets now list all default protocols:
+
+```js
+var protocolsAttrs = apiNode.attrs("protocols");
+console.log("Default protocols:")
+protocols.forEach(function(x,i){
+  console.log("" + (i+1) + ". " + x.plainValue());
+});
+```
+
+Output:
+```
+Default protocols:
+1. application/json
+2. application/xml
+```
+
+Lets now obtain all root resources of the api and print their URIs.
+
+```js
+var apiResources = apiNode.elementsOfKind("resources");
+apiResources.forEach(function (resource,i) {
+    console.log("" + (i+1) + ". " + resource.attrr("relativeUri").value());
 });
 ```
 
 The output is:
 ```
-Resource : /shop/pets
+1. /shop/pets
 ```
-
-Here, the `getKind()` method, which most of AST nodes have, will name what you have at hands, and `absoluteUri()` can be found in `Resource` documentation.
-
-But why only `/shop/pets` is listed, and `/shop/pets/{id}` is not? Because AST is hierarchical, so `API` only has `/shop/pets` as a direct child, and `/shop/pets/{id}` is a child of `/shop/pets`.
 
 Lets see if we can modify our code to print the whole resource tree:
 
