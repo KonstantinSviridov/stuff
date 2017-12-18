@@ -32,8 +32,14 @@
 * Parameter name of ${securityScheme}
 
 * ${DataType} instance property name
+
 * Value of ${DataType}.${property}
   * example
   * enum
   * defaultValue
   * Annotation type reference
+
+* RAML header
+
+* Comment
+
