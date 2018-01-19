@@ -1,0 +1,46 @@
+#%RAML 1.0
+title: HA Mobile Flights Process API
+version: v1
+baseUri: https://mocksvc.mulesoft.com/mocks/6da1e8a8-0c32-41ce-b1d9-1e1b488d9be0/dev # baseUri: https://mocksvc.mulesoft.com/mocks/82bf5bf0-b7ea-43e0-bedd-34fde76025e9/dev
+documentation:
+  - !include docs/intro.raml
+securitySchemes:
+  passthrough: !include modules/7abbfaeb-3816-4907-865e-76d7cb24120f/ss-passthrough/1.0.0/ss-passthrough.raml
+uses: 
+  dt: dataTypes/dt-lib.raml
+  rt: resourceTypes/rt-lib.raml
+
+/flights:
+  type:
+    rt.collection:
+      dataType200: dt.FlightsResponse
+  get: 
+    queryParameters:
+      start-date:
+        required: true
+        displayName: start-date
+        description: The starting departure date from which to search flights in yyyyMMdd date format, e.g. "20171023".
+        type: string
+      flight-number:
+        required: false
+        displayName: flight-number
+        description: The flight number of the flight to search for with or without the airline code prefix; by default the airline code prefix is assumed to be "HA".
+        type: string
+      origin:
+        required: false
+        displayName: origin
+        description: The IATA airport code for the origin city of  the flight to search for; case-insensitive.
+        type: string
+      destination:
+        required: false
+        displayName: destination
+        description: The IATA airport code for the destination city of the flight to search for; case-insensitive.
+        type: string
+      include:
+        required: false
+        displayName: include
+        description: A comma-separated list of keywords that identify which children resources to include in the response; currently “status”, “seat-availability”, “standby” and “upgrade” are supported; an empty list by default.
+        type: array
+        items:
+          type: string
+      confirmation-code: dt.ConfirmationCode

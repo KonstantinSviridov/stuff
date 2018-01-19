@@ -1,0 +1,68 @@
+#%RAML 1.0 DataType
+displayName: HA.Flights.SeatAvailability
+description: This resource represents the current seat map for a flight, providing information about the availability, type, and pricing of seat upgrades on the flight.
+type: object
+properties:
+  id:
+    required: true
+    displayName: id
+    description: An identifier for the given resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the given resource
+    type: string
+  flightId:
+    required: true
+    displayName: flightId
+    description: An identifier for the given flight.
+    type: string
+  version:
+    required: true
+    displayName: version
+    description: An opaque tag that indicates the current version of the list resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the version of the resource. Will be the same value as the HTTP ETag header if a given response is for a single resource and can be supplied by the client in the HTTP If-None-Match header for conditional requests as described in the HA Mobile API – Standards document.
+    type: string
+  sections:
+    required: false
+    displayName: sections
+    description: A list of seat sections that provide information about capacity, booked, checked-in and available seats in the seat section.
+    type: array
+    items:
+      displayName: HA.Flights.SeatAvailabilitySection
+      type: object
+      properties:
+        cabinType:
+          required: false
+          displayName: cabinType
+          description: A string that indicates the cabin type of the seat section; currently either FirstClass, BusinessClass or Coach. Should be considered case insensitive; is not user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.
+          type: string
+          enum:
+          - FirstClass
+          - BusinessClass or Coach
+        totalSeatCount:
+          required: false
+          displayName: totalSeatCount
+          description: The total number of seats on the plane in the given seat section, that is, the capacity of seat on the plane for the given seat section
+          type: number
+          format: double
+        bookedSeatCount:
+          required: false
+          displayName: bookedSeatCount
+          description: The total number of seats on the plane in the given seat section that have been booked. While one might assume that the number of booked seats (bookedSeatCount) plus the number of available seats should equal the total seat count (totalSeatCount), this is not the case, for a number of reasons. For example, a flight can be overbooked. Also, a passenger may have booked a seat but not yet have chosen a seat, such that no entry in the availableSeats property is listed.
+          type: number
+          format: double
+        checkedInSeatCount:
+          required: false
+          displayName: checkedInSeatCount
+          description: The total number of seats on the plane in the given seat section for which the passenger has already checked in. May or may not be supported based on the feasibility of reasonably calculating this value in an accurate way.
+          type: number
+          format: double
+        seatUpgradeType:
+          required: false
+          displayName: seatUpgradeType
+          description: A string that indicates the type of upgraded seat in the section of seats, if the seat section is for a upgraded seats and the upgrade price applies; currently either ExtraComfort or PreferredSeat. Will not be present if the seat section is not for upgraded seats. Should be considered case insensitive; is not user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.
+          type: string
+          enum:
+          - ExtraComfort
+          - PreferredSeat
+        availableSeats:
+          required: false
+          displayName: availableSeats
+          description: A comma-separated list of available seats or ranges of seats in the seat section. Will include all available seats. May be an empty string if no seats in the section are available. Should be considered case insensitive. A given seat is identified by a row number and column letter. A range of seats is given by two seats separated by a hyphen, indicating that all seats within that range (inclusive) are available.
+          type: string      

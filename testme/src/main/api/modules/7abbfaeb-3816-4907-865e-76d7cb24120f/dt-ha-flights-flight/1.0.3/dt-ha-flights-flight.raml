@@ -1,0 +1,111 @@
+#%RAML 1.0 DataType
+displayName: HA.Flights.Flight
+type: object
+properties:
+  id:
+    required: false
+    displayName: id
+    description: An identifier for the given flight. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the given resource
+    type: string
+  version:
+    required: false
+    displayName: version
+    description: An opaque tag that indicates the current version of the flight resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the version of the resource. Will be the same value as the HTTP ETag header if a given response is for a single resource and can be supplied by the client in the HTTP If-None-Match header for conditional requests as described in the HA Mobile API – Standards document.
+    type: string
+  flightNumber:
+    required: false
+    displayName: flightNumber
+    description: The flight number.
+    type: string
+  airlineCode:
+    required: false
+    displayName: airlineCode
+    description: The two letter airline code, e.g. "HA", "AA". Should be considered case  insensitive.
+    type: string
+  airlineName:
+    required: false
+    displayName: airlineName
+    description: The airline code name, e.g. "Hawaiian Airlines", "American Airlines".  Should be considered case insensitive.
+    type: string
+  flightType:
+    required: false
+    displayName: flightType
+    description: One of two values that indicates the type of flight. Those values  include, "Normal" or "Recovery". Should be considered case insensitive;  is not user-interface appropriate text and should be mapped to an  appropriate language/region-specific text value via the HA Mobile  Content API.
+    type: string
+    enum:
+    - Normal
+    - Recovery
+  aircraftType:
+    required: false
+    displayName: aircraftType
+    description: The type of aircraft for the given flight. Will be in English but should be considered user-interface appropriate and will not be translated into other languages.
+    type: string
+  origin:
+    required: false
+    displayName: origin
+    description: The IATA three letter code for the origin airport . Should be considered case insensitive. Should not be considered user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.
+    type: string
+  scheduledDestination:
+    required: false
+    displayName: scheduledDestination
+    description: The IATA three letter code for the scheduled destination airport. Should be considered case insensitive. Should not be considered user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.
+    type: string
+  scheduledDeparture:
+    required: false
+    displayName: scheduledDeparture
+    description: The ISO 8601 UTC date and time of the scheduled departure of the flight from the origin city. Will be in ISO 8601 UTC date time format with time zone offset.
+    type: string
+  scheduledArrival:
+    required: false
+    displayName: scheduledArrival
+    description: The ISO 8601 UTC date and time of the scheduled arrival of the flight in the scheduled destination city. Will be in ISO 8601 UTC date time format with time zone offset.
+    type: string
+  scheduledBoardingTime:
+    required: false
+    displayName: scheduledBoardingTime
+    description: The ISO 8601 UTC date and time of the scheduled boarding time of the  flight in the scheduled origin city. Will be in ISO 8601 UTC date time  format with time zone offset.
+    type: string
+  seatMapCode:
+    required: false
+    displayName: seatMapCode
+    description: The code for the seat map, also known as AirportCode in SiteCore.  Should be considered case insensitive; is not user-interface appropriate  text and should be mapped to an appropriate language/region-specific  text value via the HA Mobile Content API.
+    type: string
+  checkInStatus:
+    required: false
+    displayName: checkInStatus
+    description: One of three values that indicates the check-in status of the flight. Those values include, "Upcoming", "Open", "Closed". Should be considered case insensitive; is not user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.
+    type: string
+  marketedBy:
+    required: false
+    displayName: marketedBy
+    description: The airline that markets the flight. Should be considered case  insensitive; is no user-interface appropriate text and should be used with in the appropriate language/region-specific "marketed-by" text value via the  HA Mobile Content API. For example, marketedBy=HA look up in Content API to return the value "Hawaiian Airlines" in the specified language.
+    type: string
+  operatedBy:
+    required: false
+    displayName: operatedBy
+    description: The airline that operates the flight. Should be considered case  insensitive; is not user-interface appropriate text and should be used with the appropriate language/region-specific "operated-by" collection via the  HA Mobile Content API. For example, operatedBy=EM look up in Content API to return the value "Operated by Empire Airlines DBA Ohana by Hawaiian",  operatedBy=B6 look up in Content API to return the value "Operated by JetBlue" in the specified language.
+    type: string
+  status:
+    required: false
+    displayName: status
+    description: The status resource for the flight, which includes estimated/actual arrival and departure times, gate information, etc. The status resource is only included in a response if the client sends the include query string parameter with a comma-separated list of values that contains the keyword "status"
+    type: array
+    items: !include ../../dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml
+  seatAvailability:
+    required: false
+    displayName: seatAvailability
+    description: The seat map resource for the flight, which includes seat availability and pricing. The seat map resource is only included in a response if the client sends the include query string parameter with a comma-separated list of values that contains the keyword “seatAvailability”
+    type: array
+    items: !include ../../dt-ha-flights-seat-availability/1.0.0/dt-ha-flights-seat-availability.raml
+  standbyList:
+    required: false
+    displayName: standbyList
+    description: A list of entries in priority order for passengers on the standby list. The standby list resource is only included in a response if the client sends the include query string parameter with a comma-separated list of values that contains the keyword “standby”.
+    type: array
+    items: !include ../../dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml
+  upgradeList:
+    required: false
+    displayName: upgradeList
+    description: A list of entries in priority order for passengers on the standby list. The standby list resource is only included in a response if the client sends the include query string parameter with a comma-separated list of values that contains the keyword “standby”.
+    type: array
+    items: !include ../../dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml

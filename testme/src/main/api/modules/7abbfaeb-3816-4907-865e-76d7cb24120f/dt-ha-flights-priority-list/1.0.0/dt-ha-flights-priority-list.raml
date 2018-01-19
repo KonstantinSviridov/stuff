@@ -1,0 +1,45 @@
+#%RAML 1.0 DataType
+displayName: HA.Flights.PriorityList
+description: This resource represents a list of entries for passengers on either the standby or upgrade lists of a flight. The list is ordered by the passenger’s priority for receiving either a standby or upgrade seat.
+type: object
+properties:
+  id:
+    required: true
+    displayName: id
+    description: An identifier for the given resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the given resource
+    type: string
+  flightId:
+    required: true
+    displayName: flightId
+    description: An identifier for the given flight.
+    type: string
+  version:
+    required: true
+    displayName: version
+    description: An opaque tag that indicates the current version of the list resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the version of the resource. Will be the same value as the HTTP ETag header if a given response is for a single resource and can be supplied by the client in the HTTP If-None-Match header for conditional requests as described in the HA Mobile API – Standards document.
+    type: string
+  entities:
+    required: false
+    displayName: entities
+    description: The list of entries for the passengers on the given list (standby or upgrade). May be an empty array if there are no passengers on the given list. The list is for ordered items—ordered by priority of the passengers to receive either a standby or upgrade seat—and clients can assume the array has already been sorted.
+    type: array
+    items:
+      displayName: HA.Flights.SeatPriorityEntry
+      type: object
+      properties:
+        priority:
+          required: false
+          displayName: priority
+          description: The priority of the passenger in the standby or upgrade list. Will be 0 index based.
+          type: number
+          format: double
+        passengerName:
+          required: false
+          displayName: passengerName
+          description: A masked passenger name with the first three letters of the passenger’s last name and the first letter of the passenger’s first name. Is user-interface appropriate text.
+          type: string
+        currentSeat:
+          required: false
+          displayName: currentSeat
+          description: The current seat that the passenger is assigned to if the passenger has been assigned a seat. Should be considered case insensitive. A given seat is identified by a row number and column letter. If a passenger is not currently assigned a seat, will not be provided.
+          type: string

@@ -1,0 +1,30 @@
+#%RAML 1.0 Library
+usage: Module level access to necessary dataTypes
+types:
+  FlightsResponse:
+    displayName: Flights Response
+    description: The response for the GET /flights endpoint.
+    type: object
+    properties:
+      results:
+        required: false
+        displayName: results
+        description: The flights for the given querystring parameters
+        type: array
+        items: !include ../modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml
+  FlightsStatusResponse:
+    displayName: Flights Status Response
+    description: The response for the GET /flights/{flightId}/status endpoint.
+    type: object
+    properties:
+      results:
+        required: false
+        displayName: results
+        description: The status of the flight for the given flightId path parameter
+        type: string
+  ErrorObjectReturnedWith4xxAnd5xxHttpStatus: !include ../modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-error-object/1.0.0/dt-ha-error-object.raml
+  ConfirmationCode:
+    required: false
+    displayName: confirmation-code
+    description: The six letter confirmation code (PNR) of the trip; optional, but either “confirmation-code” or “eticket-number” is required in “guest mode” as discussed above.
+    type: string

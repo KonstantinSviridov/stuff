@@ -1,0 +1,13 @@
+#%RAML 1.0 SecurityScheme
+description: This API supports Pass Through Authentication.
+type: Pass Through
+describedBy:
+  headers:
+    client_id:
+      required: true
+      displayName: Client ID
+      type: string
+    client_secret:
+      required: true
+      displayName: Client Secret
+      type: string

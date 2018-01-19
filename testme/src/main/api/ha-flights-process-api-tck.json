@@ -1,0 +1,1812 @@
+{
+  "ramlVersion": "RAML10",
+  "type": "Api",
+  "specification": {
+    "types": [
+      {
+        "dt.FlightsResponse": {
+          "name": "FlightsResponse",
+          "displayName": "Flights Response",
+          "typePropertyKind": "TYPE_EXPRESSION",
+          "type": [
+            "object"
+          ],
+          "description": "The response for the GET /flights endpoint.",
+          "properties": {
+            "results": {
+              "name": "results",
+              "displayName": "results",
+              "typePropertyKind": "TYPE_EXPRESSION",
+              "type": [
+                "array"
+              ],
+              "required": false,
+              "description": "The flights for the given querystring parameters",
+              "items": {
+                "name": "items",
+                "displayName": "HA.Flights.Flight",
+                "typePropertyKind": "TYPE_EXPRESSION",
+                "type": [
+                  "object"
+                ],
+                "properties": {
+                  "id": {
+                    "name": "id",
+                    "displayName": "id",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "An identifier for the given flight. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the given resource",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "version": {
+                    "name": "version",
+                    "displayName": "version",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "An opaque tag that indicates the current version of the flight resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the version of the resource. Will be the same value as the HTTP ETag header if a given response is for a single resource and can be supplied by the client in the HTTP If-None-Match header for conditional requests as described in the HA Mobile API – Standards document.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "flightNumber": {
+                    "name": "flightNumber",
+                    "displayName": "flightNumber",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "The flight number.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "airlineCode": {
+                    "name": "airlineCode",
+                    "displayName": "airlineCode",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "The two letter airline code, e.g. \"HA\", \"AA\". Should be considered case  insensitive.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "airlineName": {
+                    "name": "airlineName",
+                    "displayName": "airlineName",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "The airline code name, e.g. \"Hawaiian Airlines\", \"American Airlines\".  Should be considered case insensitive.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "flightType": {
+                    "name": "flightType",
+                    "displayName": "flightType",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "One of two values that indicates the type of flight. Those values  include, \"Normal\" or \"Recovery\". Should be considered case insensitive;  is not user-interface appropriate text and should be mapped to an  appropriate language/region-specific text value via the HA Mobile  Content API.",
+                    "enum": [
+                      "Normal",
+                      "Recovery"
+                    ],
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "aircraftType": {
+                    "name": "aircraftType",
+                    "displayName": "aircraftType",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "The type of aircraft for the given flight. Will be in English but should be considered user-interface appropriate and will not be translated into other languages.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "origin": {
+                    "name": "origin",
+                    "displayName": "origin",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "The IATA three letter code for the origin airport . Should be considered case insensitive. Should not be considered user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "scheduledDestination": {
+                    "name": "scheduledDestination",
+                    "displayName": "scheduledDestination",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "The IATA three letter code for the scheduled destination airport. Should be considered case insensitive. Should not be considered user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "scheduledDeparture": {
+                    "name": "scheduledDeparture",
+                    "displayName": "scheduledDeparture",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "The ISO 8601 UTC date and time of the scheduled departure of the flight from the origin city. Will be in ISO 8601 UTC date time format with time zone offset.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "scheduledArrival": {
+                    "name": "scheduledArrival",
+                    "displayName": "scheduledArrival",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "The ISO 8601 UTC date and time of the scheduled arrival of the flight in the scheduled destination city. Will be in ISO 8601 UTC date time format with time zone offset.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "scheduledBoardingTime": {
+                    "name": "scheduledBoardingTime",
+                    "displayName": "scheduledBoardingTime",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "The ISO 8601 UTC date and time of the scheduled boarding time of the  flight in the scheduled origin city. Will be in ISO 8601 UTC date time  format with time zone offset.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "seatMapCode": {
+                    "name": "seatMapCode",
+                    "displayName": "seatMapCode",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "The code for the seat map, also known as AirportCode in SiteCore.  Should be considered case insensitive; is not user-interface appropriate  text and should be mapped to an appropriate language/region-specific  text value via the HA Mobile Content API.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "checkInStatus": {
+                    "name": "checkInStatus",
+                    "displayName": "checkInStatus",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "One of three values that indicates the check-in status of the flight. Those values include, \"Upcoming\", \"Open\", \"Closed\". Should be considered case insensitive; is not user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "marketedBy": {
+                    "name": "marketedBy",
+                    "displayName": "marketedBy",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "The airline that markets the flight. Should be considered case  insensitive; is no user-interface appropriate text and should be used with in the appropriate language/region-specific \"marketed-by\" text value via the  HA Mobile Content API. For example, marketedBy=HA look up in Content API to return the value \"Hawaiian Airlines\" in the specified language.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "operatedBy": {
+                    "name": "operatedBy",
+                    "displayName": "operatedBy",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "The airline that operates the flight. Should be considered case  insensitive; is not user-interface appropriate text and should be used with the appropriate language/region-specific \"operated-by\" collection via the  HA Mobile Content API. For example, operatedBy=EM look up in Content API to return the value \"Operated by Empire Airlines DBA Ohana by Hawaiian\",  operatedBy=B6 look up in Content API to return the value \"Operated by JetBlue\" in the specified language.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "status": {
+                    "name": "status",
+                    "displayName": "status",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "array"
+                    ],
+                    "required": false,
+                    "description": "The status resource for the flight, which includes estimated/actual arrival and departure times, gate information, etc. The status resource is only included in a response if the client sends the include query string parameter with a comma-separated list of values that contains the keyword \"status\"",
+                    "items": {
+                      "name": "items",
+                      "displayName": "HA.Flights.Status",
+                      "typePropertyKind": "TYPE_EXPRESSION",
+                      "type": [
+                        "object"
+                      ],
+                      "description": "This resource represents a list of one or more flights for a particular trip.",
+                      "properties": {
+                        "id": {
+                          "name": "id",
+                          "displayName": "id",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": true,
+                          "description": "An identifier for the given resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the given resource",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "flightId": {
+                          "name": "flightId",
+                          "displayName": "flightId",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": true,
+                          "description": "An identifier for the given flight.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "version": {
+                          "name": "version",
+                          "displayName": "version",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": true,
+                          "description": "An opaque tag that indicates the current version of the list resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the version of the resource. Will be the same value as the HTTP ETag header if a given response is for a single resource and can be supplied by the client in the HTTP If-None-Match header for conditional requests as described in the HA Mobile API – Standards document.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "originGate": {
+                          "name": "originGate",
+                          "displayName": "originGate",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": false,
+                          "description": "The gate information for the flight in the origin city. May always be in English but should be considered user-interface appropriate and will not be translated into other languages.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "originTerminal": {
+                          "name": "originTerminal",
+                          "displayName": "originTerminal",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": false,
+                          "description": "The terminal information for the flight in the origin city. May always be in English but should be considered user-interface appropriate and will not be translated into other languages.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "destination": {
+                          "name": "destination",
+                          "displayName": "destination",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": false,
+                          "description": "The IATA three letter code for the estimated or actual destination airport. Will be the same value as the ScheduledDestination property of the HA.Flights.Flight resources unless the plane was rerouted to a new destination. Should be considered case insensitive. Should not be considered user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "destinationGate": {
+                          "name": "destinationGate",
+                          "displayName": "destinationGate",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": false,
+                          "description": "The gate information for the flight in the destination city. May always be in English but should be considered user-interface appropriate and will not be translated into other languages.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "destinationTerminal": {
+                          "name": "destinationTerminal",
+                          "displayName": "destinationTerminal",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": false,
+                          "description": "The terminal information for the flight in the destination city. May always be in English but should be considered user-interface appropriate and will not be translated into other languages.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "departure": {
+                          "name": "departure",
+                          "displayName": "departure",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": false,
+                          "description": "The ISO 8601 UTC date and time of the estimated departure time of the flight from the origin city. Will be in ISO 8601 UTC date time format with time zone offset.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "arrival": {
+                          "name": "arrival",
+                          "displayName": "arrival",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": false,
+                          "description": "The ISO 8601 UTC date and time of the estimated or actual arrival of the flight in the scheduled destination city. Will be in ISO 8601 UTC date time format with time zone offset.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "flightStatus": {
+                          "name": "flightStatus",
+                          "displayName": "flightStatus",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": false,
+                          "description": "One of five values that indicates the status of the flight. Those values include Scheduled, Departed, InAir, Landed, Arrived, Delayed,  Cancelled, Unknown. Should be considered case insensitive;  is not user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.",
+                          "enum": [
+                            "Scheduled",
+                            "Departed",
+                            "InAir",
+                            "Landed",
+                            "Arrived",
+                            "Delayed",
+                            "Cancelled",
+                            "Unknown"
+                          ],
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "flightSubStatus": {
+                          "name": "flightSubStatus",
+                          "displayName": "flightSubStatus",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": false,
+                          "description": "One of five values that indicates the status of the flight. Those values include OnTime, LateDeparture, LateArrival, EarlyArrival,  Diverted. Should be considered case insensitive; is not user-interface  appropriate text and should be mapped to an appropriate  language/region-specific text value via the HA Mobile Content API.",
+                          "enum": [
+                            "OnTime",
+                            "LateDeparture",
+                            "LateArrival",
+                            "EarlyArrival",
+                            "Diverted"
+                          ],
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "baggageClaim": {
+                          "name": "baggageClaim",
+                          "displayName": "baggageClaim",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": false,
+                          "description": "The baggage claim information for the flight in the actual destination city. May always be in English but should be considered user-interface appropriate and will not be translated into other languages.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "boardingStatus": {
+                          "name": "boardingStatus",
+                          "displayName": "boardingStatus",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": false,
+                          "description": "The current boarding status of the flight can be one of several values (e.g. NotBoarding, Boarding, Boarded). If not provided, should be understood that boarding status is unknown. Should be considered case insensitive; is not user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.",
+                          "enum": [
+                            "NotBoarding",
+                            "Boarding",
+                            "Boarded"
+                          ],
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "boardingStartTime": {
+                          "name": "boardingStartTime",
+                          "displayName": "boardingStartTime",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": false,
+                          "description": "The ISO 8601 UTC date and time of the scheduled boarding time of the flight in the scheduled origin city. Will be in ISO 8601 UTC date time format with time zone offset.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        },
+                        "boardingEndTime": {
+                          "name": "boardingEndTime",
+                          "displayName": "boardingEndTime",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": false,
+                          "description": "The ISO 8601 UTC date and time of the scheduled boarding end time of the flight in the scheduled origin city. Will be in ISO 8601 UTC date time format with time zone offset.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                          }
+                        }
+                      },
+                      "__METADATA__": {
+                        "primitiveValuesMeta": {}
+                      },
+                      "sourceMap": {
+                        "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-status/1.0.0/dt-ha-flights-status.raml"
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "seatAvailability": {
+                    "name": "seatAvailability",
+                    "displayName": "seatAvailability",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "array"
+                    ],
+                    "required": false,
+                    "description": "The seat map resource for the flight, which includes seat availability and pricing. The seat map resource is only included in a response if the client sends the include query string parameter with a comma-separated list of values that contains the keyword “seatAvailability”",
+                    "items": {
+                      "name": "items",
+                      "displayName": "HA.Flights.SeatAvailability",
+                      "typePropertyKind": "TYPE_EXPRESSION",
+                      "type": [
+                        "object"
+                      ],
+                      "description": "This resource represents the current seat map for a flight, providing information about the availability, type, and pricing of seat upgrades on the flight.",
+                      "properties": {
+                        "id": {
+                          "name": "id",
+                          "displayName": "id",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": true,
+                          "description": "An identifier for the given resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the given resource",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-seat-availability/1.0.0/dt-ha-flights-seat-availability.raml"
+                          }
+                        },
+                        "flightId": {
+                          "name": "flightId",
+                          "displayName": "flightId",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": true,
+                          "description": "An identifier for the given flight.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-seat-availability/1.0.0/dt-ha-flights-seat-availability.raml"
+                          }
+                        },
+                        "version": {
+                          "name": "version",
+                          "displayName": "version",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": true,
+                          "description": "An opaque tag that indicates the current version of the list resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the version of the resource. Will be the same value as the HTTP ETag header if a given response is for a single resource and can be supplied by the client in the HTTP If-None-Match header for conditional requests as described in the HA Mobile API – Standards document.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-seat-availability/1.0.0/dt-ha-flights-seat-availability.raml"
+                          }
+                        },
+                        "sections": {
+                          "name": "sections",
+                          "displayName": "sections",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "array"
+                          ],
+                          "required": false,
+                          "description": "A list of seat sections that provide information about capacity, booked, checked-in and available seats in the seat section.",
+                          "items": {
+                            "name": "items",
+                            "displayName": "HA.Flights.SeatAvailabilitySection",
+                            "typePropertyKind": "TYPE_EXPRESSION",
+                            "type": [
+                              "object"
+                            ],
+                            "properties": {
+                              "cabinType": {
+                                "name": "cabinType",
+                                "displayName": "cabinType",
+                                "typePropertyKind": "TYPE_EXPRESSION",
+                                "type": [
+                                  "string"
+                                ],
+                                "required": false,
+                                "description": "A string that indicates the cabin type of the seat section; currently either FirstClass, BusinessClass or Coach. Should be considered case insensitive; is not user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.",
+                                "enum": [
+                                  "FirstClass",
+                                  "BusinessClass or Coach"
+                                ],
+                                "sourceMap": {
+                                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-seat-availability/1.0.0/dt-ha-flights-seat-availability.raml"
+                                }
+                              },
+                              "totalSeatCount": {
+                                "name": "totalSeatCount",
+                                "displayName": "totalSeatCount",
+                                "typePropertyKind": "TYPE_EXPRESSION",
+                                "type": [
+                                  "number"
+                                ],
+                                "required": false,
+                                "description": "The total number of seats on the plane in the given seat section, that is, the capacity of seat on the plane for the given seat section",
+                                "format": "double",
+                                "sourceMap": {
+                                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-seat-availability/1.0.0/dt-ha-flights-seat-availability.raml"
+                                }
+                              },
+                              "bookedSeatCount": {
+                                "name": "bookedSeatCount",
+                                "displayName": "bookedSeatCount",
+                                "typePropertyKind": "TYPE_EXPRESSION",
+                                "type": [
+                                  "number"
+                                ],
+                                "required": false,
+                                "description": "The total number of seats on the plane in the given seat section that have been booked. While one might assume that the number of booked seats (bookedSeatCount) plus the number of available seats should equal the total seat count (totalSeatCount), this is not the case, for a number of reasons. For example, a flight can be overbooked. Also, a passenger may have booked a seat but not yet have chosen a seat, such that no entry in the availableSeats property is listed.",
+                                "format": "double",
+                                "sourceMap": {
+                                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-seat-availability/1.0.0/dt-ha-flights-seat-availability.raml"
+                                }
+                              },
+                              "checkedInSeatCount": {
+                                "name": "checkedInSeatCount",
+                                "displayName": "checkedInSeatCount",
+                                "typePropertyKind": "TYPE_EXPRESSION",
+                                "type": [
+                                  "number"
+                                ],
+                                "required": false,
+                                "description": "The total number of seats on the plane in the given seat section for which the passenger has already checked in. May or may not be supported based on the feasibility of reasonably calculating this value in an accurate way.",
+                                "format": "double",
+                                "sourceMap": {
+                                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-seat-availability/1.0.0/dt-ha-flights-seat-availability.raml"
+                                }
+                              },
+                              "seatUpgradeType": {
+                                "name": "seatUpgradeType",
+                                "displayName": "seatUpgradeType",
+                                "typePropertyKind": "TYPE_EXPRESSION",
+                                "type": [
+                                  "string"
+                                ],
+                                "required": false,
+                                "description": "A string that indicates the type of upgraded seat in the section of seats, if the seat section is for a upgraded seats and the upgrade price applies; currently either ExtraComfort or PreferredSeat. Will not be present if the seat section is not for upgraded seats. Should be considered case insensitive; is not user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.",
+                                "enum": [
+                                  "ExtraComfort",
+                                  "PreferredSeat"
+                                ],
+                                "sourceMap": {
+                                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-seat-availability/1.0.0/dt-ha-flights-seat-availability.raml"
+                                }
+                              },
+                              "availableSeats": {
+                                "name": "availableSeats",
+                                "displayName": "availableSeats",
+                                "typePropertyKind": "TYPE_EXPRESSION",
+                                "type": [
+                                  "string"
+                                ],
+                                "required": false,
+                                "description": "A comma-separated list of available seats or ranges of seats in the seat section. Will include all available seats. May be an empty string if no seats in the section are available. Should be considered case insensitive. A given seat is identified by a row number and column letter. A range of seats is given by two seats separated by a hyphen, indicating that all seats within that range (inclusive) are available.",
+                                "sourceMap": {
+                                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-seat-availability/1.0.0/dt-ha-flights-seat-availability.raml"
+                                }
+                              }
+                            },
+                            "__METADATA__": {
+                              "primitiveValuesMeta": {}
+                            },
+                            "sourceMap": {
+                              "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-seat-availability/1.0.0/dt-ha-flights-seat-availability.raml"
+                            }
+                          },
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-seat-availability/1.0.0/dt-ha-flights-seat-availability.raml"
+                          }
+                        }
+                      },
+                      "__METADATA__": {
+                        "primitiveValuesMeta": {}
+                      },
+                      "sourceMap": {
+                        "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-seat-availability/1.0.0/dt-ha-flights-seat-availability.raml"
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "standbyList": {
+                    "name": "standbyList",
+                    "displayName": "standbyList",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "array"
+                    ],
+                    "required": false,
+                    "description": "A list of entries in priority order for passengers on the standby list. The standby list resource is only included in a response if the client sends the include query string parameter with a comma-separated list of values that contains the keyword “standby”.",
+                    "items": {
+                      "name": "items",
+                      "displayName": "HA.Flights.PriorityList",
+                      "typePropertyKind": "TYPE_EXPRESSION",
+                      "type": [
+                        "object"
+                      ],
+                      "description": "This resource represents a list of entries for passengers on either the standby or upgrade lists of a flight. The list is ordered by the passenger’s priority for receiving either a standby or upgrade seat.",
+                      "properties": {
+                        "id": {
+                          "name": "id",
+                          "displayName": "id",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": true,
+                          "description": "An identifier for the given resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the given resource",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                          }
+                        },
+                        "flightId": {
+                          "name": "flightId",
+                          "displayName": "flightId",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": true,
+                          "description": "An identifier for the given flight.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                          }
+                        },
+                        "version": {
+                          "name": "version",
+                          "displayName": "version",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": true,
+                          "description": "An opaque tag that indicates the current version of the list resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the version of the resource. Will be the same value as the HTTP ETag header if a given response is for a single resource and can be supplied by the client in the HTTP If-None-Match header for conditional requests as described in the HA Mobile API – Standards document.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                          }
+                        },
+                        "entities": {
+                          "name": "entities",
+                          "displayName": "entities",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "array"
+                          ],
+                          "required": false,
+                          "description": "The list of entries for the passengers on the given list (standby or upgrade). May be an empty array if there are no passengers on the given list. The list is for ordered items—ordered by priority of the passengers to receive either a standby or upgrade seat—and clients can assume the array has already been sorted.",
+                          "items": {
+                            "name": "items",
+                            "displayName": "HA.Flights.SeatPriorityEntry",
+                            "typePropertyKind": "TYPE_EXPRESSION",
+                            "type": [
+                              "object"
+                            ],
+                            "properties": {
+                              "priority": {
+                                "name": "priority",
+                                "displayName": "priority",
+                                "typePropertyKind": "TYPE_EXPRESSION",
+                                "type": [
+                                  "number"
+                                ],
+                                "required": false,
+                                "description": "The priority of the passenger in the standby or upgrade list. Will be 0 index based.",
+                                "format": "double",
+                                "sourceMap": {
+                                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                                }
+                              },
+                              "passengerName": {
+                                "name": "passengerName",
+                                "displayName": "passengerName",
+                                "typePropertyKind": "TYPE_EXPRESSION",
+                                "type": [
+                                  "string"
+                                ],
+                                "required": false,
+                                "description": "A masked passenger name with the first three letters of the passenger’s last name and the first letter of the passenger’s first name. Is user-interface appropriate text.",
+                                "sourceMap": {
+                                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                                }
+                              },
+                              "currentSeat": {
+                                "name": "currentSeat",
+                                "displayName": "currentSeat",
+                                "typePropertyKind": "TYPE_EXPRESSION",
+                                "type": [
+                                  "string"
+                                ],
+                                "required": false,
+                                "description": "The current seat that the passenger is assigned to if the passenger has been assigned a seat. Should be considered case insensitive. A given seat is identified by a row number and column letter. If a passenger is not currently assigned a seat, will not be provided.",
+                                "sourceMap": {
+                                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                                }
+                              }
+                            },
+                            "__METADATA__": {
+                              "primitiveValuesMeta": {}
+                            },
+                            "sourceMap": {
+                              "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                            }
+                          },
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                          }
+                        }
+                      },
+                      "__METADATA__": {
+                        "primitiveValuesMeta": {}
+                      },
+                      "sourceMap": {
+                        "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  },
+                  "upgradeList": {
+                    "name": "upgradeList",
+                    "displayName": "upgradeList",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "array"
+                    ],
+                    "required": false,
+                    "description": "A list of entries in priority order for passengers on the standby list. The standby list resource is only included in a response if the client sends the include query string parameter with a comma-separated list of values that contains the keyword “standby”.",
+                    "items": {
+                      "name": "items",
+                      "displayName": "HA.Flights.PriorityList",
+                      "typePropertyKind": "TYPE_EXPRESSION",
+                      "type": [
+                        "object"
+                      ],
+                      "description": "This resource represents a list of entries for passengers on either the standby or upgrade lists of a flight. The list is ordered by the passenger’s priority for receiving either a standby or upgrade seat.",
+                      "properties": {
+                        "id": {
+                          "name": "id",
+                          "displayName": "id",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": true,
+                          "description": "An identifier for the given resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the given resource",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                          }
+                        },
+                        "flightId": {
+                          "name": "flightId",
+                          "displayName": "flightId",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": true,
+                          "description": "An identifier for the given flight.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                          }
+                        },
+                        "version": {
+                          "name": "version",
+                          "displayName": "version",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "string"
+                          ],
+                          "required": true,
+                          "description": "An opaque tag that indicates the current version of the list resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the version of the resource. Will be the same value as the HTTP ETag header if a given response is for a single resource and can be supplied by the client in the HTTP If-None-Match header for conditional requests as described in the HA Mobile API – Standards document.",
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                          }
+                        },
+                        "entities": {
+                          "name": "entities",
+                          "displayName": "entities",
+                          "typePropertyKind": "TYPE_EXPRESSION",
+                          "type": [
+                            "array"
+                          ],
+                          "required": false,
+                          "description": "The list of entries for the passengers on the given list (standby or upgrade). May be an empty array if there are no passengers on the given list. The list is for ordered items—ordered by priority of the passengers to receive either a standby or upgrade seat—and clients can assume the array has already been sorted.",
+                          "items": {
+                            "name": "items",
+                            "displayName": "HA.Flights.SeatPriorityEntry",
+                            "typePropertyKind": "TYPE_EXPRESSION",
+                            "type": [
+                              "object"
+                            ],
+                            "properties": {
+                              "priority": {
+                                "name": "priority",
+                                "displayName": "priority",
+                                "typePropertyKind": "TYPE_EXPRESSION",
+                                "type": [
+                                  "number"
+                                ],
+                                "required": false,
+                                "description": "The priority of the passenger in the standby or upgrade list. Will be 0 index based.",
+                                "format": "double",
+                                "sourceMap": {
+                                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                                }
+                              },
+                              "passengerName": {
+                                "name": "passengerName",
+                                "displayName": "passengerName",
+                                "typePropertyKind": "TYPE_EXPRESSION",
+                                "type": [
+                                  "string"
+                                ],
+                                "required": false,
+                                "description": "A masked passenger name with the first three letters of the passenger’s last name and the first letter of the passenger’s first name. Is user-interface appropriate text.",
+                                "sourceMap": {
+                                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                                }
+                              },
+                              "currentSeat": {
+                                "name": "currentSeat",
+                                "displayName": "currentSeat",
+                                "typePropertyKind": "TYPE_EXPRESSION",
+                                "type": [
+                                  "string"
+                                ],
+                                "required": false,
+                                "description": "The current seat that the passenger is assigned to if the passenger has been assigned a seat. Should be considered case insensitive. A given seat is identified by a row number and column letter. If a passenger is not currently assigned a seat, will not be provided.",
+                                "sourceMap": {
+                                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                                }
+                              }
+                            },
+                            "__METADATA__": {
+                              "primitiveValuesMeta": {}
+                            },
+                            "sourceMap": {
+                              "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                            }
+                          },
+                          "sourceMap": {
+                            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                          }
+                        }
+                      },
+                      "__METADATA__": {
+                        "primitiveValuesMeta": {}
+                      },
+                      "sourceMap": {
+                        "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-priority-list/1.0.0/dt-ha-flights-priority-list.raml"
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                    }
+                  }
+                },
+                "__METADATA__": {
+                  "primitiveValuesMeta": {}
+                },
+                "sourceMap": {
+                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-flights-flight/1.0.3/dt-ha-flights-flight.raml"
+                }
+              },
+              "sourceMap": {
+                "path": "dataTypes/dt-lib.raml"
+              }
+            }
+          },
+          "discriminatorValue": null,
+          "__METADATA__": {
+            "primitiveValuesMeta": {}
+          },
+          "sourceMap": {
+            "path": "dataTypes/dt-lib.raml"
+          }
+        }
+      },
+      {
+        "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus": {
+          "name": "ErrorObjectReturnedWith4xxAnd5xxHttpStatus",
+          "displayName": "ErrorObjectReturnedWith4xxAnd5xxHttpStatus",
+          "typePropertyKind": "TYPE_EXPRESSION",
+          "type": [
+            "object"
+          ],
+          "description": "Error object returned with 4XX and 5XX HTTP status",
+          "properties": {
+            "status": {
+              "name": "status",
+              "displayName": "status",
+              "typePropertyKind": "TYPE_EXPRESSION",
+              "type": [
+                "string"
+              ],
+              "required": true,
+              "description": "One of two values that indication if the requestresulted in an error.",
+              "sourceMap": {
+                "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-error-object/1.0.0/dt-ha-error-object.raml"
+              }
+            },
+            "count": {
+              "name": "count",
+              "displayName": "count",
+              "typePropertyKind": "TYPE_EXPRESSION",
+              "type": [
+                "string"
+              ],
+              "required": true,
+              "description": "The number of items in the Errors property array.",
+              "sourceMap": {
+                "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-error-object/1.0.0/dt-ha-error-object.raml"
+              }
+            },
+            "type": {
+              "name": "type",
+              "displayName": "type",
+              "typePropertyKind": "TYPE_EXPRESSION",
+              "type": [
+                "string"
+              ],
+              "required": false,
+              "description": "The type of the resource items in the Errors property array.",
+              "sourceMap": {
+                "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-error-object/1.0.0/dt-ha-error-object.raml"
+              }
+            },
+            "errors": {
+              "name": "errors",
+              "displayName": "errors",
+              "typePropertyKind": "TYPE_EXPRESSION",
+              "type": [
+                "array"
+              ],
+              "required": false,
+              "description": "The list of inidividual errors for the error repsonse",
+              "items": {
+                "name": "items",
+                "displayName": "DescriptionOfIndividualErrorsThatMayHaveOccurredDuringARequest",
+                "typePropertyKind": "TYPE_EXPRESSION",
+                "type": [
+                  "object"
+                ],
+                "description": "Description of individual errors that may have occurred during a request.",
+                "properties": {
+                  "code": {
+                    "name": "code",
+                    "displayName": "code",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": true,
+                    "description": "A human readable string that indicates the kind of error.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-error-object/1.0.0/dt-ha-error-object.raml"
+                    }
+                  },
+                  "canRetry": {
+                    "name": "canRetry",
+                    "displayName": "canRetry",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "boolean"
+                    ],
+                    "required": true,
+                    "description": "Indicates whether the client can retry the request.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-error-object/1.0.0/dt-ha-error-object.raml"
+                    }
+                  },
+                  "message": {
+                    "name": "message",
+                    "displayName": "message",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "A short description of the error that was encountered. Will only be provided in non-production environments.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-error-object/1.0.0/dt-ha-error-object.raml"
+                    }
+                  },
+                  "stackTrace": {
+                    "name": "stackTrace",
+                    "displayName": "stackTrace",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "string"
+                    ],
+                    "required": false,
+                    "description": "The stack trace, if available in the case an exception was thrown on the server while handling the request. Will only be provided in non-production environments.",
+                    "sourceMap": {
+                      "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-error-object/1.0.0/dt-ha-error-object.raml"
+                    }
+                  }
+                },
+                "__METADATA__": {
+                  "primitiveValuesMeta": {}
+                },
+                "sourceMap": {
+                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-error-object/1.0.0/dt-ha-error-object.raml"
+                }
+              },
+              "sourceMap": {
+                "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-error-object/1.0.0/dt-ha-error-object.raml"
+              }
+            }
+          },
+          "discriminatorValue": null,
+          "__METADATA__": {
+            "primitiveValuesMeta": {}
+          },
+          "sourceMap": {
+            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/dt-ha-error-object/1.0.0/dt-ha-error-object.raml"
+          }
+        }
+      },
+      {
+        "dt.ConfirmationCode": {
+          "name": "ConfirmationCode",
+          "displayName": "confirmation-code",
+          "typePropertyKind": "TYPE_EXPRESSION",
+          "type": [
+            "string"
+          ],
+          "description": "The six letter confirmation code (PNR) of the trip; optional, but either “confirmation-code” or “eticket-number” is required in “guest mode” as discussed above.",
+          "sourceMap": {
+            "path": "dataTypes/dt-lib.raml"
+          }
+        }
+      }
+    ],
+    "resourceTypes": [
+      {
+        "rt.collection": {
+          "description": "Collection of available <<resourcePathName>>",
+          "name": "collection",
+          "usage": "Use this resourceType to represent any collection of items",
+          "sourceMap": {
+            "path": "resourceTypes/collection.raml"
+          },
+          "get": {
+            "responses": {
+              "200": {
+                "code": "200",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "response",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "<<dataType200>>"
+                    ],
+                    "description": "A JSON array of <<resourcePathName>>",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {}
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "A JSON array of <<resourcePathName>>.",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              },
+              "304": {
+                "code": "304",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "application/json",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus"
+                    ],
+                    "description": "Not Modified.\nEmpty body because the client has already the latest version of the requested resource. Do not retry.\n",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {
+                        "displayName": {
+                          "calculated": true
+                        }
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "Not Modified.\nEmpty body because the client has already the latest version of the requested resource. Do not retry.\n",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              },
+              "400": {
+                "code": "400",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "application/json",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus"
+                    ],
+                    "description": "Bad Request.\nUnspecified error due to the request being invalid. Do not retry.\nLimit Exceeded.\nThe upper limit of allowed API calls has been reached. Do not retry.\n",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {
+                        "displayName": {
+                          "calculated": true
+                        }
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "Bad Request.\nUnspecified error due to the request being invalid. Do not retry.\nLimit Exceeded.\nThe upper limit of allowed API calls has been reached. Do not retry.\n",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              },
+              "403": {
+                "code": "403",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "application/json",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus"
+                    ],
+                    "description": "Unauthorized.\nThe client is not authorized to use the given API. Do not retry.\n",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {
+                        "displayName": {
+                          "calculated": true
+                        }
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "Unauthorized.\nThe client is not authorized to use the given API. Do not retry.\n",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              },
+              "404": {
+                "code": "404",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "application/json",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus"
+                    ],
+                    "description": "Not Found.\nThere is no such API at the given request URL. Do not retry.\n",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {
+                        "displayName": {
+                          "calculated": true
+                        }
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "Not Found.\nThere is no such API at the given request URL. Do not retry.\n",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              },
+              "429": {
+                "code": "429",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "application/json",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus"
+                    ],
+                    "description": "Too Many Requests.\nToo many requests to the API were received within a period of time. Retry.\n",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {
+                        "displayName": {
+                          "calculated": true
+                        }
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "Too Many Requests.\nToo many requests to the API were received within a period of time. Retry.\n",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              },
+              "500": {
+                "code": "500",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "application/json",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus"
+                    ],
+                    "description": "Internal Failure.\nUnspecified error occurred on the server. Retry.\n",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {
+                        "displayName": {
+                          "calculated": true
+                        }
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "Internal Failure.\nUnspecified error occurred on the server. Retry.\n",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              },
+              "503": {
+                "code": "503",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "application/json",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus"
+                    ],
+                    "description": "Service Unavailable.\nThe API is currently unavailable. Retry.\n",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {
+                        "displayName": {
+                          "calculated": true
+                        }
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "Service Unavailable.\nThe API is currently unavailable. Retry.\n",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              }
+            },
+            "method": "get",
+            "sourceMap": {
+              "path": "resourceTypes/collection.raml"
+            }
+          }
+        }
+      }
+    ],
+    "securitySchemes": [
+      {
+        "passthrough": {
+          "name": "passthrough",
+          "type": "Pass Through",
+          "description": "This API supports Pass Through Authentication.",
+          "describedBy": {
+            "headers": {
+              "client_id": {
+                "name": "client_id",
+                "displayName": "Client ID",
+                "typePropertyKind": "TYPE_EXPRESSION",
+                "type": [
+                  "string"
+                ],
+                "required": true,
+                "sourceMap": {
+                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/ss-passthrough/1.0.0/ss-passthrough.raml"
+                }
+              },
+              "client_secret": {
+                "name": "client_secret",
+                "displayName": "Client Secret",
+                "typePropertyKind": "TYPE_EXPRESSION",
+                "type": [
+                  "string"
+                ],
+                "required": true,
+                "sourceMap": {
+                  "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/ss-passthrough/1.0.0/ss-passthrough.raml"
+                }
+              }
+            },
+            "sourceMap": {
+              "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/ss-passthrough/1.0.0/ss-passthrough.raml"
+            }
+          },
+          "sourceMap": {
+            "path": "modules/7abbfaeb-3816-4907-865e-76d7cb24120f/ss-passthrough/1.0.0/ss-passthrough.raml"
+          }
+        }
+      }
+    ],
+    "title": "HA Mobile Flights Process API",
+    "version": "v1",
+    "baseUri": "https://mocksvc.mulesoft.com/mocks/6da1e8a8-0c32-41ce-b1d9-1e1b488d9be0/dev",
+    "protocols": [
+      "HTTPS"
+    ],
+    "resources": [
+      {
+        "methods": [
+          {
+            "queryParameters": {
+              "start-date": {
+                "name": "start-date",
+                "displayName": "start-date",
+                "typePropertyKind": "TYPE_EXPRESSION",
+                "type": [
+                  "string"
+                ],
+                "required": true,
+                "description": "The starting departure date from which to search flights in yyyyMMdd date format, e.g. \"20171023\".",
+                "sourceMap": {
+                  "path": "ha-flights-process-api.raml"
+                }
+              },
+              "flight-number": {
+                "name": "flight-number",
+                "displayName": "flight-number",
+                "typePropertyKind": "TYPE_EXPRESSION",
+                "type": [
+                  "string"
+                ],
+                "required": false,
+                "description": "The flight number of the flight to search for with or without the airline code prefix; by default the airline code prefix is assumed to be \"HA\".",
+                "sourceMap": {
+                  "path": "ha-flights-process-api.raml"
+                }
+              },
+              "origin": {
+                "name": "origin",
+                "displayName": "origin",
+                "typePropertyKind": "TYPE_EXPRESSION",
+                "type": [
+                  "string"
+                ],
+                "required": false,
+                "description": "The IATA airport code for the origin city of  the flight to search for; case-insensitive.",
+                "sourceMap": {
+                  "path": "ha-flights-process-api.raml"
+                }
+              },
+              "destination": {
+                "name": "destination",
+                "displayName": "destination",
+                "typePropertyKind": "TYPE_EXPRESSION",
+                "type": [
+                  "string"
+                ],
+                "required": false,
+                "description": "The IATA airport code for the destination city of the flight to search for; case-insensitive.",
+                "sourceMap": {
+                  "path": "ha-flights-process-api.raml"
+                }
+              },
+              "include": {
+                "name": "include",
+                "displayName": "include",
+                "typePropertyKind": "TYPE_EXPRESSION",
+                "type": [
+                  "array"
+                ],
+                "required": false,
+                "description": "A comma-separated list of keywords that identify which children resources to include in the response; currently “status”, “seat-availability”, “standby” and “upgrade” are supported; an empty list by default.",
+                "items": "string",
+                "sourceMap": {
+                  "path": "ha-flights-process-api.raml"
+                }
+              },
+              "confirmation-code": {
+                "name": "confirmation-code",
+                "displayName": "confirmation-code",
+                "typePropertyKind": "TYPE_EXPRESSION",
+                "type": [
+                  "dt.ConfirmationCode"
+                ],
+                "required": true,
+                "__METADATA__": {
+                  "primitiveValuesMeta": {
+                    "displayName": {
+                      "calculated": true
+                    },
+                    "required": {
+                      "insertedAsDefault": true
+                    }
+                  }
+                },
+                "sourceMap": {
+                  "path": "ha-flights-process-api.raml"
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "code": "200",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "response",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.FlightsResponse"
+                    ],
+                    "description": "A JSON array of flights",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {}
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "A JSON array of flights.",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              },
+              "304": {
+                "code": "304",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "application/json",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus"
+                    ],
+                    "description": "Not Modified.\nEmpty body because the client has already the latest version of the requested resource. Do not retry.\n",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {
+                        "displayName": {
+                          "calculated": true
+                        }
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "Not Modified.\nEmpty body because the client has already the latest version of the requested resource. Do not retry.\n",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              },
+              "400": {
+                "code": "400",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "application/json",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus"
+                    ],
+                    "description": "Bad Request.\nUnspecified error due to the request being invalid. Do not retry.\nLimit Exceeded.\nThe upper limit of allowed API calls has been reached. Do not retry.\n",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {
+                        "displayName": {
+                          "calculated": true
+                        }
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "Bad Request.\nUnspecified error due to the request being invalid. Do not retry.\nLimit Exceeded.\nThe upper limit of allowed API calls has been reached. Do not retry.\n",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              },
+              "403": {
+                "code": "403",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "application/json",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus"
+                    ],
+                    "description": "Unauthorized.\nThe client is not authorized to use the given API. Do not retry.\n",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {
+                        "displayName": {
+                          "calculated": true
+                        }
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "Unauthorized.\nThe client is not authorized to use the given API. Do not retry.\n",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              },
+              "404": {
+                "code": "404",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "application/json",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus"
+                    ],
+                    "description": "Not Found.\nThere is no such API at the given request URL. Do not retry.\n",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {
+                        "displayName": {
+                          "calculated": true
+                        }
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "Not Found.\nThere is no such API at the given request URL. Do not retry.\n",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              },
+              "429": {
+                "code": "429",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "application/json",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus"
+                    ],
+                    "description": "Too Many Requests.\nToo many requests to the API were received within a period of time. Retry.\n",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {
+                        "displayName": {
+                          "calculated": true
+                        }
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "Too Many Requests.\nToo many requests to the API were received within a period of time. Retry.\n",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              },
+              "500": {
+                "code": "500",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "application/json",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus"
+                    ],
+                    "description": "Internal Failure.\nUnspecified error occurred on the server. Retry.\n",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {
+                        "displayName": {
+                          "calculated": true
+                        }
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "Internal Failure.\nUnspecified error occurred on the server. Retry.\n",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              },
+              "503": {
+                "code": "503",
+                "body": {
+                  "application/json": {
+                    "name": "application/json",
+                    "displayName": "application/json",
+                    "typePropertyKind": "TYPE_EXPRESSION",
+                    "type": [
+                      "dt.ErrorObjectReturnedWith4xxAnd5xxHttpStatus"
+                    ],
+                    "description": "Service Unavailable.\nThe API is currently unavailable. Retry.\n",
+                    "__METADATA__": {
+                      "primitiveValuesMeta": {
+                        "displayName": {
+                          "calculated": true
+                        }
+                      }
+                    },
+                    "sourceMap": {
+                      "path": "resourceTypes/collection.raml"
+                    }
+                  }
+                },
+                "description": "Service Unavailable.\nThe API is currently unavailable. Retry.\n",
+                "sourceMap": {
+                  "path": "resourceTypes/collection.raml"
+                }
+              }
+            },
+            "protocols": [
+              "HTTPS"
+            ],
+            "method": "get",
+            "__METADATA__": {
+              "primitiveValuesMeta": {
+                "protocols": {
+                  "calculated": true
+                }
+              }
+            },
+            "sourceMap": {
+              "path": "ha-flights-process-api.raml"
+            }
+          }
+        ],
+        "type": {
+          "rt.collection": {
+            "dataType200": "dt.FlightsResponse"
+          }
+        },
+        "description": "Collection of available flights",
+        "relativeUri": "/flights",
+        "displayName": "/flights",
+        "__METADATA__": {
+          "primitiveValuesMeta": {
+            "displayName": {
+              "calculated": true
+            }
+          }
+        },
+        "sourceMap": {
+          "path": "ha-flights-process-api.raml"
+        },
+        "relativeUriPathSegments": [
+          "flights"
+        ],
+        "absoluteUri": "https://mocksvc.mulesoft.com/mocks/6da1e8a8-0c32-41ce-b1d9-1e1b488d9be0/dev/flights"
+      }
+    ],
+    "documentation": [
+      {
+        "title": "HA Mobile Flights Process API",
+        "content": "This is the Process API for Flights",
+        "sourceMap": {
+          "path": "docs/intro.raml"
+        }
+      }
+    ],
+    "__METADATA__": {
+      "primitiveValuesMeta": {
+        "protocols": {
+          "calculated": true
+        }
+      }
+    },
+    "sourceMap": {
+      "path": "ha-flights-process-api.raml"
+    }
+  },
+  "errors": []
+}

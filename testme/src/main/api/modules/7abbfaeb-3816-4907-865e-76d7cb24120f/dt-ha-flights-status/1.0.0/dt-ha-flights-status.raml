@@ -1,0 +1,104 @@
+#%RAML 1.0 DataType
+displayName: HA.Flights.Status
+description: This resource represents a list of one or more flights for a particular trip.
+type: object
+properties:
+  id:
+    required: true
+    displayName: id
+    description: An identifier for the given resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the given resource
+    type: string
+  flightId:
+    required: true
+    displayName: flightId
+    description: An identifier for the given flight.
+    type: string
+  version:
+    required: true
+    displayName: version
+    description: An opaque tag that indicates the current version of the list resource. The client should not parse, construct or decipher the value, but consider it an opaque case sensitive string used only for referencing the version of the resource. Will be the same value as the HTTP ETag header if a given response is for a single resource and can be supplied by the client in the HTTP If-None-Match header for conditional requests as described in the HA Mobile API – Standards document.
+    type: string
+  originGate:
+    required: false
+    displayName: originGate
+    description: The gate information for the flight in the origin city. May always be in English but should be considered user-interface appropriate and will not be translated into other languages.
+    type: string
+  originTerminal:
+    required: false
+    displayName: originTerminal
+    description: The terminal information for the flight in the origin city. May always be in English but should be considered user-interface appropriate and will not be translated into other languages.
+    type: string
+  destination:
+    required: false
+    displayName: destination
+    description: The IATA three letter code for the estimated or actual destination airport. Will be the same value as the ScheduledDestination property of the HA.Flights.Flight resources unless the plane was rerouted to a new destination. Should be considered case insensitive. Should not be considered user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.
+    type: string
+  destinationGate:
+    required: false
+    displayName: destinationGate
+    description: The gate information for the flight in the destination city. May always be in English but should be considered user-interface appropriate and will not be translated into other languages.
+    type: string
+  destinationTerminal:
+    required: false
+    displayName: destinationTerminal
+    description: The terminal information for the flight in the destination city. May always be in English but should be considered user-interface appropriate and will not be translated into other languages.
+    type: string
+  departure:
+    required: false
+    displayName: departure
+    description: The ISO 8601 UTC date and time of the estimated departure time of the flight from the origin city. Will be in ISO 8601 UTC date time format with time zone offset.
+    type: string
+  arrival:
+    required: false
+    displayName: arrival
+    description: The ISO 8601 UTC date and time of the estimated or actual arrival of the flight in the scheduled destination city. Will be in ISO 8601 UTC date time format with time zone offset.
+    type: string
+  flightStatus:
+    required: false
+    displayName: flightStatus
+    description: One of five values that indicates the status of the flight. Those values include Scheduled, Departed, InAir, Landed, Arrived, Delayed,  Cancelled, Unknown. Should be considered case insensitive;  is not user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.
+    type: string
+    enum:
+    - Scheduled
+    - Departed
+    - InAir
+    - Landed
+    - Arrived
+    - Delayed
+    - Cancelled
+    - Unknown
+  flightSubStatus:
+    required: false
+    displayName: flightSubStatus
+    description: One of five values that indicates the status of the flight. Those values include OnTime, LateDeparture, LateArrival, EarlyArrival,  Diverted. Should be considered case insensitive; is not user-interface  appropriate text and should be mapped to an appropriate  language/region-specific text value via the HA Mobile Content API.
+    type: string
+    enum:
+    - OnTime
+    - LateDeparture
+    - LateArrival
+    - EarlyArrival
+    - Diverted
+  baggageClaim:
+    required: false
+    displayName: baggageClaim
+    description: The baggage claim information for the flight in the actual destination city. May always be in English but should be considered user-interface appropriate and will not be translated into other languages.
+    type: string
+  boardingStatus:
+    required: false
+    displayName: boardingStatus
+    description: The current boarding status of the flight can be one of several values (e.g. NotBoarding, Boarding, Boarded). If not provided, should be understood that boarding status is unknown. Should be considered case insensitive; is not user-interface appropriate text and should be mapped to an appropriate language/region-specific text value via the HA Mobile Content API.
+    type: string
+    enum:
+    - NotBoarding
+    - Boarding
+    - Boarded
+  boardingStartTime:
+    required: false
+    displayName: boardingStartTime
+    description: The ISO 8601 UTC date and time of the scheduled boarding time of the flight in the scheduled origin city. Will be in ISO 8601 UTC date time format with time zone offset.
+    type: string
+  boardingEndTime:
+    required: false
+    displayName: boardingEndTime
+    description: The ISO 8601 UTC date and time of the scheduled boarding end time of the flight in the scheduled origin city. Will be in ISO 8601 UTC date time format with time zone offset.
+    type: string
