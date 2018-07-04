@@ -1,0 +1,230 @@
+#%RAML 1.0 DataType
+
+type: object
+displayName: Spedizione
+properties:
+  type:
+    type: string
+    description: Tipo della risorsa
+    required: true
+  id:
+    type: string
+    description: Identificativo univoco della risorsa
+    required: false
+  attributes:
+    type: object
+    properties:
+      societa:
+        type: string
+        required: true
+        maxLength: 2
+      codice_contratto:
+        type: string?
+        required: true
+        description: Codice contratto
+      account_number:
+        type: string?
+        required: true
+        description: Codice contratto della societa' che spedisce
+      account_number_dazio:
+        type: string?
+        required: true
+        description: Codice contratto che paga gli oneri doganali (indicato solo se la spedizione non e' in porto assegnato ed e' uguale al codice contratto della societa' che spedisce)
+      account_number_porto_assegnato:
+        type: string?
+        required: true
+        description: Codice contratto che paga la spedizione (mittente nel caso di porto franco, destinatario nel caso di porto assegnato)
+      indirizzo:
+        type: string
+        required: true
+        description: Indirizzo del destinatario
+      nome_edificio:
+        type: string?
+        required: true
+        description: Nome edificio dell'indirizzo del destinatario
+      localita:
+        type: string
+        required: true
+        description: Localita dell'indirizzo del destinatario
+      cap:
+        type: string
+        required: true
+        description: Codice postale dell'indirizzo del destinatario
+      provincia:
+        type: string?
+        required: true
+        description: Sigla della provincia dell'indirizzo del destinatario
+      bda:
+        type: string?
+        required: true
+        description: Criterio di non accorpamento di spedizioni 
+      nazione:
+        type: string?
+        required: true
+        description: Codice ISO della nazione dell'indirizzo del destinatario
+      descrizione_nazione:
+        type: string?
+        required: true
+        description: Descrizione della nazione dell'indirizzo del destinatario
+      ragione_sociale_destinatario:
+        type: string?
+        required: true
+        description: Ragione sociale del destinatario
+      attenzione_di:
+        type: string?
+        required: true
+        description: Persona fisica a cui e' destinato la spedizione
+      telefono:
+        type: string?
+        required: true
+        description: Telefono del destinatario
+      note_spedizione:
+        type: string
+        required: true
+        description: Note aggiuntive della spedizione
+      tipo_porto:
+        type: string
+        required: true
+        description: Flag indicante se la spedizione e' in porto assegnato (=Y) o meno (=N)
+      formato_etichetta:
+        type: string
+        required: true
+        description: Formato del file dell'etichetta
+        enum: ['ZPL', 'PDF', 'GIF']
+      formato_pagina_etichetta:
+        type: string?
+        required: true
+        description: Formato della pagina del pdf ('A5', 'A6')
+      servizi_accessori:
+        type: string?
+        required: true
+        description: Eventuali servizi aggiuntivi
+      tipo_pagamento_dazio:
+        type: string?
+        required: true
+        description: Indica il tipo di resa (cioe' chi paga gli oneri doganali)
+      valore_dichiarato:
+        type: number?
+        required: true
+        description: Valore dichiarato per il dazio
+      divisa_valore_dichiarato:
+        type: string?
+        required: true
+        description: Divisa in cui e' espresso il valore dichiarato
+      valore_assicurato:
+        type: number?
+        required: true
+        description: Valore assicurato della spedizione
+      divisa_valore_assicurato:
+        type: string
+        required: true
+        description: Divisa in cui e' espresso il valore assicurato
+      riferimento:
+        type: string?
+        required: true
+        description: Informazioni da stampare sull'etichetta
+      riferimento2:
+        type: string?
+        required: true
+        description: Informazioni aggiuntive da stampare sull'etichetta
+      tipo_riferimento:
+        type: string?
+        required: true
+        description: Indica la tipologia del riferimento
+      numero_colli:
+        type: number?
+        required: true
+        description: Numero di colli presenti nella spedizione
+      peso_totale:
+        type: number?
+        required: true
+        description: Somma del peso dei colli della spedizione
+      unita_misura_peso:
+        type: string?
+        required: true
+        description: Unita' di misura in cui sono espressi i peso
+      unita_misura_dimensioni:
+        type: string?
+        required: true
+        description: Unita' di misura in cui sono espresse le dimensioni
+      servizio:
+        type: string?
+        required: true
+      descrizione_contenuto:
+        type: string?
+        required: true
+        description: Descrizione del contenuto della spedizione
+      descrizione_mittente:
+        type: string?
+        required: true
+        description: Descrizione della societa' mittente
+      indirizzo_mittente:
+        type: string
+        required: true
+        description: Indirizzo del mittente
+      localita_mittente:
+        type: string
+        required: true
+        description: Localita dell'indirizzo del mittente
+      provincia_mittente:
+        type: string?
+        required: true
+        description: Sigla della provincia dell'indirizzo del mittente
+      cap_mittente:
+        type: string
+        required: true
+        description: Codice postale dell'indirizzo del mittente
+      nazione_mittente:
+        type: string?
+        required: true
+        description: Codice ISO della nazione dell'indirizzo del mittente
+      descrizione_nazione_mittente:
+        type: string?
+        required: true
+        description: Descrizione della nazione dell'indirizzo del mittente
+      telefono_mittente:
+        type: string?
+        required: true
+        description: Numero di telefono del mittente
+      attenzione_di_mittente:
+        type: string?
+        required: true
+        description: Nome del mittente
+      colli:
+        type: array
+        required: true
+        description: Lista dei colli della spedizione
+        items:
+          type: object
+          properties:
+            id_collo:
+              type: number
+              required: true
+              description: Progressivo univoco del collo
+            tipo_collo:
+              type: string
+              required: true
+              description: Indica la tipologia del collo (busta=BS, scatola=SC)
+            descrizione:
+              type: string?
+              required: true
+              description: Descrizione contenuto del collo
+            peso:
+              type: number
+              minimum: 0.00000000001
+              required: true
+              description: Peso del collo espresso nell' unita_misura_peso
+            larghezza:
+              type: number?
+              required: true
+              description: Larghezza del collo espressa nell' unita_misura_dimensioni
+            altezza:
+              type: number?
+              required: true
+              description: Altezza del collo espressa nell' unita_misura_dimensioni
+            profondita:
+              type: number?
+              required: true
+              description: Profondita del collo espressa nell' unita_misura_dimensioni
+
+    required: false

@@ -1,0 +1,395 @@
+#%RAML 1.0
+title: CORRIERI API
+version: 1.0.0
+baseUri: https://mocksvc.mulesoft.com/mocks/fdfb9405-f149-4e2b-8727-c397c8eda3b7 # baseUri: 
+mediaType: application/vnd.api+json
+protocols:
+  - HTTP
+description: API REST servizi CORRIERI
+
+traits:
+  common_responses: !include traits/common_responses.raml
+  client_id_enforcement: !include traits/client_id_enforcement.raml
+
+/corrieri:
+  displayName: corrieri
+  '/{corriere}':
+    displayName: '{corriere}'
+    description: Corriere
+    /indirizzi:
+        displayName: Indirizzi
+        description: Indirizzi
+        put:
+          is: [common_responses]
+          displayName: PUT_Corrieri_corriere_indirizzi
+          description: Controllo correttezza indirizzo (disponibile per GLS, DHL e UPS)
+          body: 
+            application/vnd.api+json:
+              type: object
+              properties: 
+                data: 
+                  type: array
+                  items: indirizzo
+                  required: false
+              example: !include examples/indirizzi_put_payload.json
+          responses: 
+            '201':
+              body: 
+                application/vnd.api+json:
+                  type: object
+                  properties: 
+                    data:
+                      type: array
+                      items: 
+                        type: object
+                      required: false
+                    meta:
+                      type: object
+                      required: false
+                      properties:
+                        count:
+                          type: integer                 
+                  example: !include examples/indirizzi_201.json
+            '409':
+              body: 
+                application/vnd.api+json:
+               
+                  example: !include examples/indirizzi_409.json
+            '400':
+              
+    /spedizioni:
+        displayName: Spedizioni
+        description: Spedizioni
+        put:
+          is: [common_responses]
+          displayName: PUT_Corrieri_corriere_spedizioni
+          description: Inserimento spedizione  (disponibile per GLS, DHL e UPS)
+          body: 
+            application/vnd.api+json:
+              type: object
+              properties: 
+                data: 
+                  type: array
+                  items: spedizione
+                  required: false
+              example: !include examples/spedizioni_put_payload.json
+          responses: 
+            '201':
+               body: 
+                application/vnd.api+json:
+                  type: object
+                  properties: 
+                    data:
+                      type: array
+                      items: 
+                        type: object
+                      required: false
+                    meta:
+                      type: object
+                      required: false
+                      properties:
+                        count:
+                          type: integer
+                  example: !include examples/spedizioni_201.json      
+                    
+            '400':
+            
+            '409':
+              body: 
+                application/vnd.api+json:
+                
+                  example: !include examples/spedizioni_put_409.json
+        
+        delete:
+          is: [common_responses]
+          displayName: DELETE_spedizioni
+          description: Annullo delle spedizioni  (disponibile per GLS e UPS)
+          body: 
+            application/vnd.api+json:
+              type: object
+              properties: 
+                data: 
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        description: Tipo della risorsa
+                        required: true
+                      id:
+                        type: string
+                        description: Identificativo univoco della risorsa
+                        required: true
+                      attributes:
+                        type: object
+                        properties:
+                          societa:
+                            type: string
+                            required: true
+                            maxLength: 2
+                          numero_spedizione:
+                            type: string
+                            required: true
+                            description: Numero della spedizione da annullare
+                  required: false
+              example: !include examples/spedizioni_delete_payload.json
+          responses: 
+            '200':
+              body: 
+                application/vnd.api+json:
+                  type: object
+                  properties: 
+                    data:
+                      type: array
+                      items: deleted_resource
+                      required: false
+                    meta:
+                      type: object
+                      properties:
+                        count:
+                          type: integer              
+            '400':
+              body:
+                application/vnd.api+json:
+                  example:
+                    errors:
+                      - code: 'CON002'
+                        detail:
+                          error: Wrong type for resource spedizione
+                          resource:
+                            type: prova
+                        status: '400'
+                        title: Wrong type for resource
+                    meta:
+                      count: 1
+              description: Errore generico nella chiamata.
+
+    /riepiloghi_spedizione:
+        displayName: Riepiloghi spedizione
+        description: Riepiloghi spedizione
+        put:
+          is: [common_responses]
+          displayName: PUT_Corrieri_corriere_riepiloghi_spedizione
+          description: Inserimento dei riepiloghi delle spedizioni  (disponibile per GLS)
+          body: 
+            application/vnd.api+json:
+              type: object
+              properties: 
+                data: 
+                  type: array
+                  items: riepilogo_spedizione
+                  required: false
+              example: !include examples/riepiloghi_spedizione_put_payload.json
+          responses: 
+            '201':
+               body: 
+                application/vnd.api+json:
+                  type: object
+                  properties: 
+                    data:
+                      type: array
+                      items: 
+                        type: object
+                      required: false
+                    meta:
+                      type: object
+                      required: false
+                      properties:
+                        count:
+                          type: integer
+                      
+                    
+            '400':
+            
+            '409':
+              body: 
+                application/vnd.api+json:
+                  type: object
+                  properties: 
+                    data:
+                      type: array
+                      items: 
+                        type: object
+                      required: false
+                    meta:
+                      type: object
+                      required: false
+                      properties:
+                        count:
+                          type: integer
+
+    /proposte_spedizione:
+        displayName: Proposte spedizione
+        description: Proposte spedizione
+        put:
+          is: [common_responses]
+          displayName: PUT_Corrieri_corriere_proposte_spedizione
+          description: Inserimento delle proposte spedizioni  (disponibile per DHL)
+          body: 
+            application/vnd.api+json:
+              type: object
+              properties: 
+                data: 
+                  type: array
+                  items: proposta_spedizione
+                  required: false
+              example: !include examples/proposte_spedizione_put_payload.json
+          responses: 
+            '201':
+               body: 
+                application/vnd.api+json:
+                  type: object
+                  properties: 
+                    data:
+                      type: array
+                      items: 
+                        type: object
+                      required: false
+                    meta:
+                      type: object
+                      required: false
+                      properties:
+                        count:
+                          type: integer
+                      
+                    
+            '400':
+            
+            '409':
+              body: 
+                application/vnd.api+json:
+                  type: object
+                  properties: 
+                    data:
+                      type: array
+                      items: 
+                        type: object
+                      required: false
+                    meta:
+                      type: object
+                      required: false
+                      properties:
+                        count:
+                          type: integer                                          
+
+    /etichette:
+      description: Etichette colli o spedizioni  (disponibile per GLS e UPS)
+      displayName: Etichette colli o spedizioni
+      get:
+        is: [common_responses]
+        queryParameters:
+          'filter[societa]':
+            type: string
+            required: True
+            description: Codice della societa
+          'filter[id_etichetta]':
+            type: string
+            required: true
+            description: Identificativo del collo o della spedizione
+          'filter[contratto]':
+            type: string
+            required: false
+            description: Codice del contratto
+          'filter[formato_etichetta]':
+            type: string
+            required: false
+            description: Formato dell'etichetta
+        displayName: GET_etichetta
+        description: Richiesta delle etichette dei colli o della spedizione
+        responses: 
+          '200':
+            body: 
+              application/vnd.api+json:
+                type: object
+                properties: 
+                  data:
+                    type: array
+                    items: etichetta
+                    required: false
+                  links:
+                    type: object
+                    properties: 
+                      self:
+                        type: string
+                        description: URL della richiesta che ha generato il json di output
+                        required: false
+                    required: false
+                  meta:
+                    type: object
+                    properties:
+                      count:
+                        type: number
+                        description: Numero di occorrenze della risposta
+                        required: false
+                    required: false
+                example: !include examples/etichette_200.json
+            description: un array di colli
+          '400':
+            body:
+              application/vnd.api+json:
+                    example:
+                      errors:
+                        - code: '1054'
+                          detail:
+                            error: Unknown column 'prova' in 'where clause'
+                          status: '400'
+                      links:
+                        self: 'api/v1/colli?filter[prova]=2015'
+                      meta:
+                        count: 1
+            description: Errore generico nella chiamata.
+    
+    /stati_spedizione:
+      description: Stati spedizione  (disponibile per DHL e UPS)
+      displayName: Tracking spedizione
+      get:
+        is: [common_responses]
+        queryParameters:
+          'filter[societa]':
+            type: string
+            required: True
+            description: Codice della societa
+          'filter[numero_spedizione]':
+            type: string
+            required: true
+            description: Identificativo della spedizione
+        displayName: GET_stati_sperizione
+        description: Richiesta degli stati della spedizione (tracking)
+        responses: 
+          '200':
+            body: 
+              application/vnd.api+json:
+                type: object
+                properties: 
+                  data:
+                    type: array
+                    items: stato_spedizione
+                    required: false
+                example: !include examples/stati_spedizione_200.json
+            description: un array di stati
+          '400':
+            body:
+              application/vnd.api+json:
+                    example:
+                      errors:
+                        - code: '1054'
+                          detail:
+                            error: Unknown column 'prova' in 'where clause'
+                          status: '400'
+                      links:
+                        self: 'api/v1/stati_sperizione?filter[prova]=2015'
+                      meta:
+                        count: 1
+            description: Errore generico nella chiamata.            
+
+types:  
+  indirizzo: !include resources/indirizzo.raml
+  spedizione: !include resources/spedizione.raml
+  riepilogo_spedizione: !include resources/riepilogo_spedizione.raml
+  proposta_spedizione: !include resources/proposta_spedizione.raml
+  stato_spedizione: !include resources/stato_spedizione.raml
+  etichetta: !include resources/etichetta.raml
+  deleted_resource: !include resources/deleted_resource.raml
+  
+

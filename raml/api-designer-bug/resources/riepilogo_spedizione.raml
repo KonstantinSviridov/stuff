@@ -1,0 +1,94 @@
+#%RAML 1.0 DataType
+
+type: object
+displayName: Riepilogo Spedizione
+properties:
+  type:
+    type: string
+    description: Tipo della risorsa
+    required: true
+  id:
+    type: string
+    description: Identificativo univoco della risorsa
+    required: false
+  attributes:
+    type: object
+    properties:
+      data_ora_chiusura:
+        type: datetime
+        description: Data e ora del riepilogo
+        required: true
+      societa:
+        type: string
+        required: true
+        description: Codice della societa'
+        maxLength: 2
+      spedizioni:
+        type: array
+        required: true
+        description: Lista delle spedizioni facenti parte del riepilogo
+        items:
+          type: object
+          properties:
+            codice_contratto:
+              type: string?
+              required: true
+              description: Codice del contratto 
+            ragione_sociale_destinatario:
+              type: string?
+              required: true
+              description: Ragione sociale del destinatario
+            indirizzo:
+              type: string
+              required: true
+              description: Indirizzo del destinatario
+            localita:
+              type: string
+              required: true
+              description: Localita dell'indirizzo del destinatario
+            cap:
+              type: string
+              required: true
+              description: Codice postale dell'indirizzo del destinatario
+            provincia:
+              type: string?
+              required: true
+              description: Sigla della provincia dell'indirizzo del destinatario
+            bda:
+              type: string?
+              required: true
+              description: Utilizzato solo GLS per evitare gli accorpamenti delle spedizioni
+            tipo_porto:
+              type: string
+              required: true
+              description: Flag indicante se la spedizione e' in porto assegnato (=Y) o meno (=N)
+            valore_assicurato:
+              type: number?
+              required: true
+              description: Valore assicurato della spedizione 
+            servizi_accessori:
+              type: string?
+              required: true  
+              description: Eventuali servizi aggiuntivi
+            colli:
+              type: array
+              required: true
+              description: Lista dei colli della spedizione
+              items:
+                type: object
+                properties:
+                  id_collo:
+                    type: number
+                    required: true
+                    description: Progressivo univoco del collo
+                  tipo_collo:
+                    type: string
+                    required: true
+                    description: Indica la tipologia del collo (busta=BS, scatola=SC)
+                  peso:
+                    type: number
+                    minimum: 0.00000000001
+                    required: true
+                    description: Peso del collo
+                                  
+    required: false

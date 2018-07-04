@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "data_ora_chiusura": "2018-02-02T09:00:00Z",
+        "societa": "MR",
+        "spedizioni": [
+          {
+            "bda": "",
+            "cap": "10010",
+            "codice_contratto": "",
+            "colli": [
+              {
+                "id_collo": 1,
+                "peso": 2,
+                "tipo_collo": "YP"
+              }
+            ],
+            "indirizzo": "Posadas 1245",
+            "localita": "Buenos Aires",
+            "provincia": "",
+            "ragione_sociale_destinatario": "Max Mara Buenos Aires",
+            "servizi_accessori": "",
+            "tipo_porto": "F",
+            "valore_assicurato": 0
+          }
+        ]
+      },
+      "type": "riepilogo_spedizione"
+    }
+  ]
+}

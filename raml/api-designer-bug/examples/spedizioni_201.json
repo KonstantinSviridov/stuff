@@ -1,0 +1,73 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "account_number": "753871175",
+        "attenzione_di": "Francesco",
+        "cap": "C1011ABE",
+        "cap_mittente": "10504",
+        "codice_contratto": null,
+        "colli": [
+          {
+            "altezza": 41,
+            "etichetta_pdf": null,
+            "etichetta_zpl": null,
+            "id_collo": 1,
+            "larghezza": 61,
+            "peso": 3,
+            "profondita": 16,
+            "tipo_collo": "YP"
+          },
+          {
+            "altezza": 31,
+            "etichetta_pdf": null,
+            "etichetta_zpl": null,
+            "id_collo": 2,
+            "larghezza": 51,
+            "peso": 2,
+            "profondita": 16,
+            "tipo_collo": "YP"
+          }
+        ],
+        "data_spedizione": null,
+        "descrizione_contenuto": "Women clothing",
+        "descrizione_mittente": "Marina Rinaldi New York",
+        "descrizione_nazione": "Argentina",
+        "descrizione_nazione_mittente": "United States Of America",
+        "divisa": "EUR",
+        "etichetta_pdf": "JVB...",
+        "etichetta_zpl": null,
+        "importo_assegnato": null,
+        "importo_cassegno": null,
+        "indirizzo": "Posadas 1245",
+        "indirizzo_mittente": "1 New Orchard Road Armonk",
+        "localita": "Buenos Aires",
+        "localita_mittente": "New York",
+        "nazione": "AR",
+        "nazione_mittente": "US",
+        "nome_edificio": "",
+        "note_spedizione": null,
+        "numero_colli": 2,
+        "numero_spedizione": "3889635750",
+        "peso_totale": 5,
+        "provincia": null,
+        "ragione_sociale_destinatario": "Max Mara Buenos Aires",
+        "riferimento": "MRNE11584",
+        "riferimento_mittente": "Steve George",
+        "servizio": "W",
+        "telefono": "",
+        "telefono_mittente": "9684-3605",
+        "tipo_pagamento": "S",
+        "tipo_pagamento_dazio": "",
+        "tipo_riferimento": "CU",
+        "tot_importo_da_incassare": null,
+        "unita_misura_dimensioni": "C",
+        "unita_misura_peso": "K",
+        "valore_assicurato": null,
+        "valore_dichiarato": 10
+      },
+      "id": "DHL:::3889635750",
+      "type": "spedizione"
+    }
+  ]
+}

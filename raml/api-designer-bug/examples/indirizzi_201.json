@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "cap": "42124",
+        "indirizzo": "Via Platone",
+        "localita": "Reggio Nell'emilia",
+        "provincia": "RE"
+      },
+      "id": "89ab0347-ebcd-4e64-91ae-35a137f3ab44",
+      "type": "indirizzo"
+    }
+  ]
+}

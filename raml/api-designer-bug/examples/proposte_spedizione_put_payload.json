@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "account_number": "123",
+        "cap": "40886",
+        "cap_mittente": "42122",
+        "colli": [
+          {
+            "altezza": 41,
+            "id_collo": 1,
+            "larghezza": 61,
+            "peso": 2.69,
+            "profondita": 16
+          }
+        ],
+        "divisa_valore_dichiarato": "EUR",
+        "f_dazio": "Y",
+        "localita": "Paris",
+        "localita_mittente": "Reggio Emilia",
+        "nazione": "FR",
+        "nazione_mittente": "IT",
+        "servizio": "W",
+        "servizio_speciale": "II",
+        "societa": "MR",
+        "tipo_trasporto": "XXX",
+        "unita_misura_dimensioni": "CM",
+        "unita_misura_peso": "KG",
+        "valore_dichiarato": 10
+      },
+      "type": "proposta_spedizione"
+    }
+  ]
+}

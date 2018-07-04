@@ -1,0 +1,15 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "cap": "42122",
+        "indirizzo": "via Pippo e Pluto",
+        "localita": "Reggio Emilia",
+        "nazione": "IT",
+        "provincia": "RE",
+        "societa": "MR"
+      },
+      "type": "indirizzo"
+    }
+  ]
+}

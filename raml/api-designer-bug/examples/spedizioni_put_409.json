@@ -1,0 +1,70 @@
+{
+  "errors": [
+    {
+      "code": "SPE001",
+      "detail": {
+        "error": "Cannot determine destination service.\n                    Check recipient information and resubmit. If this\n                    problem reoccurs contact your technical service representative.",
+        "resource": [
+          {
+            "attributes": {
+              "account_number": "753871175",
+              "attenzione_di": "Francesco",
+              "cap": "C1011ABE",
+              "cap_mittente": "10504",
+              "codice_contratto": "",
+              "colli": [
+                {
+                  "altezza": 41,
+                  "id_collo": 1,
+                  "larghezza": 61,
+                  "peso": 3,
+                  "profondita": 16,
+                  "tipo_collo": "YP"
+                },
+                {
+                  "altezza": 31,
+                  "id_collo": 2,
+                  "larghezza": 51,
+                  "peso": 2,
+                  "profondita": 16,
+                  "tipo_collo": "YP"
+                }
+              ],
+              "descrizione_contenuto": "Women clothing",
+              "descrizione_mittente": "Marina Rinaldi New York",
+              "descrizione_nazione": "Argentina",
+              "descrizione_nazione_mittente": "United States Of America",
+              "divisa": "EUR",
+              "indirizzo": "Posadas 1245",
+              "indirizzo_mittente": "1 New Orchard Road Armonk",
+              "localita": "Buenos Aires",
+              "localita_mittente": "New York",
+              "nazione": "IS",
+              "nazione_mittente": "US",
+              "nome_edificio": "",
+              "numero_colli": 2,
+              "peso_totale": 5,
+              "provincia": "",
+              "ragione_sociale_destinatario": "Max Mara Buenos Aires",
+              "riferimento": "MRNE11584",
+              "riferimento_mittente": "Steve George",
+              "servizio": "W",
+              "telefono": "",
+              "telefono_mittente": "9684-3605",
+              "tipo_pagamento": "S",
+              "tipo_pagamento_dazio": "",
+              "tipo_riferimento": "CU",
+              "unita_misura_dimensioni": "C",
+              "unita_misura_peso": "K",
+              "valore_assicurato": 12,
+              "valore_dichiarato": 10
+            },
+            "type": "spedizione"
+          }
+        ]
+      },
+      "status": 400,
+      "title": "Shipment Failure"
+    }
+  ]
+}

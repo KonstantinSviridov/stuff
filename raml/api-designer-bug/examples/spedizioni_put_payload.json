@@ -1,0 +1,73 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "account_number": "753871175",
+        "account_number_dazio": "",
+        "account_number_porto_assegnato": "",
+        "attenzione_di": "",
+        "attenzione_di_mittente": "Steve George",
+        "bda": "PIPPOS",
+        "cap": "10010",
+        "cap_mittente": "10504",
+        "codice_contratto": "",
+        "colli": [
+          {
+            "altezza": 41,
+            "descrizione": "",
+            "id_collo": 1,
+            "larghezza": 61,
+            "peso": 3,
+            "profondita": 16,
+            "tipo_collo": "YP"
+          },
+          {
+            "altezza": 31,
+            "descrizione": "",
+            "id_collo": 2,
+            "larghezza": 51,
+            "peso": 2,
+            "profondita": 16,
+            "tipo_collo": "YP"
+          }
+        ],
+        "descrizione_contenuto": "Women clothing",
+        "descrizione_mittente": "Marina Rinaldi New York",
+        "descrizione_nazione": "Argentina",
+        "descrizione_nazione_mittente": "United States Of America",
+        "divisa_valore_assicurato": "EUR",
+        "divisa_valore_dichiarato": "EUR",
+        "formato_etichetta": "PDF",
+        "formato_pagina_etichetta": "A5",
+        "indirizzo": "Posadas 1245",
+        "indirizzo_mittente": "1 New Orchard Road Armonk",
+        "localita": "Buenos Aires",
+        "localita_mittente": "New York",
+        "nazione": "AR",
+        "nazione_mittente": "US",
+        "nome_edificio": "",
+        "note_spedizione": "",
+        "numero_colli": 2,
+        "peso_totale": 5,
+        "provincia": "",
+        "provincia_mittente": "",
+        "ragione_sociale_destinatario": "Max Mara Buenos Aires",
+        "riferimento": "MRNE11584",
+        "riferimento2": null,
+        "servizi_accessori": "",
+        "servizio": "W",
+        "societa": "MR",
+        "telefono": "",
+        "telefono_mittente": "9684-3605",
+        "tipo_pagamento_dazio": "",
+        "tipo_porto": "F",
+        "tipo_riferimento": "CU",
+        "unita_misura_dimensioni": "C",
+        "unita_misura_peso": "K",
+        "valore_assicurato": 12,
+        "valore_dichiarato": 10
+      },
+      "type": "spedizione"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+#%RAML 1.0 DataType
+
+type: object
+displayName: Stato spedizione
+properties:
+  type:
+    type: string
+    description: Tipo della risorsa
+    required: true
+  id:
+    type: string
+    description: Identificativo univoco della risorsa
+    required: false
+  attributes:
+    type: object
+    properties:
+      data_ora:
+        type: string
+        description: Data e ora dello stato spedizione
+        required: true
+      stato:
+        type: string
+        description: Descrizione dello stato
+        required: true
+      localita:
+        type: string?
+        description: Localita' in cui e' registrato lo stato
+        required: true
+      nazione:
+        type: string?
+        description: Codice ISO della nazione in cui e' registrato lo stato
+        required: true
+      colli:
+        type: array
+        description: Elenco dell'identificativo dei colli associati allo stato della spedizione
+        items: string
+        required: true
+        
+        
+    required: false

@@ -1,0 +1,111 @@
+#%RAML 1.0 DataType
+
+type: object
+displayName: Proposta spedizione
+properties:
+  type:
+    type: string
+    description: Tipo della risorsa
+    required: true
+  id:
+    type: string
+    description: Identificativo univoco della risorsa
+    required: false
+  attributes:
+    type: object
+    properties:
+      societa:
+        type: string
+        required: true
+        maxLength: 2
+        description: Codice della societa' 
+      nazione_mittente:
+        type: string?
+        required: true
+        description: Codice della nazione dell'indirizzo del mittente 
+      cap_mittente:
+        type: string
+        required: true
+        description: Codice postale dell'indirizzo del mittente
+      localita_mittente:
+        type: string
+        required: true
+        description: Localita dell'indirizzo del mittente
+      unita_misura_dimensioni:
+        type: string?
+        required: true
+        description: Unita' di misura in cui sono espresse le dimensioni
+      unita_misura_peso:
+        type: string?
+        required: true
+        description: Unita' di misura in cui e' espresso il peso
+      colli:
+        type: array
+        required: true
+        description: Lista dei colli della spedizione
+        items:
+          type: object
+          properties:
+            id_collo:
+              type: number
+              required: true
+              description: Progressivo univoco del collo deciso dal chiamante
+            peso:
+              type: number
+              minimum: 0.00000000001
+              required: true
+              description: Peso del collo espresso nell' unita_misura_peso
+            larghezza:
+              type: number?
+              required: true
+              description: Larghezza del collo espressa nell' unita_misura_dimensioni
+            altezza:
+              type: number?
+              required: true
+              description: Altezza del collo espressa nell' unita_misura_dimensioni
+            profondita:
+              type: number?
+              required: true
+              description: Profondita del collo espressa nell' unita_misura_dimensioni
+      
+      account_number:
+        type: string?
+        required: true
+        description: 
+      f_dazio:      
+        type: string
+        required: true
+        description: Indica se la spedizione prevede i dazi
+      tipo_trasporto:
+        type: string?
+        required: true
+        description: Tipo del trasporto previsto per la spedizione
+      servizio:
+        type: string?
+        required: true
+        description: Servizio del vettore utilizzato nella spedizione
+      servizio_speciale:
+        type: string?
+        required: true
+      nazione:
+        type: string?
+        required: true
+        description: Codice della nazione dell'indirizzo di destinazione
+      cap:
+        type: string
+        required: true
+        description: Codice postale dell'indirizzo di destinazione
+      localita:
+        type: string
+        required: true
+        description: Localita dell'indirizzo di destinazione
+      divisa_valore_dichiarato:
+        type: string?
+        required: true
+        description: Divisa in cui e' espresso il valore dichiarato
+      valore_dichiarato:
+        type: number?
+        required: true
+        description: Valore dichiarato per il dazio
+        
+    required: false

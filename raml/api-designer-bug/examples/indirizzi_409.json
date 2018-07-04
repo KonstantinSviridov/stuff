@@ -1,0 +1,31 @@
+{
+  "errors": [
+    {
+      "code": "IND001",
+      "detail": {
+        "suggestions": [
+          {
+            "cap": null,
+            "indirizzo": "Via Platone ",
+            "localita": "Reggio Nell'emilia",
+            "provincia": "RE"
+          },
+          {
+            "cap": null,
+            "indirizzo": "Via Plauto ",
+            "localita": "Reggio Nell'emilia",
+            "provincia": "RE"
+          },
+          {
+            "cap": null,
+            "indirizzo": "Via Plinio ",
+            "localita": "Reggio Nell'emilia",
+            "provincia": "RE"
+          }
+        ]
+      },
+      "status": 400,
+      "title": "Indirizzo non identificato. A seguire gli indirizzi più simili"
+    }
+  ]
+}
